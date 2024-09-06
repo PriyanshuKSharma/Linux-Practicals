@@ -18,8 +18,6 @@ Ensure you have the following installed:
 - A Linux-based operating system (Ubuntu, Debian, CentOS, etc.)
 - Basic knowledge of Linux commands and shell scripting
 
----
-
 ### Clone the Repository
 
 To get started, clone the repository using Git:
@@ -29,19 +27,25 @@ git clone https://github.com/PriyanshuKSharma/Linux-Practicals.git
 cd Linux-Practicals
 ```
 
----
+### Downloading Scripts Using `curl`
+
+If you prefer not to clone the entire repository, you can download individual scripts directly using `curl`. For example, to download a script:
+
+```bash
+curl -O https://raw.githubusercontent.com/PriyanshuKSharma/Linux-Practicals/main/setup-web-server.sh
+```
+
+Replace `setup-web-server.sh` with the script you wish to download. You can find the script names in the repository’s directory structure.
 
 ### Running Scripts
 
 Most scripts are executable and can be run directly from the terminal. For example, to run a script:
 
 ```bash
-sudo ./your-script-name.sh
+sudo ./setup-web-server.sh
 ```
 
 Make sure to review the script content before executing it to understand its purpose and potential impacts.
-
----
 
 ### Example Practicals
 
@@ -54,8 +58,6 @@ Make sure to review the script content before executing it to understand its pur
 3. **User Management**: Create, delete, and manage user accounts.
    - Script: `manage-users.sh`
 
----
-
 ## Contributing
 
 Contributions are welcome! If you have suggestions for improvements or new practicals, please fork the repository and create a pull request. Follow these steps to contribute:
@@ -66,15 +68,10 @@ Contributions are welcome! If you have suggestions for improvements or new pract
 4. Push to the branch: `git push origin feature/your-feature`
 5. Create a new Pull Request.
 
----
-
 ## License
 
 This project is not licensed.
 
----
-
 ## Contact
 
 For any questions or feedback, you can reach out to me via [GitHub Issues](https://github.com/PriyanshuKSharma/Linux-Practicals/issues) or directly at [Email](priyanshu17ks@gmail.com).
-
