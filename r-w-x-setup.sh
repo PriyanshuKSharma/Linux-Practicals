@@ -1,20 +1,22 @@
 #!/bin/bash
 
 # Create file1.txt
-echo "Creating file:"
 touch file1.txt
 
-# List the file with detailed information
-echo "File with detailed information:"
+# Set full permissions initially (rwx for user, group, others)
+chmod 777 file1.txt
+
+# Display file details before changing permissions
+echo "File details before changing permissions:"
 ls -lh file1.txt
 
-# Set permissions using absolute method
-echo "Setting permissions:"
-chmod 754 file1.txt
+# Set rwx for user (7), r-w for group (5), rw- for others (6)
+chmod 756 file1.txt
 
-# Check the permissions
-echo "Permissions:"
-ls -l file1.txt
+# Display file details after changing permissions
+echo "File details after changing permissions:"
+ls -lh file1.txt
+
 
 
 echo "Permissions in numerical format:"
