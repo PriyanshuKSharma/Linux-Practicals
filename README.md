@@ -36,6 +36,7 @@ curl -O https://raw.githubusercontent.com/PriyanshuKSharma/Linux-Practicals/main
 ```
 
 Replace `setup-web-server.sh` with the script you wish to download. You can find the script names in the repository’s directory structure.
+
 ---
 ### Running Scripts
 
@@ -60,6 +61,7 @@ And Running it with
 ```
 
 Make sure to review the script content before executing it to understand its purpose and potential impacts.
+
 ---
 ### Example Practicals
 
@@ -71,6 +73,7 @@ Make sure to review the script content before executing it to understand its pur
 
 3. **User Management**: Create, delete, and manage user accounts.
    - Script: `manage-users.sh`
+  
 ---
 
 ## Directory Shell Scripting
@@ -190,6 +193,7 @@ For more detailed information on shell scripting and directory management, consi
 - [How to Walk Through a Directory Structure in a Shell Script](https://www.baeldung.com/linux/shell-traverse-directory-tree)
 
 These resources provide comprehensive guides on shell scripting and directory management in Linux.
+
 ---
 
 ## Contributing
@@ -205,6 +209,7 @@ Contributions are welcome! If you have suggestions for improvements or new pract
 ## License
 
 This project is not licensed.
+
 ---
 
 ## Contact
