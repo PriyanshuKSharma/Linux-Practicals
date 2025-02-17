@@ -1,4 +1,3 @@
-```bash
 #!/bin/bash
 
 # Suppress details of the user and hostname during script execution
