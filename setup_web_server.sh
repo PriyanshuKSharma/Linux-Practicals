@@ -59,5 +59,7 @@ sudo chown -R www-data:www-data /var/www/html/ || { echo "Failed to set permissi
 echo "Restarting Apache web server..."
 sudo service apache2 restart || { echo "Failed to restart Apache"; exit 1; }
 
+SERVER_IP=$(hostname -I | awk '{print $1}')
+
 # Display success message
-echo "Web server setup complete! Access the static page via your server's IP or domain name (http://your-server-ip), and the dynamic PHP page at http://your-server-ip/index.php."
+echo "Web server setup complete! Access the static page via your server's IP or domain name (http://$SERVER_IP), and the dynamic PHP page at http://$SERVER_IP/index.php."
