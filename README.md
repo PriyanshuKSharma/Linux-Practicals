@@ -45,6 +45,24 @@ Most scripts are executable and can be run directly from the terminal. For examp
 ```bash
 sudo ./setup-web-server.sh
 ```
+
+#### 🔧 **Shell Script Execution Manager**
+
+For scripts in the `Shell Scripting/` directory, use the automated execution manager:
+
+```bash
+# Interactive mode - easiest way to execute shell scripts
+./execute_shell_scripts.sh
+
+# Or execute directly by number
+./execute_shell_scripts.sh -e 1
+
+# Or use the simple version
+./simple_shell_executor.sh 01_basic.sh
+```
+
+The execution manager automatically handles permissions and provides a user-friendly interface.
+
 ---
 ### Alternative Way
 
@@ -73,7 +91,89 @@ Make sure to review the script content before executing it to understand its pur
 
 3. **User Management**: Create, delete, and manage user accounts.
    - Script: `manage-users.sh`
+
+4. **Shell Script Execution Manager**: Automated tool to manage permissions and execute shell scripts from the Shell Scripting directory.
+   - Script: `execute_shell_scripts.sh` (comprehensive version with interactive menu)
+   - Script: `simple_shell_executor.sh` (lightweight version for quick operations)
   
+---
+
+## Shell Script Execution Manager
+
+This repository includes powerful tools to manage and execute shell scripts from the `Shell Scripting/` directory with ease.
+
+### 🚀 **execute_shell_scripts.sh** (Advanced Version)
+
+A comprehensive script manager with multiple features:
+
+#### Features:
+- **Interactive Menu**: User-friendly interface with numbered options
+- **Number-Based Execution**: Execute scripts by entering numbers (1-14) instead of filenames
+- **Automatic Permissions**: Sets execute permissions for all scripts automatically
+- **Batch Execution**: Run all scripts sequentially with confirmation prompts
+- **Colored Output**: Enhanced readability with color-coded messages
+- **Error Handling**: Comprehensive error checking and reporting
+- **Auto-Exit**: Exits automatically after executing a single script in interactive mode
+
+#### Usage Examples:
+
+```bash
+# Interactive mode (recommended)
+./execute_shell_scripts.sh
+
+# Set permissions for all scripts
+./execute_shell_scripts.sh -p
+
+# List all available scripts
+./execute_shell_scripts.sh -l
+
+# Execute a specific script by number
+./execute_shell_scripts.sh -e 1
+
+# Execute a specific script by name
+./execute_shell_scripts.sh -e 01_basic.sh
+
+# Execute all scripts sequentially
+./execute_shell_scripts.sh -a
+
+# Show help
+./execute_shell_scripts.sh --help
+```
+
+### ⚡ **simple_shell_executor.sh** (Lightweight Version)
+
+A streamlined script for quick operations:
+
+#### Features:
+- Automatically sets execute permissions
+- Lists available scripts when run without arguments
+- Executes specific scripts by name
+
+#### Usage Examples:
+
+```bash
+# List all available scripts
+./simple_shell_executor.sh
+
+# Execute a specific script
+./simple_shell_executor.sh 01_basic.sh
+```
+
+### 📋 **Interactive Mode Workflow:**
+
+1. Run `./execute_shell_scripts.sh` (no arguments)
+2. Choose option `3` to execute a script
+3. Enter a number (1-14) from the displayed list
+4. Script executes and program exits automatically
+
+### 🎯 **Benefits:**
+
+- ✅ **Faster**: Type numbers instead of full filenames
+- ✅ **Error-Free**: No typos in script names
+- ✅ **Automated**: Handles permissions automatically
+- ✅ **User-Friendly**: Clear menus and colored output
+- ✅ **Flexible**: Supports both interactive and command-line usage
+
 ---
 
 ## Directory Shell Scripting
