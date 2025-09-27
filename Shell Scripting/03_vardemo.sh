@@ -8,8 +8,10 @@ age="19"
 
 echo "My name is $name and my age is $age"
 
-#Var to stor the output of a command
+#Var to store the output of a command
 hostname=$(hostname)
 
 name="Tony Stark"
+read name 
+echo "My name is $name"
 echo "Name of this machine is $hostname"
