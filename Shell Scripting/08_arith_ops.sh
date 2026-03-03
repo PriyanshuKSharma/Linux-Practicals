@@ -1,7 +1,7 @@
 #!/bin/bash
 
 x=10
-y=2
+y=3
 
 #mul=$x*$y
 #echo "$mul" #Wrong way to perform arithmetic problems
@@ -15,3 +15,6 @@ echo "Sum is: $sum"
 
 difference=$(($x-$y))
 echo "Difference is: $difference"
+
+division=$(($x/$y))
+echo "Division is: $division"
