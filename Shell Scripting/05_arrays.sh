@@ -8,6 +8,7 @@ echo "All the values in array are ${myArray[*]}"
 #How to get values from an array at the specific index
 echo "Values at index 0 is ${myArray[0]}"
 echo "Values at index 1 is ${myArray[1]}"
+echo "Values at index 2 is ${myArray[2]}"
 echo "Values at index 3 is ${myArray[3]}"
 echo "Values at index 4 is ${myArray[4]}"
 
