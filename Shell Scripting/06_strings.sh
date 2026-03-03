@@ -10,6 +10,7 @@ echo "Length of the string is $length"
 echo "First character of the string is ${myVar:0:1}"
 echo "Last character of the string is ${myVar:$length-1:1}"
 
+#Slice from index 4 to 14
 slice=${myVar:4:11}
 echo "Sliced string is $slice"
 
