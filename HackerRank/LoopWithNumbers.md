@@ -23,7 +23,7 @@ Output Format
 
 ## Solution
 
-```
+```sh
 #!/bin/bash
 
 for i in {1..50}
