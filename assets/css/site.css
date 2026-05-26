@@ -64,6 +64,15 @@ html, body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Fluid root font-size so the whole page scales smoothly */
+  font-size: clamp(14px, 1.6vw, 18px);
+}
+
+/* Ensure media elements never overflow their containers */
+img, picture, video, iframe, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Custom Scrollbar */
@@ -183,8 +192,8 @@ h1, h2, h3, h4, h5, h6 {
    ========================================================================== */
 
 .hero {
-  padding: 5rem 10% 4rem;
-  max-width: 1400px;
+  padding: 4rem 6% 3rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -222,7 +231,7 @@ h1, h2, h3, h4, h5, h6 {
 .hero h1 {
   grid-column: 1;
   grid-row: 2;
-  font-size: 3rem;
+  font-size: clamp(1.6rem, 4vw, 3rem);
   line-height: 1.15;
   color: #ffffff;
 }
@@ -323,9 +332,9 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
-  padding: 2rem 10% 1rem;
-  max-width: 1400px;
+  gap: 1rem;
+  padding: 1.5rem 6% 1rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -374,8 +383,8 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  padding: 1rem 10% 2rem;
-  max-width: 1400px;
+  padding: 0.9rem 6% 1.6rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -407,10 +416,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .catalog {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 2rem;
-  padding: 0 10% 5rem;
-  max-width: 1400px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  padding: 0 6% 4rem;
+  max-width: 1200px;
   margin: 0 auto;
   min-height: 200px;
 }
@@ -565,21 +574,23 @@ h1, h2, h3, h4, h5, h6 {
 
 .note-view-container {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  max-width: 1600px;
+  /* sidebar is flexible (min 220px, up to 28% of container) so layout shrinks smoothly */
+  grid-template-columns: minmax(220px, 28%) 1fr;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem 5% 5rem;
-  gap: 3rem;
+  padding: 1.5rem 5% 3rem;
+  gap: 2rem;
 }
 
 /* Sidebar-style nav panel used by OS page */
 .nav-panel {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 1rem;
+  padding: 0.9rem;
   border-radius: var(--radius-sm);
-  max-width: 260px;
-  margin: 0 0 1.25rem 0;
+  max-width: min(260px, 28%);
+  width: 100%;
+  margin: 0 0 1rem 0;
 }
 .nav-panel h3 {
   margin-bottom: 0.5rem;
@@ -663,6 +674,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Note Content Area */
 .note-content-wrapper {
   max-width: 900px;
+  width: 100%;
 }
 .breadcrumbs {
   font-family: var(--font-mono);
@@ -689,7 +701,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 1rem;
 }
 .note-header h1 {
-  font-size: 2.8rem;
+  font-size: clamp(1.4rem, 4.2vw, 2.8rem);
   letter-spacing: -0.03em;
   color: var(--text-light);
   margin-bottom: 1rem;
@@ -872,11 +884,15 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 200;
     max-width: calc(100% - 8%);
     width: auto;
+    max-height: 60vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .site-nav a {
     padding: 0.5rem 0.75rem;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: break-word;
   }
 
   .hero {
@@ -931,6 +947,30 @@ h1, h2, h3, h4, h5, h6 {
     word-break: break-word;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+
+/* ASCII diagram pre blocks: preserve whitespace and alignment, allow horizontal scroll and scale on small screens */
+.ascii-diagram {
+  font-family: var(--font-mono);
+  white-space: pre; /* preserve exact spacing */
+  overflow-x: auto;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255,255,255,0.02);
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.03);
+  color: var(--text-secondary);
+}
+
+@media (max-width: 600px) {
+  .ascii-diagram {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.5rem;
+  }
+}
+  
+  /* prevent viewport horizontal overflow on small screens */
+  html, body {
+    overflow-x: hidden;
   }
 }
 
@@ -1651,9 +1691,11 @@ h1, h2, h3, h4, h5, h6 {
    ========================================================================== */
 
 .playground-layout {
-  padding: 3rem 10% 4rem;
+  padding: 3rem clamp(1rem, 5%, 10%) 4rem;
   max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .playground-header {
@@ -1673,10 +1715,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .playground-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 2rem;
   transition: var(--transition-smooth);
+  width: 100%;
+  min-width: 0;
 }
 
 /* Left Column: Terminal */
@@ -1684,6 +1728,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 0;
 }
 
 .terminal-window {
@@ -1741,6 +1786,9 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.85rem;
   color: var(--text-secondary);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 30ch;
   letter-spacing: -0.01em;
 }
 
@@ -1874,6 +1922,7 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  min-width: 0;
 }
 
 .sidebar-tabs {
@@ -2124,19 +2173,63 @@ h1, h2, h3, h4, h5, h6 {
 .terminal-msg-error { color: #ff7b72; }
 
 /* Responsive adjustments for Playground */
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
+  .playground-grid {
+    grid-template-columns: 1fr 320px;
+  }
+}
+
+@media (max-width: 900px) {
   .playground-layout {
-    padding: 2rem 5% 4rem;
+    padding: 2rem clamp(0.75rem, 4%, 5%) 3rem;
   }
   .playground-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
   }
   .terminal-output {
     height: 320px;
   }
   .challenges-list, .vfs-list {
-    max-height: none;
+    max-height: 360px;
+  }
+}
+
+@media (max-width: 600px) {
+  .playground-layout {
+    padding: 1.25rem 0.75rem 2rem;
+  }
+  .playground-header h1 {
+    font-size: clamp(1.4rem, 6vw, 2rem);
+  }
+  .playground-sub {
+    font-size: 0.9rem;
+  }
+  .terminal-output {
+    height: 260px;
+    font-size: 0.82rem;
+    padding: 1rem;
+  }
+  .terminal-input-row {
+    padding: 0 1rem 1rem;
+    font-size: 0.82rem;
+  }
+  .terminal-input {
+    font-size: 0.82rem !important;
+  }
+  .terminal-title {
+    font-size: 0.72rem;
+  }
+  .terminal-dots .dot {
+    width: 9px;
+    height: 9px;
+  }
+  .tab-btn {
+    font-size: 0.82rem;
+    padding: 0.75rem 0.5rem;
+  }
+  .challenges-list, .vfs-list {
+    max-height: 280px;
   }
 }
 
@@ -2388,19 +2481,6 @@ body.terminal-maximized-active .drawer-header-close {
 }
 
 /* Responsive adjustments */
-@media (max-width: 1024px) {
-  .playground-layout {
-    padding: 2rem 5% 4rem;
-  }
-  .playground-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  .challenges-list, .vfs-list {
-    max-height: none;
-  }
-}
-
 @media (max-width: 768px) {
   .header-stats-panel {
     display: none;
