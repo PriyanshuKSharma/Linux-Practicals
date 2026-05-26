@@ -1073,7 +1073,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
   }
   .hero-illustration {
-    max-width: 380px;
+    max-width: 320px;
     margin: 0.5rem auto;
   }
   
@@ -1118,7 +1118,10 @@ h1, h2, h3, h4, h5, h6 {
   }
   
   .hero h1 {
-    font-size: 2.2rem;
+    font-size: 2.6rem;
+  }
+  .eyebrow {
+    font-size: 0.95rem;
   }
   .hero-stats {
     gap: 1.5rem;
@@ -1127,7 +1130,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.8rem;
   }
   .hero-illustration {
-    max-width: 280px;
+    max-width: 220px;
   }
   
   .toolbar {
