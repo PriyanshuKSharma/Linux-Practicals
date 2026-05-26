@@ -571,6 +571,43 @@ h1, h2, h3, h4, h5, h6 {
   gap: 3rem;
 }
 
+/* Sidebar-style nav panel used by OS page */
+.nav-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  max-width: 260px;
+  margin: 0 0 1.25rem 0;
+}
+.nav-panel h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: var(--accent-teal);
+}
+.nav-panel ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.nav-panel li { margin: 0.4rem 0; }
+.nav-panel a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.nav-panel a:hover { color: var(--text-primary); }
+
+@media (min-width: 900px) {
+  .cheat-sheet-layout { display: grid; grid-template-columns: 280px 1fr; gap: 2rem; }
+  .cheat-sheet-layout .nav-panel { position: sticky; top: 6rem; height: fit-content; }
+}
+
+@media (max-width: 899px) {
+  .cheat-sheet-layout { display: block; }
+  .nav-panel { max-width: 100%; }
+}
+
 /* Sidebar Index */
 .note-sidebar {
   position: sticky;
