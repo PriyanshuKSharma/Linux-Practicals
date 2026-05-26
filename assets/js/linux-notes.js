@@ -11,11 +11,50 @@ const LINUX_NOTES = [
       sections: [
         {
           title: "Operating System Layering",
-          text: "A standard Linux system is structured into four main conceptual layers:<br>1. <strong>Hardware</strong>: Physical components (CPU, RAM, Disks, NICs).<br>2. <strong>Kernel</strong>: The core engine of the OS. Manages memory, processes, system calls, device drivers, and directly interfaces with hardware.<br>3. <strong>Shell</strong>: The command interpreter. Serves as the user interface to execute commands by making system calls to the Kernel (e.g. bash, sh, zsh).<br>4. <strong>Application/User Space</strong>: The workspace where user applications, databases, Nginx/Apache servers, and CLI utilities run."
+          text: `A standard Linux system is structured into four main conceptual layers:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Layer</th>
+        <th style='width: 35%;'>Function</th>
+        <th style='width: 40%;'>DevOps Components / Examples</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>User Space</strong></td>
+        <td>User applications and CLI utilities reside and run here.</td>
+        <td>Nginx, Docker engine, Bash CLI, Jenkins runner processes.</td>
+      </tr>
+      <tr>
+        <td><strong>Shell</strong></td>
+        <td>Command interpreter. Serves as user interface to the Kernel.</td>
+        <td><code>bash</code>, <code>sh</code>, <code>zsh</code> scripting environments.</td>
+      </tr>
+      <tr>
+        <td><strong>Kernel</strong></td>
+        <td>Core OS engine. Manages CPU, memory, disks, and system calls.</td>
+        <td>Monolithic kernel (allocates memory and drives physical interfaces).</td>
+      </tr>
+      <tr>
+        <td><strong>Hardware</strong></td>
+        <td>Physical/virtual resources.</td>
+        <td>AWS EC2 resources, CPUs, RAM, NVMe disks, NICs.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         },
         {
           title: "Why Linux is Essential for DevOps",
-          text: "DevOps engineers rely on Linux for:<br>• <strong>Open Source Stability</strong>: No licensing bottlenecks, highly customizable, and extremely stable (runs for years without reboots).<br>• <strong>Command-Line Centric</strong>: Allows headless administration of servers, perfect for remote execution.<br>• <strong>Security model</strong>: Designed as a multi-user OS with robust permission controls, preventing unauthorized access."
+          text: `DevOps engineers rely on Linux for:<br>
+<ul class='project-steps' style='margin: 1rem 0;'>
+  <li><strong>Open Source & Free</strong>: Customization without license fees, enabling lightweight containers.</li>
+  <li><strong>Stability & Reliability</strong>: Can run indefinitely without memory leaks, requiring zero restarts during hot upgrades.</li>
+  <li><strong>Multi-User Security</strong>: Restrictive POSIX permission policies, protecting databases and app states.</li>
+  <li><strong>CLI-First Design</strong>: Allows headless administration of servers, perfect for automated pipeline executions.</li>
+</ul>`
         }
       ],
       commands: [
@@ -41,12 +80,61 @@ const LINUX_NOTES = [
       overview: "Unlike Windows which uses drive letters (C:, D:), Linux structures all directories and files under a single root directory represented by a single forward slash `/`. The File System Hierarchy Standard (FHS) defines the structure and contents of Unix-like operating systems.",
       sections: [
         {
-          title: "Core System Directories",
-          text: "Here is a breakdown of the standard directories crucial for DevOps engineers:<br>• <strong>`/` (Root)</strong>: The top-level starting point of the entire file system hierarchy.<br>• <strong>`/bin` & `/sbin`</strong>: Essential binary command utilities for all users (bin) and system administration commands (sbin, like systemctl, ifconfig).<br>• <strong>`/etc`</strong>: System configuration files (e.g., `/etc/nginx/nginx.conf`, `/etc/passwd`). All config resides here.<br>• <strong>`/var`</strong>: Variable files that change frequently during runtime, specifically logs (`/var/log`) and database files.<br>• <strong>`/home`</strong>: Personal home directories for standard users (e.g., `/home/priyanshu`).<br>• <strong>`/root`</strong>: The isolated home directory of the superuser (root)."
-        },
-        {
-          title: "Runtime & Dynamic Directories",
-          text: "• <strong>`/tmp`</strong>: Temporary files created by programs. Cleared automatically on system reboots.<br>• <strong>`/opt`</strong>: Optional add-on application software packages (e.g., custom enterprise installations).<br>• <strong>`/dev`</strong>: Device files. Linux treats everything as a file, including hardware like hard drives (`/dev/sda`).<br>• <strong>`/proc`</strong>: A virtual filesystem containing run-time information about the system and current active processes."
+          title: "FHS Core Directories Mappings",
+          text: `DevOps engineers must memorize the locations of configurations, logs, and executable binaries:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 20%;'>Directory</th>
+        <th style='width: 40%;'>Official Standard Purpose</th>
+        <th style='width: 40%;'>DevOps Real-World Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>/etc</code></td>
+        <td>System and application configuration files.</td>
+        <td><code>/etc/nginx/nginx.conf</code>, <code>/etc/hosts</code></td>
+      </tr>
+      <tr>
+        <td><code>/var</code></td>
+        <td>Variable data (changing logs, transient files).</td>
+        <td><code>/var/log/nginx/error.log</code>, <code>/var/lib/docker</code></td>
+      </tr>
+      <tr>
+        <td><code>/bin</code></td>
+        <td>Essential user binary command utilities.</td>
+        <td><code>ls</code>, <code>grep</code>, <code>cat</code>, <code>cp</code>, <code>mv</code></td>
+      </tr>
+      <tr>
+        <td><code>/sbin</code></td>
+        <td>Essential system admin binary commands.</td>
+        <td><code>systemctl</code>, <code>iptables</code>, <code>ifconfig</code>, <code>ip</code></td>
+      </tr>
+      <tr>
+        <td><code>/home</code></td>
+        <td>Home directories for standard shell users.</td>
+        <td><code>/home/priyanshuksharma/</code></td>
+      </tr>
+      <tr>
+        <td><code>/root</code></td>
+        <td>Isolated home directory of the root superuser.</td>
+        <td>Admin scripts workspace.</td>
+      </tr>
+      <tr>
+        <td><code>/tmp</code></td>
+        <td>Temporary space, cleared on reboots.</td>
+        <td>Pipeline artifacts build cache.</td>
+      </tr>
+      <tr>
+        <td><code>/proc</code></td>
+        <td>Virtual filesystem mapping active processes.</td>
+        <td><code>/proc/cpuinfo</code>, <code>/proc/meminfo</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
@@ -72,12 +160,48 @@ const LINUX_NOTES = [
       overview: "Operating via the command line requires familiarity with directory navigation and file manipulation. As a DevOps engineer, you will manage files, write scripts, and configure application systems using these basic building block commands.",
       sections: [
         {
-          title: "Navigation & Listing",
-          text: "• <strong>`pwd` (Print Working Directory)</strong>: Shows exactly where you currently are in the filesystem.<br>• <strong>`cd` (Change Directory)</strong>: Navigation command. `cd ..` goes up one level, `cd ~` goes to the current user's home directory.<br>• <strong>`ls` (List)</strong>: Lists files. Common flags:<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-l`: Long listing format (shows size, permissions, owner, timestamp).<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-a`: Show hidden files (files starting with a dot, like `.bashrc`).<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-h`: Combined with `-l` to show human-readable file sizes."
-        },
-        {
-          title: "File & Directory Operations",
-          text: "• <strong>`mkdir` (Make Directory)</strong>: Use `mkdir -p parent/child` to create nested directory structures automatically.<br>• <strong>`touch`</strong>: Creates empty files or updates existing file timestamps.<br>• <strong>`cp` (Copy)</strong>: Copy files. Use `cp -r` to copy directories recursively.<br>• <strong>`mv` (Move/Rename)</strong>: Moves files to another directory, or renames them in-place.<br>• <strong>`rm` (Remove)</strong>: Delete files. Use `rm -rf` to delete directories recursively and forcefully. <em>Caution: irreversible!</em>"
+          title: "Navigation & File Control Operations",
+          text: `Master the following basic command blocks for daily folder tasks:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Command Block</th>
+        <th style='width: 75%;'>Operation & Key DevOps Flags</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>pwd</code></td>
+        <td><strong>Print Working Directory</strong>. Displays the absolute path of your current shell environment.</td>
+      </tr>
+      <tr>
+        <td><code>cd</code></td>
+        <td><strong>Change Directory</strong>. <code>cd ..</code> goes up one parent directory level, <code>cd ~</code> hops to home folder.</td>
+      </tr>
+      <tr>
+        <td><code>ls</code></td>
+        <td><strong>List Files</strong>. Flags:<br>• <code>-l</code>: Detailed long layout list.<br>• <code>-a</code>: Show hidden configuration files.<br>• <code>-h</code>: Human-readable file sizes.</td>
+      </tr>
+      <tr>
+        <td><code>mkdir</code></td>
+        <td><strong>Make Directory</strong>. Always use the <code>-p</code> flag (e.g. <code>mkdir -p parent/child</code>) to create nested paths.</td>
+      </tr>
+      <tr>
+        <td><code>cp</code></td>
+        <td><strong>Copy Files</strong>. Use the recursive <code>-r</code> flag (e.g. <code>cp -r src/ dest/</code>) to copy entire directories.</td>
+      </tr>
+      <tr>
+        <td><code>mv</code></td>
+        <td><strong>Move/Rename</strong>. Moves files to folders, or renames them in-place (e.g. <code>mv config.json old_config.json</code>).</td>
+      </tr>
+      <tr>
+        <td><code>rm</code></td>
+        <td><strong>Remove</strong>. Flags:<br>• <code>-r</code>: Recursive directory deletion.<br>• <code>-f</code>: Forcefully bypass confirmation checks. (Use carefully!)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
@@ -107,12 +231,50 @@ const LINUX_NOTES = [
       overview: "Linux is a multi-user operating system. Managing users, service accounts, and system groups is crucial for maintaining security and isolation on production servers.",
       sections: [
         {
-          title: "User & Group Creation",
-          text: "• <strong>`useradd`</strong>: Adds a new user account (e.g. `sudo useradd devops_user`). Use `-m` to create a home directory.<br>• <strong>`passwd`</strong>: Sets or changes passwords for users (`sudo passwd devops_user`).<br>• <strong>`groupadd`</strong>: Creates a new user group (`sudo groupadd developers`).<br>• <strong>`usermod`</strong>: Modifies an existing user. Very common to add users to groups:<br>&nbsp;&nbsp;&nbsp;&nbsp;`sudo usermod -aG developers devops_user` (appends group, leaving other groups intact).<br>• <strong>`userdel` & `groupdel`</strong>: Deletes user or group accounts. Use `userdel -r` to delete their home directory."
+          title: "User Administration Commands",
+          text: `DevOps service accounts management requires the following commands:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Command</th>
+        <th style='width: 35%;'>DevOps Function</th>
+        <th style='width: 40%;'>Command Syntax & Options</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>useradd</code></td>
+        <td>Create new user account.</td>
+        <td><code>sudo useradd -m -s /bin/bash jenkins</code> (adds user with home & bash shell).</td>
+      </tr>
+      <tr>
+        <td><code>passwd</code></td>
+        <td>Configure password credentials.</td>
+        <td><code>sudo passwd jenkins</code> (sets credentials for account).</td>
+      </tr>
+      <tr>
+        <td><code>groupadd</code></td>
+        <td>Create new user security groups.</td>
+        <td><code>sudo groupadd developers</code> (adds user group).</td>
+      </tr>
+      <tr>
+        <td><code>usermod</code></td>
+        <td>Modify user accounts and groups.</td>
+        <td><code>sudo usermod -aG docker jenkins</code> (appends user to 'docker' group).</td>
+      </tr>
+      <tr>
+        <td><code>userdel</code></td>
+        <td>Delete user accounts completely.</td>
+        <td><code>sudo userdel -r jenkins</code> (deletes user and wipes home folder).</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         },
         {
-          title: "Security Files & Superuser Access",
-          text: "• <strong>`/etc/passwd`</strong>: Stores user account details (username, UID, GID, home dir, default shell).<br>• <strong>`/etc/shadow`</strong>: Stores encrypted user passwords securely, accessible only by root.<br>• <strong>`/etc/group`</strong>: Stores group membership information.<br>• <strong>`sudo` (Superuser Do)</strong>: Executes commands with root privileges. Root access configurations are stored in the `/etc/sudoers` file, editable using the `visudo` command."
+          title: "Security Files Structure",
+          text: "User registries are stored in standard text files:<br>• <strong>`/etc/passwd`</strong>: Stores user settings. Structured as 7 fields: <code>username:x:UID:GID:comment:home_dir:shell</code>.<br>• <strong>`/etc/shadow`</strong>: Stores encrypted credentials passwords, readable only by root.<br>• <strong>`/etc/group`</strong>: Stores group registers and user group associations."
         }
       ],
       commands: [
@@ -142,12 +304,100 @@ const LINUX_NOTES = [
       overview: "Every file and directory in Linux has permission settings that govern who can read, write, or execute it. Managing these permissions correctly prevents security vulnerabilities in application deployment pipelines.",
       sections: [
         {
-          title: "Decoding Permissions (rwx)",
-          text: "When you run `ls -l`, you see a string like `-rwxr-xr--`. Let's decode it:<br>• The 1st character indicates the type: `-` for a file, `d` for a directory.<br>• The next 9 characters are divided into 3 groups of 3:<br>&nbsp;&nbsp;&nbsp;&nbsp;1. <strong>User/Owner (u)</strong>: Permissions for the user who owns the file.<br>&nbsp;&nbsp;&nbsp;&nbsp;2. <strong>Group (g)</strong>: Permissions for users in the file's assigned group.<br>&nbsp;&nbsp;&nbsp;&nbsp;3. <strong>Others (o)</strong>: Permissions for all other users on the system.<br><br>Permissions values:<br>• <strong>`r` (Read)</strong>: View file content, list directory contents (value = 4).<br>• <strong>`w` (Write)</strong>: Edit file content, create/delete files inside directory (value = 2).<br>• <strong>`x` (Execute)</strong>: Run file as script/program, enter directory with cd (value = 1)."
+          title: "Decoding the POSIX Permission String",
+          text: `When running <code>ls -l</code>, the permissions string (like <code>-rwxr-xr--</code>) is split into structured blocks:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table' style='text-align: center;'>
+    <thead>
+      <tr>
+        <th>Index</th>
+        <th>Block</th>
+        <th>Represented Entity</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1st character</td>
+        <td><code>Type</code></td>
+        <td>File Type</td>
+        <td><code>-</code> = File, <code>d</code> = Directory, <code>l</code> = Symlink</td>
+      </tr>
+      <tr>
+        <td>2nd to 4th</td>
+        <td><code>User (u)</code></td>
+        <td>File Owner permissions</td>
+        <td><code>rwx</code> = Read, Write, and Execute rights</td>
+      </tr>
+      <tr>
+        <td>5th to 7th</td>
+        <td><code>Group (g)</code></td>
+        <td>Assigned Group permissions</td>
+        <td><code>r-x</code> = Read and Execute rights (no writing)</td>
+      </tr>
+      <tr>
+        <td>8th to 10th</td>
+        <td><code>Others (o)</code></td>
+        <td>All other system users permissions</td>
+        <td><code>r--</code> = Read-only rights</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         },
         {
-          title: "Modifying Permissions & Ownership",
-          text: "• <strong>`chmod` (Change Mode)</strong>: Updates permissions. Can be symbolic or numeric:<br>&nbsp;&nbsp;&nbsp;&nbsp;- <em>Symbolic</em>: `chmod u+x script.sh` (adds execute to owner).<br>&nbsp;&nbsp;&nbsp;&nbsp;- <em>Numeric</em>: `chmod 755 script.sh` (User=7 (rwx), Group=5 (r-x), Others=5 (r-x)).<br>• <strong>`chown` (Change Owner)</strong>: Modifies file owner and group:<br>&nbsp;&nbsp;&nbsp;&nbsp;`sudo chown nginx:nginx /var/www/html/index.html` (Sets owner Nginx, group Nginx).<br>• <strong>`chgrp`</strong>: Modifies the group ownership separately."
+          title: "Octal Permissions Calculation Matrix",
+          text: `Permissions can be set using numeric codes. The numeric value is the sum of permissions values (Read=4, Write=2, Execute=1):<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table' style='text-align: center;'>
+    <thead>
+      <tr>
+        <th>Octal Sum</th>
+        <th>Binary Representation</th>
+        <th>rwx Mapping</th>
+        <th>Permissions Meaning</th>
+        <th>DevOps Example Scenario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>7</strong></td>
+        <td><code>111</code></td>
+        <td><code>rwx</code></td>
+        <td>Read, Write, and Execute</td>
+        <td>Full administrator permissions.</td>
+      </tr>
+      <tr>
+        <td><strong>6</strong></td>
+        <td><code>110</code></td>
+        <td><code>rw-</code></td>
+        <td>Read and Write</td>
+        <td>Standard source files permissions (e.g. index.php).</td>
+      </tr>
+      <tr>
+        <td><strong>5</strong></td>
+        <td><code>101</code></td>
+        <td><code>r-x</code></td>
+        <td>Read and Execute</td>
+        <td>Executable shell scripts & directories access.</td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td><code>100</code></td>
+        <td><code>r--</code></td>
+        <td>Read-Only</td>
+        <td>Secure credential config files (e.g. read-only tokens).</td>
+      </tr>
+      <tr>
+        <td><strong>0</strong></td>
+        <td><code>000</code></td>
+        <td><code>---</code></td>
+        <td>No access rights</td>
+        <td>Private folders blocked from other users.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
@@ -156,7 +406,7 @@ const LINUX_NOTES = [
           desc: "Grant rwx to owner, and r-x to group and others (standard script permission)."
         },
         {
-          cmd: "sudo chown -R www-data:www-data /var/www/html",
+          cmd: "sudo chown -R www-data:www-data /var/www",
           desc: "Recursively change owner and group of web directory to Apache/Nginx user."
         }
       ]
@@ -173,12 +423,40 @@ const LINUX_NOTES = [
       overview: "Standard permissions are sometimes not enough. SUID, SGID, and Sticky bits handle special system administrative privileges, while Umask controls the default permissions of newly created files.",
       sections: [
         {
-          title: "Special Permission Flags",
-          text: "• <strong>SUID (Set User ID)</strong>: The file executes with the permissions of the file owner rather than the user running it. Indicated by an `s` in owner position (e.g. `/usr/bin/passwd` has SUID, allowing users to update their passwords). Numeric representation is 4000.<br>• <strong>SGID (Set Group ID)</strong>: Executed files inherit group permissions. On a directory, files created inside inherit the parent directory's group automatically. Indicated by `s` in group position. Numeric representation is 2000.<br>• <strong>Sticky Bit</strong>: Applied to directories. Only the file owner, directory owner, or root user can delete or rename files inside. Used for shared spaces like `/tmp`. Indicated by `t` in others position. Numeric representation is 1000."
+          title: "Special Security Execution Flags",
+          text: `Linux administrators use SUID, SGID, and Sticky Bits to handle automated execution environments:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Flag Type</th>
+        <th style='width: 35%;'>Description</th>
+        <th style='width: 40%;'>DevOps Practical Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>SUID</strong> (SetUID)</td>
+        <td>File runs with the permissions of the file owner.</td>
+        <td>Allowing non-root users to execute password resets via <code>passwd</code>. (Octal 4000)</td>
+      </tr>
+      <tr>
+        <td><strong>SGID</strong> (SetGID)</td>
+        <td>New files inherit the parent folder's group automatically.</td>
+        <td>Enforces shared team group ownerships in build workspace folders. (Octal 2000)</td>
+      </tr>
+      <tr>
+        <td><strong>Sticky Bit</strong></td>
+        <td>Only the file creator or root can delete files inside.</td>
+        <td>Hardening shared scratch spaces like <code>/tmp</code>. (Octal 1000)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         },
         {
-          title: "Umask (User Mask)",
-          text: "Umask defines default permissions for newly created files/directories. It is subtracted from maximum permissions (Files max = 666, Directories max = 777).<br>• If umask is `022`:<br>&nbsp;&nbsp;&nbsp;&nbsp;- New file gets: 666 - 022 = 644 (`rw-r--r--`).<br>&nbsp;&nbsp;&nbsp;&nbsp;- New directory gets: 777 - 022 = 755 (`rwxr-xr-x`).<br>• If umask is `077`: New files get 600 (`rw-------`), completely private."
+          title: "Default Creation Permissions (Umask)",
+          text: "Umask filters permissions values subtraction when spawning new directories or files:<br>• Maximum possible: Files = <code>666</code>, Directories = <code>777</code>.<br>• <strong>Default umask (022)</strong>:<br>&nbsp;&nbsp;&nbsp;&nbsp;- File gets: 666 - 022 = <code>644</code> (Owner Read/Write, others Read-only).<br>&nbsp;&nbsp;&nbsp;&nbsp;- Directory gets: 777 - 022 = <code>755</code> (Owner Full access, others enter & read).<br>• <strong>Secure umask (077)</strong>: File gets <code>600</code> (Wiped accesses for group/others)."
         }
       ],
       commands: [
@@ -204,12 +482,51 @@ const LINUX_NOTES = [
       overview: "Inspecting logs, searching for system errors, and locating configuration files are daily tasks for DevOps engineers. Knowing how to efficiently parse text files is vital.",
       sections: [
         {
-          title: "Viewing File Contents",
-          text: "• <strong>`cat` (Concatenate)</strong>: Displays entire file contents in the console. Best for small files.<br>• <strong>`less`</strong>: Interactive pager. Allows scrolling up and down, searching (`/pattern`), and navigating large logs.<br>• <strong>`head`</strong>: Displays the first 10 lines of a file (`head -n 20 file.txt`).<br>• <strong>`tail`</strong>: Displays the last 10 lines of a file. Essential DevOps flag:<br>&nbsp;&nbsp;&nbsp;&nbsp;`tail -f /var/log/nginx/error.log` (follows log in real-time, printing new entries as they arrive)."
-        },
-        {
-          title: "Finding Files & Grepping Text",
-          text: "• <strong>`find`</strong>: Searches for files in the directory tree based on criteria:<br>&nbsp;&nbsp;&nbsp;&nbsp;`find /etc -name '*.conf'` (finds all .conf files inside /etc directory).<br>• <strong>`grep` (Global Regular Expression Print)</strong>: Searches files for a matching text pattern:<br>&nbsp;&nbsp;&nbsp;&nbsp;- `grep 'ERROR' /var/log/syslog` (finds syslog lines containing 'ERROR').<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-i`: Case-insensitive search.<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-r`: Recursive search in all directory files.<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-v`: Inverse match (lines NOT containing pattern)."
+          title: "Text & Logs Parsing Reference",
+          text: `Use the appropriate parser utility for inspecting configurations and system log flows:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 20%;'>Utility</th>
+        <th style='width: 40%;'>Action Purpose</th>
+        <th style='width: 40%;'>Common DevOps Syntax</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>cat</code></td>
+        <td>Display whole file contents in terminal.</td>
+        <td><code>cat /etc/hosts</code></td>
+      </tr>
+      <tr>
+        <td><code>less</code></td>
+        <td>Interactive multi-directional file pager.</td>
+        <td><code>less /var/log/syslog</code> (press 'q' to quit)</td>
+      </tr>
+      <tr>
+        <td><code>head</code></td>
+        <td>View the starting rows of files.</td>
+        <td><code>head -n 20 /etc/passwd</code> (shows first 20 lines)</td>
+      </tr>
+      <tr>
+        <td><code>tail</code></td>
+        <td>View the ending rows of files.</td>
+        <td><code>tail -f /var/log/nginx/error.log</code> (follows logs in real-time)</td>
+      </tr>
+      <tr>
+        <td><code>grep</code></td>
+        <td>Search inside files for text patterns.</td>
+        <td><code>grep -ri 'failed' /var/log/nginx/</code> (case-insensitive recursive)</td>
+      </tr>
+      <tr>
+        <td><code>find</code></td>
+        <td>Search file system paths for matching names.</td>
+        <td><code>find /etc -name '*.conf'</code> (finds system config files)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
@@ -233,18 +550,53 @@ const LINUX_NOTES = [
     title: "DevOps Networking Utilities",
     track: "networking",
     summary: "Check connectivity with ping, query web servers with curl/wget, and inspect local IP configurations.",
+    track: "networking",
     readTime: "4 min",
     videoTimestamp: "e01GGTKmtpc&t=5400s",
     content: {
       overview: "DevOps pipelines frequently interact with remote services, REST APIs, and external servers. Troubleshooting network connectivity issues is a core administrative skill.",
       sections: [
         {
-          title: "Inspecting Local IP & Routes",
-          text: "• <strong>`ip addr` (or `ifconfig`)</strong>: Displays active network interfaces, hardware MAC addresses, and assigned IP addresses.<br>• <strong>`ip route`</strong>: Shows local routing tables and gateway configurations."
-        },
-        {
-          title: "Network Connectivity & Data Fetching",
-          text: "• <strong>`ping`</strong>: Sends ICMP Echo Requests to verify if a remote server or domain is reachable over the network.<br>• <strong>`curl` (Client URL)</strong>: Powerful CLI data transfer tool. DevOps uses:<br>&nbsp;&nbsp;&nbsp;&nbsp;- `curl http://localhost` (inspect Nginx web output).<br>&nbsp;&nbsp;&nbsp;&nbsp;- `curl -I http://google.com` (shows HTTP response headers only).<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-o file.html` (saves downloaded response to a file).<br>• <strong>`wget`</strong>: Directly downloads files from web servers over HTTP/HTTPS/FTP."
+          title: "Network connectivity Troubleshooting Flow",
+          text: `DevOps engineers follow this standard logical path to diagnose network and gateway blocks:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Diagnostic Step</th>
+        <th style='width: 40%;'>Action Details</th>
+        <th style='width: 35%;'>Linux Utility Command</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Interface Check</strong></td>
+        <td>Confirm that the local networking interface is online and has an assigned IP address.</td>
+        <td><code>ip addr show</code></td>
+      </tr>
+      <tr>
+        <td><strong>2. Ping Local</strong></td>
+        <td>Ping the local gateway router to ensure local packet delivery works.</td>
+        <td><code>ping -c 4 192.168.1.1</code></td>
+      </tr>
+      <tr>
+        <td><strong>3. Ping Remote</strong></td>
+        <td>Ping public DNS nodes to ensure packet delivery passes through the gateway.</td>
+        <td><code>ping -c 4 8.8.8.8</code></td>
+      </tr>
+      <tr>
+        <td><strong>4. API Response</strong></td>
+        <td>Verify that external web services are responding with valid HTTP headers.</td>
+        <td><code>curl -I https://www.google.com</code></td>
+      </tr>
+      <tr>
+        <td><strong>5. Fetch Templates</strong></td>
+        <td>Test actual file downloads through the gateway configurations.</td>
+        <td><code>wget -O template.json http://api.com</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
@@ -274,12 +626,40 @@ const LINUX_NOTES = [
       overview: "Security is paramount. DevOps engineers must know which network ports are open on an application server and how to establish secure encrypted shell connections.",
       sections: [
         {
-          title: "Monitoring Ports & Sockets",
-          text: "• <strong>`netstat` / `ss`</strong>: Lists active network sockets and listening ports on the host system. Crucial flags:<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-t`: Show TCP sockets.<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-u`: Show UDP sockets.<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-l`: Show listening sockets (services waiting for connections).<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-n`: Show numerical port values (e.g. 80 instead of http).<br>&nbsp;&nbsp;&nbsp;&nbsp;- `-p`: Show process ID (PID) and name running the socket.<br>• <strong>`telnet` / `nc` (Netcat)</strong>: Validates if a specific port is open on a remote machine (e.g. `nc -zv 192.168.1.100 80`)."
+          title: "System Socket Analysis Tools",
+          text: "When troubleshooting web servers, databases, or firewalls, you must audit active ports:<br>• <strong>`ss` / `netstat`</strong>: Audit local network socket registers. Crucial flags:<br>&nbsp;&nbsp;&nbsp;&nbsp;- <code>-t</code>: Show TCP connections.<br>&nbsp;&nbsp;&nbsp;&nbsp;- <code>-u</code>: Show UDP connections.<br>&nbsp;&nbsp;&nbsp;&nbsp;- <code>-l</code>: Show active listening sockets (waiting for connections).<br>&nbsp;&nbsp;&nbsp;&nbsp;- <code>-p</code>: Show active processes, PIDs, and commands owning the socket.<br>&nbsp;&nbsp;&nbsp;&nbsp;- <code>-n</code>: Render values as numbers (e.g. port 80 rather than 'http').<br>• <strong>`nc` (Netcat)</strong>: Verify remote port connections immediately without initiating formal data transfers (e.g. <code>nc -zv 192.168.1.100 80</code>)."
         },
         {
-          title: "Secure Shell (SSH)",
-          text: "SSH establishes encrypted administrative shell connections to remote servers:<br>• <strong>Password-less SSH Auth (Keys)</strong>:<br>&nbsp;&nbsp;&nbsp;&nbsp;1. Generate keys: `ssh-keygen -t rsa`<br>&nbsp;&nbsp;&nbsp;&nbsp;2. Copy key to remote server: `ssh-copy-id username@remote_ip`<br>&nbsp;&nbsp;&nbsp;&nbsp;3. Connect: `ssh username@remote_ip` (no password prompt, secure!)"
+          title: "Secure Shell (SSH) Key Authentication",
+          text: `To automate deployments without passwords inside Jenkins or GitHub Actions, configure secure Key-Based Auth:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 30%;'>Key Authentication Step</th>
+        <th style='width: 35%;'>Command Syntax</th>
+        <th style='width: 35%;'>Action Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Generate Keys</strong></td>
+        <td><code>ssh-keygen -t rsa -b 4096</code></td>
+        <td>Generates a secure RSA keypair inside <code>~/.ssh/</code> folder.</td>
+      </tr>
+      <tr>
+        <td><strong>2. Replicate Key</strong></td>
+        <td><code>ssh-copy-id deployer@54.21.32.4</code></td>
+        <td>Appends your public key to remote server's <code>authorized_keys</code> registry.</td>
+      </tr>
+      <tr>
+        <td><strong>3. Secure Connect</strong></td>
+        <td><code>ssh deployer@54.21.32.4</code></td>
+        <td>Logs in instantly without password prompts, perfect for automations.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
@@ -309,12 +689,46 @@ const LINUX_NOTES = [
       overview: "Linux systems use package managers to download and install packages from trusted repositories. Automating installations within deployment pipelines requires correct usage of these tools.",
       sections: [
         {
-          title: "Debian & Ubuntu (APT)",
-          text: "Advanced Package Tool (APT) is the package manager for Ubuntu/Debian:<br>• <strong>`sudo apt update`</strong>: Downloads updated lists of packages from online repositories. Does NOT upgrade any packages.<br>• <strong>`sudo apt upgrade -y`</strong>: Installs updates for all installed packages.<br>• <strong>`sudo apt install <pkg> -y`</strong>: Installs package (`-y` answers 'yes' automatically in CI/CD).<br>• <strong>`sudo apt remove <pkg>`</strong>: Uninstalls package, keeping config files. Use `purge` to delete configurations as well.<br>• <strong>`dpkg`</strong>: Low-level tool used to install offline `.deb` package files (`sudo dpkg -i package.deb`)."
-        },
-        {
-          title: "RedHat & CentOS (YUM / DNF)",
-          text: "CentOS/RHEL use YUM (Yellowdog Updater, Modified) or DNF:<br>• `sudo yum check-update`: Check for updates.<br>• `sudo yum install <package> -y`: Install package.<br>• `sudo yum remove <package>`: Uninstall package."
+          title: "APT vs YUM Command Reference",
+          text: `Map package actions across various Linux server families inside your automations:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 30%;'>Administrative Action</th>
+        <th style='width: 35%;'>Ubuntu/Debian (APT)</th>
+        <th style='width: 35%;'>CentOS/RHEL (YUM)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Update Metadata lists</strong></td>
+        <td><code>sudo apt update</code></td>
+        <td><code>sudo yum check-update</code></td>
+      </tr>
+      <tr>
+        <td><strong>2. Upgrade Packages</strong></td>
+        <td><code>sudo apt upgrade -y</code></td>
+        <td><code>sudo yum update -y</code></td>
+      </tr>
+      <tr>
+        <td><strong>3. Install Package</strong></td>
+        <td><code>sudo apt install <pkg> -y</code></td>
+        <td><code>sudo yum install <pkg> -y</code></td>
+      </tr>
+      <tr>
+        <td><strong>4. Remove Package</strong></td>
+        <td><code>sudo apt remove <pkg></code></td>
+        <td><code>sudo yum remove <pkg></code></td>
+      </tr>
+      <tr>
+        <td><strong>5. Search Repositories</strong></td>
+        <td><code>apt cache search <pkg></code></td>
+        <td><code>yum search <pkg></code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
@@ -340,12 +754,50 @@ const LINUX_NOTES = [
       overview: "Every program running in Linux is a process assigned a unique Process ID (PID). Troubleshooting CPU or memory spikes requires real-time resource analysis.",
       sections: [
         {
-          title: "Monitoring Running Processes",
-          text: "• <strong>`ps` (Process Status)</strong>: Static snapshot of current processes. Most popular flags:<br>&nbsp;&nbsp;&nbsp;&nbsp;`ps aux` or `ps -ef` (lists all processes running on the system with user, CPU/memory percentage, and command path).<br>• <strong>`top`</strong>: Live interactive monitor showing real-time CPU, memory, swaps, and process threads list.<br>• <strong>`htop`</strong>: Beautiful, interactive CLI color-coded process viewer (requires installation). Supports scrolling and search."
+          title: "System Resource Monitoring Tools",
+          text: "DevOps engineers use specific tools based on interactive needs:<br>• <strong>`ps aux` (Process Status)</strong>: Static snapshot of active systems. The flags: <code>a</code> = all users, <code>u</code> = detailed column user layout, <code>x</code> = show processes run outside the terminal (like Nginx, Docker).<br>• <strong>`top`</strong>: Live process viewer. Shows CPU/Memory statistics dynamically. Navigate with sorting commands (press 'M' to sort processes by Memory usage, 'P' for CPU usage).<br>• <strong>`htop`</strong>: Rich color-coded system visualizer showing processor threads, thread trees, and active loads. Supports direct searching ('/') and secure kills ('k')."
         },
         {
-          title: "Job States & Signals",
-          text: "• <strong>Foreground vs Background</strong>:<br>&nbsp;&nbsp;&nbsp;&nbsp;- Run process in background: append `&` (`./script.sh &`).<br>&nbsp;&nbsp;&nbsp;&nbsp;- `jobs`: Lists current shell's background jobs.<br>&nbsp;&nbsp;&nbsp;&nbsp;- `fg %1`: Pulls job 1 to foreground. `bg %1` restarts stopped background job.<br>• <strong>`kill`</strong>: Sends signals to terminate processes via PID:<br>&nbsp;&nbsp;&nbsp;&nbsp;- `kill -15 <PID>`: SIGTERM (asks process to shut down gracefully).<br>&nbsp;&nbsp;&nbsp;&nbsp;- `kill -9 <PID>`: SIGKILL (forcefully kills process immediately).<br>• <strong>`killall` / `pkill`</strong>: Kills processes by name instead of PID."
+          title: "Shell execution Background States",
+          text: `When starting long-running server backups or deployment operations inside interactive shells, manage their running states:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>State Operation</th>
+        <th style='width: 35%;'>Command / Shortcut</th>
+        <th style='width: 40%;'>DevOps Administrative Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Background Launch</strong></td>
+        <td><code>./backup.sh &</code></td>
+        <td>Appends an ampersand to run a script in background instantly, keeping active shell open.</td>
+      </tr>
+      <tr>
+        <td><strong>Suspend Active</strong></td>
+        <td><code>Ctrl + Z</code></td>
+        <td>Temporarily stops and suspends an active foreground task.</td>
+      </tr>
+      <tr>
+        <td><strong>List Active Jobs</strong></td>
+        <td><code>jobs</code></td>
+        <td>Inspects current jobs running in the active shell environment.</td>
+      </tr>
+      <tr>
+        <td><strong>Resume background</strong></td>
+        <td><code>bg %1</code></td>
+        <td>Resumes a suspended job index 1 directly in the background.</td>
+      </tr>
+      <tr>
+        <td><strong>Pull to Foreground</strong></td>
+        <td><code>fg %1</code></td>
+        <td>Restores job 1 control directly to active shell foreground terminal.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
@@ -371,12 +823,46 @@ const LINUX_NOTES = [
       overview: "Modern Linux distributions use Systemd as their system initialization daemon and service manager. Service configurations are defined in unified `.service` unit files.",
       sections: [
         {
-          title: "Controlling Services with Systemctl",
-          text: "• <strong>`systemctl start <service>`</strong>: Spawns the service in the background.<br>• <strong>`systemctl stop <service>`</strong>: Terminates the running service processes.<br>• <strong>`systemctl restart <service>`</strong>: Restarts the service (often to apply configuration updates).<br>• <strong>`systemctl status <service>`</strong>: Shows active/inactive state, PID, memory, and recent log statements.<br>• <strong>`systemctl enable <service>`</strong>: Configures the service to start automatically during system boot.<br>• <strong>`systemctl disable <service>`</strong>: Disables service autostart at system boot."
-        },
-        {
-          title: "Parsing Systemd Logs (Journalctl)",
-          text: "Journalctl manages binary logs collected by systemd-journald:<br>• `journalctl -u nginx.service`: View logs specifically for Nginx.<br>• `journalctl -f -u nginx.service`: Follow Nginx logs in real-time.<br>• `journalctl -p err`: Filter logs to show error messages only."
+          title: "Service Controls Reference (Systemctl)",
+          text: `Systemctl is the principal tool to control server configurations daemons:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 30%;'>Service Operation</th>
+        <th style='width: 35%;'>Command Syntax</th>
+        <th style='width: 35%;'>DevOps Operational Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Start Service</strong></td>
+        <td><code>sudo systemctl start nginx</code></td>
+        <td>Spawns server background processes immediately.</td>
+      </tr>
+      <tr>
+        <td><strong>Stop Service</strong></td>
+        <td><code>sudo systemctl stop nginx</code></td>
+        <td>Shuts down running daemon and stops ports listening.</td>
+      </tr>
+      <tr>
+        <td><strong>Restart Service</strong></td>
+        <td><code>sudo systemctl restart nginx</code></td>
+        <td>Restarts process immediately (applies configurations).</td>
+      </tr>
+      <tr>
+        <td><strong>Auto-start on Boot</strong></td>
+        <td><code>sudo systemctl enable nginx</code></td>
+        <td>Registers Nginx to start automatically on system reboot.</td>
+      </tr>
+      <tr>
+        <td><strong>Status Audit</strong></td>
+        <td><code>systemctl status nginx</code></td>
+        <td>Shows running state, active PID, memory, and logs.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
@@ -499,16 +985,101 @@ const LINUX_NOTES = [
       overview: "Conditional blocks enable decision-making. Bash utilizes specialized comparison operators for numbers and strings, alongside file tests to check file system states.",
       sections: [
         {
-          title: "Numerical vs String Comparisons",
-          text: "Numerical operators use flags because `<` and `>` are reserved for redirection:<br>• <strong>Numerical</strong>: `-eq` (Equal), `-ne` (Not equal), `-lt` (Less than), `-le` (Less or equal), `-gt` (Greater than), `-ge` (Greater or equal).<br>• <strong>String</strong>: `=` (Equal), `!=` (Not equal), `-z` (String is empty/zero length), `-n` (String is NOT empty).<br><br><strong>Note</strong>: Always quote string variables: `\"$str1\"`."
+          title: "Numerical vs String Comparisons Reference",
+          text: `In Bash conditional blocks, choose the appropriate operators based on data types:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 30%;'>Numerical Flag</th>
+        <th style='width: 30%;'>String Operator</th>
+        <th style='width: 40%;'>Represented Logic Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>-eq</code></td>
+        <td><code>=</code> or <code>==</code></td>
+        <td>Logical equality verification.</td>
+      </tr>
+      <tr>
+        <td><code>-ne</code></td>
+        <td><code>!=</code></td>
+        <td>Logical inequality verification.</td>
+      </tr>
+      <tr>
+        <td><code>-lt</code></td>
+        <td><code>&lt;</code> (inside [[ ]])</td>
+        <td>Strictly less-than comparison.</td>
+      </tr>
+      <tr>
+        <td><code>-le</code></td>
+        <td>-</td>
+        <td>Less-than or equal to comparison.</td>
+      </tr>
+      <tr>
+        <td><code>-gt</code></td>
+        <td><code>&gt;</code> (inside [[ ]])</td>
+        <td>Strictly greater-than comparison.</td>
+      </tr>
+      <tr>
+        <td><code>-ge</code></td>
+        <td>-</td>
+        <td>Greater-than or equal to comparison.</td>
+      </tr>
+      <tr>
+        <td>-</td>
+        <td><code>-z</code></td>
+        <td>Empty string length validation (zero-length).</td>
+      </tr>
+      <tr>
+        <td>-</td>
+        <td><code>-n</code></td>
+        <td>Non-empty string length validation.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         },
         {
-          title: "File Test Operators",
-          text: "Check disk files/directories before operations:<br>• `-f \"$file\"`: Checks if the path exists and is a regular file.<br>• `-d \"$dir\"`: Checks if the path exists and is a directory.<br>• `-e \"$path\"`: Checks if path exists (file, directory, or link).<br>• `-r \"$file\"` / `-w` / `-x`: Checks if file is readable, writable, or executable.<br>• `-s \"$file\"`: Checks if file size is greater than 0 (not empty)."
-        },
-        {
-          title: "Comparing [ ] vs [[ ]]",
-          text: "• <strong>Single Brackets `[ ]`</strong>: POSIX standard. Requires strict quoting, and doesn't support regular expressions or logical operators directly.<br>• <strong>Double Brackets `[[ ]]`</strong>: Bash extension. More forgiving with spaces, supports logical `&&` and `||` natively, and supports pattern wildcard matching (`*.txt`) and regex parsing (`=~`)."
+          title: "File Test Operators Reference",
+          text: `DevOps automation scripts regularly verify path existences before operations:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Operator</th>
+        <th style='width: 75%;'>File system verification target</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>-e "$path"</code></td>
+        <td>Evaluates True if the path actually exists on filesystem (file, directory, or link).</td>
+      </tr>
+      <tr>
+        <td><code>-f "$file"</code></td>
+        <td>Evaluates True if target exists and is a regular file (e.g. standard scripting file).</td>
+      </tr>
+      <tr>
+        <td><code>-d "$dir"</code></td>
+        <td>Evaluates True if target exists and is a directory.</td>
+      </tr>
+      <tr>
+        <td><code>-s "$file"</code></td>
+        <td>Evaluates True if file exists and has size greater than 0 bytes (not empty).</td>
+      </tr>
+      <tr>
+        <td><code>-r "$file"</code></td>
+        <td>Evaluates True if target file is readable by current user shell process.</td>
+      </tr>
+      <tr>
+        <td><code>-x "$script"</code></td>
+        <td>Evaluates True if script is executable (rwx permissions have execute bit set).</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
@@ -534,12 +1105,8 @@ const LINUX_NOTES = [
       overview: "Loops iterate through commands multiple times. DevOps scripts use loops to parse lists of servers, automate file compression, and traverse directory trees.",
       sections: [
         {
-          title: "For Loops",
-          text: "Iterates through a predefined list of values:<br>• <strong>List Loop</strong>: `for i in 1 2 3 4 5; do echo $i; done`<br>• <strong>Range Loop</strong>: `for i in {1..10}; do echo $i; done`<br>• <strong>Array Traversal</strong>:<br>&nbsp;&nbsp;&nbsp;&nbsp;`for item in \"${myArray[@]}\"; do echo $item; done`<br>• <strong>C-style Loop</strong>: `for ((i=0; i<10; i++)); do echo $i; done`"
-        },
-        {
-          title: "While Loops & Loop Control",
-          text: "Executes as long as a condition evaluates to true:<br>• <strong>While Loop</strong>: `while [ $count -lt 5 ]; do count=$((count+1)); done`<br>• <strong>Infinite Loop</strong>: `while true; do ... sleep 1; done` (Common in background monitoring).<br>• <strong>Control Statements</strong>:<br>&nbsp;&nbsp;&nbsp;&nbsp;- `break`: Terminates the loop immediately.<br>&nbsp;&nbsp;&nbsp;&nbsp;- `continue`: Skips the current iteration and jumps to the next."
+          title: "Loop Iteration Types",
+          text: "Choose the loop block structure based on target lists:<br>• <strong>`for` Loops</strong>: Iterates through a fixed set of items or array lists. Standard for traversing folder files (e.g. <code>for file in *.sh; do ... done</code>).<br>• <strong>`while` Loops</strong>: Loops as long as a condition resolves to true. Perfect for parsing file rows or creating infinite loops for active background systems monitoring."
         }
       ],
       commands: [
@@ -565,16 +1132,12 @@ const LINUX_NOTES = [
       overview: "Functions modularize code into reusable units. Correct parameter management, localized variables, and verification of exit codes are vital for script reliability.",
       sections: [
         {
-          title: "Defining Functions & Local Scope",
-          text: "Define functions using syntax:<br>```bash\nmy_function() {\n    local my_var=\"local\" # Local variable scoped to function\n    echo \"Param 1: $1\"\n}\n```<br>Call functions by name: `my_function \"hello\"`. Parameters are referenced using positional variables `$1`, `$2`."
+          title: "Functions and Arguments",
+          text: "• <strong>Positional Arguments</strong>: In functions and scripts, arguments are mapped sequentially to numeric parameters: <code>$1</code> = first parameter, <code>$2</code> = second parameter.<br>• <strong>Arguments Metadata</strong>:<br>&nbsp;&nbsp;&nbsp;&nbsp;- <code>$#</code>: Total count of arguments passed.<br>&nbsp;&nbsp;&nbsp;&nbsp;- <code>$@</code>: Represents all parameters passed as an array.<br>&nbsp;&nbsp;&nbsp;&nbsp;- <code>$0</code>: The absolute script name path currently executing.<br>• <strong>Local Scope</strong>: Always prefix variables in functions with the <code>local</code> keyword (e.g. <code>local name=\"local\"</code>) to isolate execution scopes."
         },
         {
-          title: "Exit Status & Error Code ($?)",
-          text: "Every command returns an exit status code between 0 and 255:<br>• <strong>`0`</strong>: Success (no errors).<br>• <strong>Non-zero (`1-255`)</strong>: Failure. Different codes signify different error states.<br>• <strong>`$?`</strong>: Access the exit status of the immediately preceding command. Vital for error-checking in pipelines:<br>&nbsp;&nbsp;&nbsp;&nbsp;`apt install -y nginx; if [ $? -ne 0 ]; then echo \"Install Failed!\"; exit 1; fi`"
-        },
-        {
-          title: "Script Positional Arguments",
-          text: "When invoking a script (e.g. `./script.sh arg1 arg2`):<br>• `$1`, `$2`: Refer to the first and second arguments.<br>• `$#`: Total count of arguments passed to the script.<br>• `$@`: Array containing all passed arguments.<br>• `$0`: The name/path of the running script itself."
+          title: "Exit Status Checks ($?)",
+          text: "Every command returns an exit status code between <code>0</code> and <code>255</code>:<br>• <strong>`0`</strong>: Success state. The task executed perfectly.<br>• <strong>Non-zero (`1-255`)</strong>: Error state. Different codes reflect specific exit failures.<br>• <strong>`$?`</strong>: Accesses the exit status of the immediately preceding statement. Essential for pipeline gates."
         }
       ],
       commands: [
@@ -600,12 +1163,108 @@ const LINUX_NOTES = [
       overview: "DevOps requires automation. Directing stdout/stderr streams allows logging output, while cron jobs execute these automated tasks on precise recurring schedules.",
       sections: [
         {
-          title: "Pipes & I/O Redirection",
-          text: "Every Unix program has 3 standard streams: stdin (0), stdout (1), stderr (2):<br>• <strong>`>`</strong>: Redirects stdout to a file (overwrites existing content).<br>• <strong>`>>`</strong>: Redirects stdout to a file (appends content to the end).<br>• <strong>`2>`</strong>: Redirects errors (stderr) only.<br>• <strong>`2>&1`</strong>: Merges stderr and stdout streams. Popular log file sink:<br>&nbsp;&nbsp;&nbsp;&nbsp;`./backup.sh > backup.log 2>&1` (All logs and errors saved to backup.log).<br>• <strong>`/dev/null`</strong>: The system 'black hole'. Discard output: `command > /dev/null 2>&1`.<br>• <strong>`|` (Pipe)</strong>: Takes stdout of command 1 and feeds it as stdin to command 2 (`ls -la | grep '.sh'`)."
+          title: "Standard Input / Output Redirection Reference",
+          text: `Unix commands communicate through standard streams: stdin (0), stdout (1), and stderr (2):<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Redirection Operator</th>
+        <th style='width: 35%;'>Execution Action</th>
+        <th style='width: 40%;'>DevOps Pipeline Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>&gt;</code></td>
+        <td>Redirects stdout to a file (overwrites existing contents).</td>
+        <td><code>echo "1.0.0" &gt; version.txt</code></td>
+      </tr>
+      <tr>
+        <td><code>&gt;&gt;</code></td>
+        <td>Redirects stdout to a file (appends data to the end).</td>
+        <td><code>echo "Deploy successful" &gt;&gt; deploy.log</code></td>
+      </tr>
+      <tr>
+        <td><code>2&gt;</code></td>
+        <td>Redirects only system error codes (stderr).</td>
+        <td><code>./backup.sh 2&gt; error.log</code></td>
+      </tr>
+      <tr>
+        <td><code>2&gt;&amp;1</code></td>
+        <td>Merges standard errors (2) into standard output (1).</td>
+        <td><code>./deploy.sh &gt; execution.log 2&gt;&amp;1</code> (captures logs and errors).</td>
+      </tr>
+      <tr>
+        <td><code>/dev/null</code></td>
+        <td>System 'black hole'. Discards all outputs completely.</td>
+        <td><code>./cron_check.sh &gt; /dev/null 2&gt;&amp;1</code> (fully silent run).</td>
+      </tr>
+      <tr>
+        <td><code>|</code> (Pipe)</td>
+        <td>Feeds the stdout of command 1 as stdin to command 2.</td>
+        <td><code>ps aux | grep nginx</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         },
         {
-          title: "Cron Jobs Scheduling",
-          text: "Cron daemon handles automated scheduling via crontab configurations (`crontab -e`).<br>Cron format has 5 fields:<br>```\n* * * * *  /path/to/script.sh\n┬ ┬ ┬ ┬ ┬\n│ │ │ │ └─ Day of Week (0 - 6) (Sunday=0)\n│ │ │ └─── Month (1 - 12)\n│ │ └───── Day of Month (1 - 31)\n│ └─────── Hour (0 - 23)\n└───────── Minute (0 - 59)\n```<br>Examples:<br>• `0 2 * * *`: Run every day at 2:00 AM.<br>• `*/10 * * * *`: Run every 10 minutes."
+          title: "Crontab Scheduling Syntax Matrix",
+          text: `Cron daemon schedules automated scripts execution via recurring crontab configuration files (<code>crontab -e</code>).<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table' style='text-align: center;'>
+    <thead>
+      <tr>
+        <th>Minute</th>
+        <th>Hour</th>
+        <th>Day of Month</th>
+        <th>Month</th>
+        <th>Day of Week</th>
+        <th>Syntax Command String</th>
+        <th>DevOps Operations Timing</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>*</code></td>
+        <td><code>*</code></td>
+        <td><code>*</code></td>
+        <td><code>*</code></td>
+        <td><code>*</code></td>
+        <td><code>* * * * * run.sh</code></td>
+        <td>Runs script continuously every minute.</td>
+      </tr>
+      <tr>
+        <td><code>*/15</code></td>
+        <td><code>*</code></td>
+        <td><code>*</code></td>
+        <td><code>*</code></td>
+        <td><code>*</code></td>
+        <td><code>*/15 * * * * run.sh</code></td>
+        <td>Runs script every 15 minutes.</td>
+      </tr>
+      <tr>
+        <td><code>0</code></td>
+        <td><code>2</code></td>
+        <td><code>*</code></td>
+        <td><code>*</code></td>
+        <td><code>*</code></td>
+        <td><code>0 2 * * * run.sh</code></td>
+        <td>Runs script daily at 2:00 AM.</td>
+      </tr>
+      <tr>
+        <td><code>0</code></td>
+        <td><code>0</code></td>
+        <td><code>*</code></td>
+        <td><code>*</code></td>
+        <td><code>1</code></td>
+        <td><code>0 0 * * 1 run.sh</code></td>
+        <td>Runs script weekly at midnight on Mondays.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
         }
       ],
       commands: [
