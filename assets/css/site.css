@@ -308,7 +308,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: flex-start; /* Left on big screens */
   align-items: center;
-  max-width: 600px;
+  max-width: 380px;
   width: 100%;
   margin: 1rem 0;
   overflow: hidden;
@@ -1297,21 +1297,22 @@ h1, h2, h3, h4, h5, h6 {
 
 .site-footer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 3rem clamp(1rem, 10%, 10%) 4rem;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 3rem clamp(1rem, 5%, 5%);
   box-sizing: border-box;
   width: 100%;
   border-top: 1px solid var(--border-color);
   background: #05070a;
-  text-align: center;
+  text-align: left;
   font-size: 0.9rem;
   color: var(--text-muted);
 }
 .site-footer span {
-  display: block;
+  display: inline-block;
 }
 .footer-credit {
   color: var(--text-secondary);
