@@ -645,18 +645,35 @@ h1, h2, h3, h4, h5, h6 {
   gap: 2rem;
 }
 
+/* Sidebar Index */
+.note-sidebar {
+  position: sticky;
+  top: 6rem;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border-right: 1px solid var(--border-color);
+}
+
 @media (max-width: 1024px) {
+  .note-view-container {
+    grid-template-columns: 1fr;
+    padding: 1.5rem 1.5rem 3rem;
+  }
   .note-sidebar {
     position: relative;
+    top: auto;
+    max-height: none;
+    overflow: visible;
     border-right: none;
     border-bottom: 1px solid var(--border-color);
     padding-right: 0;
     padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
-    max-height: none;
-    overflow: visible;
+    margin-bottom: 1rem;
   }
-
   .note-sidebar-toggle {
     display: flex;
     align-items: center;
@@ -680,11 +697,11 @@ h1, h2, h3, h4, h5, h6 {
   .note-sidebar-toggle svg {
     transition: transform 0.25s ease;
     flex-shrink: 0;
+    transform: rotate(-90deg);
   }
   .note-sidebar-toggle[aria-expanded="true"] svg {
-    transform: rotate(0deg) !important;
+    transform: rotate(0deg);
   }
-
   .sidebar-note-list {
     display: none;
     padding: 1rem 0 0.5rem;
@@ -693,16 +710,6 @@ h1, h2, h3, h4, h5, h6 {
   .sidebar-note-list.open {
     display: flex;
   }
-}
-  position: sticky;
-  top: 6rem;
-  max-height: calc(100vh - 8rem);
-  overflow-y: auto;
-  padding-right: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  border-right: 1px solid var(--border-color);
 }
 .sidebar-track-group {
   display: flex;
@@ -987,21 +994,6 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0 1rem 3rem;
     grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
     gap: 1.25rem;
-  }
-  .note-view-container {
-    grid-template-columns: 1fr;
-    padding: 1.5rem 1rem 3rem;
-    gap: 1.5rem;
-  }
-  .note-sidebar {
-    position: relative;
-    top: auto;
-    max-height: none;
-    overflow: visible;
-    padding-right: 0;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 1rem;
   }
   .concept-block pre, pre {
     white-space: pre-wrap;
@@ -1421,14 +1413,6 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0 1.5rem 4rem;
     grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   }
-  .note-view-container {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 2rem 1.5rem 4rem;
-  }
-  .note-sidebar {
-    display: none;
-  }
   .note-header h1,
   #noteTitle {
     font-size: 2rem;
@@ -1587,9 +1571,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   /* ── Note Detail View ── */
-  .note-view-container {
-    padding: 1.5rem 1.25rem 3.5rem;
-  }
   .note-header-meta {
     flex-direction: column;
     align-items: flex-start;
@@ -1663,20 +1644,6 @@ h1, h2, h3, h4, h5, h6 {
     padding: 1.5rem 1.25rem;
   }
 
-  /* Notes page: prevent horizontal overflow and wrap long code lines/images */
-  .note-view-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    box-sizing: border-box;
-    overflow-x: hidden;
-  }
-  .note-content-wrapper {
-    max-width: 100%;
-    width: 100%;
-  }
-  .note-sidebar {
-    display: none; /* ensure sidebar hidden on small screens */
-  }
   /* Allow code blocks to wrap on small devices to avoid page stretching */
   .code-card-body pre,
   .terminal-content pre {
