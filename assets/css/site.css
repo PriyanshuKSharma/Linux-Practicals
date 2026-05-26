@@ -1244,15 +1244,29 @@ h1, h2, h3, h4, h5, h6 {
 .terminal-header {
   background: #0d121a;
   border-bottom: 1px solid var(--border-color);
-  padding: 0.75rem 1.25rem;
+  padding: 0.65rem 1.25rem;
   display: flex;
   align-items: center;
-  position: relative;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.terminal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.terminal-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .terminal-dots {
   display: flex;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 .terminal-dots .dot {
   width: 12px;
@@ -1267,34 +1281,35 @@ h1, h2, h3, h4, h5, h6 {
 .terminal-title {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--text-muted);
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  color: var(--text-secondary);
   white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
 .terminal-maximize-btn {
-  margin-left: auto;
-  margin-right: 0.75rem;
-  background: transparent;
-  border: none;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
   color: var(--text-muted);
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0.35rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
+  border-radius: 6px;
   transition: var(--transition-smooth);
 }
 .terminal-maximize-btn:hover {
   color: var(--accent-teal);
-  background: rgba(0, 229, 255, 0.05);
+  border-color: var(--accent-teal);
+  background: rgba(0, 229, 255, 0.08);
+  box-shadow: 0 0 10px var(--accent-teal-glow);
 }
 .terminal-maximize-btn svg {
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
+  stroke-width: 2px !important;
+  stroke: currentColor;
+  display: block;
   transition: transform 0.3s ease;
 }
 .terminal-maximize-btn.active svg {
