@@ -1,0 +1,93 @@
+1) Create directory data46 
+
+2) create file contents in data46 directory
+
+3) Add below data in file "newfile" 
+
+     helloworld
+     Good Morning
+
+4) Create directory proja and projb
+
+5) create a collebrative directory p1 and p2
+
+create directory inside a directory
+
+  Ans: 
+   $ mkdir  -p  p1/p2
+
+6) print today date on the terminal
+
+7) Print ip address of your system.
+
+8) Display hostname of your system
+
+    Ans:  $ hostname
+
+8) Add user peter with password : parker
+
+9) Print the details of peter user
+
+10) Create a file y1 to y6 on your Linux systems.
+
+11) Login with root user 
+       and print the home directory of root user
+Ans : /root is the home dir of root user
+
+
+
+12) Display the list of files on below directories
+
+     a) /boot
+
+    b) /etc
+
+    c) /home
+
+13) How will you login to user "peter" 
+
+14) Print the files in which user records are stored 
+
+  Ans:  $  cat /etc/passwd
+
+15) Print the files in which group records are stored
+       $ cat /etc/group
+
+16) Print the file in which password is stored 
+      $ cat /etc/shadow
+
+17) create a copy of directory "data46"  as "databkp" 
+
+    Ans:  
+
+    $ cp   -r   data46   databkp
+
+
+     ## cp command is use to create a copy
+
+      -r : recursive
+18)    View/list  permissions of data46 directory.
+
+19) create file "prog" and list permissions on 
+file "prog" 
+
+20) list the files/dir according to the timestamp modified
+
+21) check whether ,On your system sshd service is already installed or not .
+  (sshd service is present /active on Linux OS ,if remote access of the server needs to be taken).
+Ans : 
+   #  systemctl status sshd
+
+  Concept: 
+
+  #ssh u
+
+##VIM editor
+
+ use to edit text files
+
+
+
+
+ssh : secure shell use to take remote access of the server.
+ 
