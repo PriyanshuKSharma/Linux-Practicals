@@ -34,73 +34,106 @@
     </nav>
   </header>
 
-  <main class="terminal-fullscreen-container">
-    <!-- The Fullscreen Shell Window -->
-    <div class="terminal-window fullscreen-shell">
-      <div class="terminal-header">
-        <div class="terminal-dots">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
-        </div>
-        <div class="terminal-title">bash - devops@linux-sandbox: ~</div>
-        
-        <!-- Compact Stats summary direkt in header -->
-        <div class="header-stats-panel" id="terminalStats">
-          <span>🏆 0 / 5 Cleared</span>
-          <span>⚡ 0 Ran</span>
-          <span>📁 14 Nodes</span>
-        </div>
-        
-        <div class="terminal-tab">bash</div>
-      </div>
-      <div class="terminal-output" id="terminalOutput"></div>
-      <div class="terminal-input-row">
-        <label class="terminal-prompt" id="terminalPrompt" for="terminalInput"></label>
-        <input class="terminal-input" id="terminalInput" type="text" autocomplete="off" autofocus spellcheck="false" aria-label="Terminal input line">
-        <span class="terminal-caret"></span>
-      </div>
+
+  <main class="playground-layout">
+    <!-- Descriptive page header visible in normal mode -->
+    <div class="playground-header">
+      <p class="eyebrow">Interactive Shell Playground</p>
+      <h1>Practice Linux &amp; Shell Scripting Live</h1>
+      <p class="playground-sub">Solve DevOps challenges, practice navigation, and run scripts in a sandboxed virtual bash shell directly in your browser.</p>
     </div>
 
-    <!-- Floating Target Action Button to open Drawer -->
-    <button class="drawer-toggle-fab" id="drawerToggle" title="Open Challenges &amp; File System Tree" aria-label="Open sidebar panel">
+    <div class="playground-grid">
+      <!-- Left Column: Terminal Sandbox -->
+      <div class="terminal-column">
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            
+            <div class="terminal-title">bash - devops@linux-sandbox: ~</div>
+            
+            <!-- Dynamic Stats Summary HUD -->
+            <div class="header-stats-panel" id="terminalStats">
+              <div><strong>0/5</strong><span>Cleared</span></div>
+              <div><strong>0</strong><span>Ran</span></div>
+              <div><strong>14</strong><span>VFS Nodes</span></div>
+            </div>
+
+            <!-- Fullscreen Toggle button with User's Exact SVG -->
+            <button class="terminal-maximize-btn" id="terminalMaximizeBtn" title="Toggle Fullscreen Shell" aria-label="Toggle fullscreen mode">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+              </svg>
+            </button>
+            
+            <div class="terminal-tab">bash</div>
+          </div>
+          
+          <div class="terminal-output" id="terminalOutput"></div>
+          
+          <div class="terminal-input-row">
+            <label class="terminal-prompt" id="terminalPrompt" for="terminalInput"></label>
+            <input class="terminal-input" id="terminalInput" type="text" autocomplete="off" autofocus spellcheck="false" aria-label="Terminal input line">
+            <span class="terminal-caret"></span>
+          </div>
+        </div>
+        
+        <!-- Helpful terminal hints line -->
+        <p class="terminal-hint-bar">💡 Type <code>help</code> to view standard utilities, or press <code>Tab</code> for autocompletion.</p>
+      </div>
+
+      <!-- Right Column / Slide Drawer: Challenges & VFS tree -->
+      <aside class="control-column" id="controlColumn" aria-label="Sandbox practice control panel">
+        <!-- Close header visible ONLY when maximized drawer mode is active -->
+        <div class="drawer-header-close">
+          <span class="drawer-title-label">Practice Panel</span>
+          <button class="drawer-close-btn" id="drawerClose" aria-label="Close panel">✖</button>
+        </div>
+
+        <div class="sidebar-tabs">
+          <button class="tab-btn active" id="tabChallengesBtn">🎯 Challenges</button>
+          <button class="tab-btn" id="tabVfsBtn">📁 File Tree</button>
+        </div>
+
+        <div class="tab-panel active" id="panelChallenges">
+          <div class="challenges-list" id="challengesList"></div>
+        </div>
+
+        <div class="tab-panel" id="panelVfs">
+          <div class="vfs-card">
+            <div class="vfs-header">
+              <span>Virtual File Tree</span>
+              <span class="vfs-muted">Click node to cd / cat</span>
+            </div>
+            <div class="vfs-list" id="vfsList"></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Floating Target Action Button (FAB) shown only when terminal is maximized -->
+    <button class="drawer-toggle-fab" id="drawerToggle" title="Open Challenges &amp; File Tree" aria-label="Open sidebar panel" style="display: none;">
       🎯
     </button>
-
-    <!-- Translucent Slide-out Drawer Panel -->
-    <aside class="slide-drawer" id="slideDrawer" aria-label="Playground control panel">
-      <div class="drawer-header">
-        <h2 class="drawer-title">Practice Panel</h2>
-        <button class="drawer-close-btn" id="drawerClose" aria-label="Close panel">✖</button>
-      </div>
-
-      <div class="sidebar-tabs">
-        <button class="tab-btn active" id="tabChallengesBtn">🎯 Scripting Challenges</button>
-        <button class="tab-btn" id="tabVfsBtn">📁 File Tree</button>
-      </div>
-
-      <div class="tab-panel active" id="panelChallenges">
-        <div class="challenges-list" id="challengesList"></div>
-      </div>
-
-      <div class="tab-panel" id="panelVfs">
-        <div class="vfs-card">
-          <div class="vfs-header">
-            <span>Virtual File Tree</span>
-            <span class="vfs-muted">Click node to cd / cat</span>
-          </div>
-          <div class="vfs-list" id="vfsList"></div>
-        </div>
-      </div>
-    </aside>
   </main>
+
+  <footer class="site-footer">
+    <span>Linux DevOps One Shot Notes</span>
+    <span class="footer-credit">📺 Notes based on <a href="https://www.youtube.com/watch?v=e01GGTKmtpc" target="_blank" rel="noreferrer">Linux For DevOps In One Shot</a> by <strong>Train With Shubham</strong> on YouTube</span>
+    <span>Created by: <strong>Priyanshu K. Sharma</strong></span>
+    <span>Repo: <a href="https://github.com/PriyanshuKSharma/Linux-Practicals" target="_blank" rel="noreferrer">Linux-Practicals</a></span>
+  </footer>
 
   <script src="assets/js/terminal-challenges.js"></script>
   <script src="assets/js/virtual-shell.js"></script>
   <script src="assets/js/nav-toggle.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Handles tab switching between Challenges and VFS Visualizer in the drawer
+      // Handles tab switching between Challenges and VFS Visualizer
       const tabChallengesBtn = document.getElementById("tabChallengesBtn");
       const tabVfsBtn = document.getElementById("tabVfsBtn");
       const panelChallenges = document.getElementById("panelChallenges");
@@ -122,55 +155,80 @@
         });
       }
 
-      // Handles drawer sliding open/close
+      // Handles terminal window maximizing & collapsing
+      const terminalMaximizeBtn = document.getElementById("terminalMaximizeBtn");
+      const terminalWindow = document.querySelector(".terminal-window");
+      const controlColumn = document.getElementById("controlColumn");
       const drawerToggle = document.getElementById("drawerToggle");
       const drawerClose = document.getElementById("drawerClose");
-      const slideDrawer = document.getElementById("slideDrawer");
       const terminalInput = document.getElementById("terminalInput");
 
-      const openDrawer = () => {
-        slideDrawer.classList.add("open");
-        drawerToggle.style.display = "none";
-      };
+      if (terminalMaximizeBtn && terminalWindow && controlColumn && drawerToggle && drawerClose) {
+        terminalMaximizeBtn.addEventListener("click", () => {
+          const isMaximized = terminalWindow.classList.toggle("maximized");
+          document.body.classList.toggle("terminal-maximized-active", isMaximized);
+          
+          // Toggle the SVG icon path inside the button
+          const svgPath = terminalMaximizeBtn.querySelector("path");
+          if (isMaximized) {
+            // Change to minimize/shrink icon
+            svgPath.setAttribute("d", "M4 14h6v6M20 10h-6V4M14 10l7-7M10 14l-7 7");
+            terminalMaximizeBtn.setAttribute("title", "Collapse Terminal");
+            drawerToggle.style.display = "flex";
+          } else {
+            // Restore to maximize/expand icon
+            svgPath.setAttribute("d", "M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7");
+            terminalMaximizeBtn.setAttribute("title", "Toggle Fullscreen Shell");
+            
+            // Clean up drawer classes and hide FAB button
+            controlColumn.classList.remove("drawer-open");
+            drawerToggle.style.display = "none";
+          }
 
-      const closeDrawer = () => {
-        slideDrawer.classList.remove("open");
-        drawerToggle.style.display = "flex";
-        if (terminalInput) terminalInput.focus();
-      };
+          // Trigger smooth window resize centering and input line focusing
+          setTimeout(() => {
+            const output = document.getElementById("terminalOutput");
+            if (output) output.scrollTop = output.scrollHeight;
+            if (terminalInput) terminalInput.focus();
+          }, 100);
+        });
 
-      if (drawerToggle && drawerClose && slideDrawer) {
+        // Sliding side panel toggles (active ONLY in fullscreen maximized mode)
         drawerToggle.addEventListener("click", (e) => {
           e.stopPropagation();
-          openDrawer();
+          controlColumn.classList.add("drawer-open");
+          drawerToggle.style.display = "none";
         });
 
         drawerClose.addEventListener("click", (e) => {
           e.stopPropagation();
-          closeDrawer();
+          controlColumn.classList.remove("drawer-open");
+          drawerToggle.style.display = "flex";
+          if (terminalInput) terminalInput.focus();
         });
 
         // Close drawer when clicking outside of it
         document.addEventListener("click", (event) => {
-          if (slideDrawer.classList.contains("open") && 
-              !slideDrawer.contains(event.target) && 
-              event.target !== drawerToggle) {
-            closeDrawer();
+          if (document.body.classList.contains("terminal-maximized-active") &&
+              controlColumn.classList.contains("drawer-open") &&
+              !controlColumn.contains(event.target) &&
+              event.target !== drawerToggle &&
+              !drawerToggle.contains(event.target)) {
+            controlColumn.classList.remove("drawer-open");
+            drawerToggle.style.display = "flex";
           }
         });
 
-        // Keyboard shortcuts: Escape closes drawer, Ctrl + M (or Cmd + M) toggles it
+        // Keyboard shortcuts: Escape closes drawer, Ctrl + M (or Cmd + M) toggles fullscreen mode
         document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && slideDrawer.classList.contains("open")) {
-            closeDrawer();
+          if (e.key === "Escape" && controlColumn.classList.contains("drawer-open")) {
+            controlColumn.classList.remove("drawer-open");
+            drawerToggle.style.display = "flex";
+            if (terminalInput) terminalInput.focus();
           }
           if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "m") {
             e.preventDefault();
-            if (slideDrawer.classList.contains("open")) {
-              closeDrawer();
-            } else {
-              openDrawer();
-            }
+            terminalMaximizeBtn.click();
           }
         });
       }
