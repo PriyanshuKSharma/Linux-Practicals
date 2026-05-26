@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevOps Linux Cheat Sheet | Linux Notes</title>
+  <meta name="description" content="Quick reference interactive cheat-sheet of essential DevOps Linux commands for systems administration, networking, process management, and permissions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Linux Notes home">
+      <span class="brand-mark">lx</span>
+      <span>Linux DevOps Notes</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="siteNav">
+      <svg viewBox="0 0 18 18" aria-hidden="true">
+        <line x1="1" y1="4" x2="17" y2="4"/>
+        <line x1="1" y1="9" x2="17" y2="9"/>
+        <line x1="1" y1="14" x2="17" y2="14"/>
+      </svg>
+    </button>
+    <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
+      <a href="index.html">Notes</a>
+      <a href="projects.html">Projects</a>
+      <a class="active" href="cheat-sheet.html">Cheat Sheet</a>
+      <a href="https://www.youtube.com/watch?v=e01GGTKmtpc" target="_blank" rel="noreferrer">Video</a>
+      <a href="https://github.com/PriyanshuKSharma/Linux-Practicals" target="_blank" rel="noreferrer">Repo</a>
+    </nav>
+  </header>
+
+  <main class="cheat-sheet-layout">
+    <header class="cheat-sheet-header">
+      <h1>25 Linux Commands Cheat Sheet</h1>
+      <p>Interactive quick-reference based on the essential DevOps commands. Never gonna let your syntax down!</p>
+    </header>
+
+    <section class="toolbar" aria-label="Cheat Sheet search and filters" style="padding: 0 0 1rem 0;">
+      <label class="search-box" for="cheatSearchInput">
+        <span>Search</span>
+        <input id="cheatSearchInput" type="search" placeholder="Search essential commands..." autocomplete="off">
+      </label>
+      <div class="visible-count"><strong id="cheatCount">0</strong> commands found</div>
+    </section>
+
+    <div class="filter-bar" id="cheatFilterBar" aria-label="Cheat sheet category filters" style="padding: 0 0 2rem 0;">
+      <button class="filter-btn active" data-cat="all">All</button>
+      <button class="filter-btn" data-cat="file-ops">File &amp; Dirs</button>
+      <button class="filter-btn" data-cat="sys-admin">User &amp; Perms</button>
+      <button class="filter-btn" data-cat="process">Process &amp; Systemd</button>
+      <button class="filter-btn" data-cat="networking">Networking</button>
+      <button class="filter-btn" data-cat="shell-utils">Shell Scripting</button>
+    </div>
+
+    <div id="cheatSheetCatalog">
+      <!-- Dynamic interactive tables will be generated here by JavaScript -->
+    </div>
+
+    <div class="no-results" id="cheatNoResults">
+      <div class="empty-mark">0</div>
+      <p>No Linux commands match <strong id="cheatNoResultsQuery"></strong>.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span>Linux DevOps One Shot Notes</span>
+    <span class="footer-credit">📺 Command list based on <a href="https://www.youtube.com/watch?v=DQwUA1TC-s8" target="_blank" rel="noreferrer">25 Linux Commands I Wish I Knew Before My First DevOps Job</a> on YouTube</span>
+    <span>Created by: <strong>Priyanshu K. Sharma</strong></span>
+    <span>Repo: <a href="https://github.com/PriyanshuKSharma/Linux-Practicals" target="_blank" rel="noreferrer">Linux-Practicals</a></span>
+  </footer>
+
+  <script src="assets/js/cheat-sheet.js"></script>
+  <script src="assets/js/nav-toggle.js"></script>
+</body>
+</html>
