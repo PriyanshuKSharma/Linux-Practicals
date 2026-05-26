@@ -171,6 +171,10 @@ echo "[SUCCESS] Package validation complete!"
       }
     };
 
+    // ── Shell Scripting Learning Scripts (added to VFS at boot) ──────────────
+    this._addLearnScripts();
+
+
     this.activeChallengeIndex = 0;
     this.completedChallenges = new Set();
 
@@ -1135,6 +1139,340 @@ MiB Swap:   2048.0 total,   2048.0 free,      0.0 used
 
     const cleanName = dirPath === "/" ? "/" : dirPath.substring(dirPath.lastIndexOf("/") + 1);
     return `<span class="highlight-blue">${cleanName}</span>\n` + buildTree(dirPath);
+  }
+
+  _addLearnScripts() {
+    // Directory entry
+    this.vfs["/home/devops/scripts/learn"] = {
+      type: "dir", permissions: this.defaultPerms(755), owner: "devops", group: "devops"
+    };
+
+    const scripts = [
+      {
+        name: "01_basic.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+echo "hello World!!"
+`
+      },
+      {
+        name: "02_comments.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+echo "Checking comments"
+
+# This is single line comment
+
+<<comment
+This is multi-line
+comments
+
+comment
+`
+      },
+      {
+        name: "03_vardemo.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+#Script to show how to use variables
+
+a=10
+name="Priyanshu Kumar Sharma"
+age="19"
+
+echo "My name is $name and my age is $age"
+
+#Var to store the output of a command
+hostname=$(hostname)
+
+name="Tony Stark"
+echo "My name is $name"
+echo "Name of this machine is $hostname"
+`
+      },
+      {
+        name: "04_constvar.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+#Constant variable
+readonly name="Priyanshu K Sharma"
+echo $name
+
+#Try to change variable value will throw: line X: name: readonly variable
+name="Sharma"
+`
+      },
+      {
+        name: "05_arrays.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+#Arrays - How to define an array
+myArray=(1 2 30.5 Hello "Hey man")
+echo "All the values in array are \${myArray[*]}"
+
+#How to get values at specific index
+echo "Values at index 0 is \${myArray[0]}"
+echo "Values at index 4 is \${myArray[4]}"
+
+#How to find no of values in array
+echo "Length of the array is \${#myArray[*]}"
+
+#Slice from index 2, take 2 items
+echo "Slice [2:2] => \${myArray[*]:2:2}"
+
+#Append new values
+myArray+=(New 30 40)
+echo "Updated array: \${myArray[*]}"
+
+#Arrays key-value
+myArray1=([1]=A [2]=B [3]=C [name]=paul)
+echo "Key 'name' => \${myArray1[name]}"
+`
+      },
+      {
+        name: "06_strings.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+myVar="Hello World"
+
+length=\${#myVar}
+echo "Length of the string is $length"
+
+#Slicing
+echo "First character: \${myVar:0:1}"
+echo "Last character:  \${myVar:$length-1:1}"
+
+#Slice from index 4 to 14
+slice=\${myVar:4:11}
+echo "Sliced string is $slice"
+
+#Replace
+echo "Replace World with Universe: \${myVar/World/Universe}"
+
+#Upper case and lower case
+Upper=\${myVar^^}
+lower=\${myVar,,}
+echo "Upper: $Upper | Lower: $lower"
+`
+      },
+      {
+        name: "07_user_int.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+read -p "Enter your name: " name
+echo "Your name is $name"
+`
+      },
+      {
+        name: "08_arith_ops.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+x=10
+y=3
+
+let mul=$x*$y
+echo "Product is: $mul"
+
+sum=$((x+y))
+echo "Sum is: $sum"
+
+difference=$(($x-$y))
+echo "Difference is: $difference"
+
+division=$(($x/$y))
+echo "Division (integer) is: $division"
+`
+      },
+      {
+        name: "09_condnal_state.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+#Conditional statements - if/elif/else
+marks=75
+
+if [ $marks -gt 80 ]
+then
+    echo "You got A grade"
+elif [ $marks -gt 60 ]
+then
+    echo "You got B grade"
+elif [ $marks -gt 40 ]
+then
+    echo "You got C grade"
+else
+    echo "You failed"
+fi
+
+#nested if-else
+age=25
+if [ $age -lt 18 ]
+then
+    echo "You are a minor"
+else
+    if [ $age -ge 18 ] && [ $age -le 60 ]
+    then
+        echo "You are an adult"
+    else
+        echo "You are a senior citizen"
+    fi
+fi
+`
+      },
+      {
+        name: "10_case.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+echo "Choose an option:"
+echo "  a) See current date"
+echo "  b) See current time"
+echo "  c) See current directory"
+
+choice="a"
+case $choice in
+    a)
+        echo "Current date: $(date +%D)"
+        ;;
+    b)
+        echo "Current time: $(date +%T)"
+        ;;
+    c)
+        echo "Current directory: $(pwd)"
+        ;;
+    *)
+        echo "Invalid choice"
+        ;;
+esac
+`
+      },
+      {
+        name: "11_logical_ops.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+# Logical Operators: &&  ||  !
+
+age=20
+country="India"
+
+# && - Logical AND (both must be true)
+if [ $age -ge 18 ] && [ $country == "India" ]
+then
+    echo "[AND]  You are eligible to vote in India"
+else
+    echo "[AND]  Not eligible"
+fi
+
+# || - Logical OR (at least one must be true)
+if [ $age -ge 18 ] || [ $country == "India" ]
+then
+    echo "[OR]   You are eligible to vote"
+else
+    echo "[OR]   Not eligible"
+fi
+
+# ! - Logical NOT (negation)
+if [ ! $age -ge 18 ]
+then
+    echo "[NOT]  You are not eligible to vote"
+else
+    echo "[NOT]  You are eligible to vote"
+fi
+`
+      },
+      {
+        name: "12_forloop1.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+#For Loop - iterating over values
+for i in 1 2 3 4 5
+do
+    echo "Number: $i"
+done
+
+#Loop in Strings
+for j in Raju Sham Baburao
+do
+    echo "Name: $j"
+done
+
+#Loop in a range
+for i in {1..5}
+do
+    echo "Range item: $i"
+done
+`
+      },
+      {
+        name: "13_forloop2.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+#Reading values from an array using for loop
+items=("apple" "banana" "cherry" "date" "elderberry")
+
+for item in "\${items[@]}"
+do
+    echo "Fruit: $item"
+done
+`
+      },
+      {
+        name: "14_for_with_array.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+myArray=(1 2 3 Hello Hi)
+
+length=\${#myArray[*]}
+
+for((i=0;i<$length;i++))
+do
+    echo "Array item [$i]: \${myArray[$i]}"
+done
+`
+      },
+      {
+        name: "15_keyValue.sh",
+        perms: 755,
+        content: `#!/bin/bash
+
+#How to store key-value pairs using associative arrays
+declare -A myArray2
+myArray2=([name]=Priyanshu [age]=21 [city]=Paris)
+
+echo "Name: \${myArray2[name]}"
+echo "Age:  \${myArray2[age]}"
+echo "City: \${myArray2[city]}"
+
+#Iterate over all keys
+for key in "\${!myArray2[@]}"
+do
+    echo "Key: $key => Value: \${myArray2[$key]}"
+done
+`
+      }
+    ];
+
+    scripts.forEach(s => {
+      this.vfs[`/home/devops/scripts/learn/${s.name}`] = {
+        type: "file",
+        permissions: this.defaultPerms(s.perms),
+        owner: "devops",
+        group: "devops",
+        content: s.content
+      };
+    });
   }
 
   escapeHtml(unsafe) {
