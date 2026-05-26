@@ -475,6 +475,8 @@ h1, h2, h3, h4, h5, h6 {
 .note-card[data-track="process-management"] .card-track { color: var(--accent-orange); background: rgba(255, 145, 0, 0.1); }
 .note-card[data-track="scripting-basics"] .card-track { color: var(--accent-pink); background: rgba(255, 0, 127, 0.1); }
 .note-card[data-track="advanced-scripting"] .card-track { color: var(--accent-green); background: rgba(57, 255, 20, 0.1); }
+.note-card[data-track="shell-scripting"]::before { background: #f7768e; }
+.note-card[data-track="shell-scripting"] .card-track { color: #f7768e; background: rgba(247, 118, 142, 0.1); }
 
 .card-read-time {
   font-family: var(--font-mono);
@@ -796,6 +798,104 @@ h1, h2, h3, h4, h5, h6 {
 .terminal-content .c-comment  { color: #565f89; font-style: italic; }
 .terminal-content .c-command  { color: #7cfc00; font-weight: bold; }
 .terminal-content .c-keyword  { color: #bb9af7; }
+
+/* ==========================================================================
+   Responsive: Mobile & Tablet tweaks
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .site-header {
+    padding: 0.75rem 4%;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .site-nav {
+    display: none;
+    gap: 1rem;
+  }
+
+  .site-nav.open {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    right: 4%;
+    flex-direction: column;
+    background: rgba(8,11,16,0.95);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    z-index: 200;
+  }
+
+  .site-nav a {
+    padding: 0.5rem 0.75rem;
+    white-space: nowrap;
+  }
+
+  .hero {
+    padding: 3rem 5% 2rem;
+  }
+
+  .hero-copy {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+
+  .hero-illustration {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 1.25rem;
+    justify-content: flex-start;
+  }
+
+  .toolbar, .filter-bar {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .catalog {
+    padding: 0 5% 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .note-view-container {
+    grid-template-columns: 1fr;
+    padding: 1.5rem 4% 3rem;
+    gap: 1.5rem;
+  }
+
+  .note-sidebar {
+    position: relative;
+    top: auto;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .brand { font-size: 1.05rem; }
+  .hero h1 { font-size: 2rem; }
+  .hero-sub { font-size: 1rem; }
+  .hero-stats { gap: 1rem; flex-direction: column; padding-top: 1rem; }
+  .btn { padding: 0.6rem 1rem; font-size: 0.9rem; }
+  .catalog { grid-template-columns: 1fr; padding: 0 4% 3rem; }
+  .search-box input { padding: 0.6rem 1rem 0.6rem 3.5rem; }
+  .note-header h1 { font-size: 1.8rem; }
+  .site-footer { padding: 1.25rem 4%; font-size: 0.95rem; display: flex; flex-direction: column; gap: 0.5rem; }
+}
+
 .terminal-content .c-variable { color: #e0af68; }
 .terminal-content .c-string   { color: #9ece6a; }
 .terminal-content .c-prompt   { color: #00e5ff; font-weight: bold; user-select: none; }
@@ -1126,48 +1226,95 @@ h1, h2, h3, h4, h5, h6 {
    Responsive Breakpoints
    ========================================================================== */
 
+/* ==========================================================================
+   Responsive — Tablet  ≤ 1024px
+   ========================================================================== */
 @media (max-width: 1024px) {
   .hero {
-    padding: 3rem 5% 4rem;
+    padding: 3rem 5% 3.5rem;
     text-align: center;
   }
   .hero-copy {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
-  .eyebrow, .hero h1, .hero-sub, .hero-actions, .hero-stats, .hero-illustration {
-    grid-column: auto;
-    grid-row: auto;
+  .hero h1 {
+    font-size: 2.6rem;
+  }
+  .hero-sub {
+    margin: 0 auto;
+    max-width: 560px;
+  }
+  .hero-actions {
+    justify-content: center;
+    flex-wrap: wrap;
   }
   .hero-stats {
     justify-content: center;
     width: 100%;
-  }
-  .hero-sub {
-    margin: 0 auto;
+    gap: 2rem;
   }
   .hero-illustration {
-    max-width: 320px;
-    margin: 0.5rem auto;
+    max-width: 300px;
+    margin: 0 auto;
   }
-  
+
+  .toolbar {
+    padding: 1.5rem 5% 1rem;
+  }
+  .filter-bar {
+    padding: 0.5rem 5% 1.5rem;
+  }
+  .catalog {
+    padding: 0 5% 4rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
   .note-view-container {
     grid-template-columns: 1fr;
     gap: 2rem;
+    padding: 2rem 5% 4rem;
   }
   .note-sidebar {
-    display: none; /* Hide sidebar index on tablets/mobile, can use index page for navigation */
+    display: none;
   }
-  .note-header h1 {
-    font-size: 2.2rem;
+  .note-header h1,
+  #noteTitle {
+    font-size: 2rem;
+  }
+
+  .cheat-sheet-layout {
+    padding: 2rem 5% 4rem;
+  }
+  .projects-layout {
+    padding: 2rem 5% 4rem;
+  }
+  .project-item {
+    padding: 1.5rem;
+  }
+  .project-details h2 {
+    font-size: 1.6rem;
+  }
+
+  .note-pagination {
+    flex-direction: column;
+    gap: 1rem;
   }
 }
 
+/* ==========================================================================
+   Responsive — Mobile  ≤ 768px
+   ========================================================================== */
 @media (max-width: 768px) {
+  /* ── Header ── */
   .site-header {
-    padding: 1rem 1.5rem;
+    padding: 0.9rem 1.25rem;
+    position: sticky;
+  }
+  .brand > span:last-child {
+    font-size: 1.1rem;
   }
   .nav-toggle {
     display: block;
@@ -1177,79 +1324,271 @@ h1, h2, h3, h4, h5, h6 {
     top: 100%;
     left: 0;
     width: 100%;
-    background: #080b10;
+    background: rgba(8, 11, 16, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     flex-direction: column;
-    padding: 1.5rem 0;
-    gap: 1.25rem;
+    padding: 1.25rem 0 1.5rem;
+    gap: 0;
     border-bottom: 1px solid var(--border-color);
     transform: translateY(-10px);
     opacity: 0;
     pointer-events: none;
     transition: var(--transition-smooth);
   }
+  .site-nav a {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    width: 100%;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .site-nav a:last-child {
+    border-bottom: none;
+  }
   .site-nav.open {
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
   }
-  
-  .hero h1 {
-    font-size: 2.6rem;
+
+  /* ── Hero ── */
+  .hero {
+    padding: 2.5rem 1.25rem 3rem;
   }
-  .eyebrow {
-    font-size: 0.95rem;
+  .hero h1 {
+    font-size: clamp(1.9rem, 7vw, 2.6rem);
+    letter-spacing: -0.03em;
+  }
+  .hero-sub {
+    font-size: 1rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
   }
   .hero-stats {
     gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .hero-stats strong {
     font-size: 1.8rem;
   }
   .hero-illustration {
-    max-width: 220px;
+    max-width: 200px;
   }
-  
+  .eyebrow {
+    font-size: 0.85rem;
+  }
+
+  /* ── Toolbar / Search ── */
   .toolbar {
     flex-direction: column;
     align-items: stretch;
-    gap: 1rem;
-    padding: 1.5rem 1.5rem 0.5rem;
+    gap: 0.75rem;
+    padding: 1.25rem 1.25rem 0.5rem;
   }
+  .search-box {
+    max-width: 100%;
+  }
+  .visible-count {
+    text-align: right;
+    font-size: 0.82rem;
+  }
+
+  /* ── Filter bar — horizontal scroll, no wrapping ── */
   .filter-bar {
-    padding: 0.5rem 1.5rem 1.5rem;
+    padding: 0.5rem 1.25rem 1.25rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0.4rem;
   }
+  .filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .filter-btn {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.9rem;
+    white-space: nowrap;
+  }
+
+  /* ── Catalog ── */
   .catalog {
-    padding: 0 1.5rem 4rem;
+    padding: 0 1.25rem 3.5rem;
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
-  
+  .note-card {
+    padding: 1.5rem;
+  }
+  .note-card h3 {
+    font-size: 1.2rem;
+  }
+  .note-card p {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+
+  /* ── Note Detail View ── */
   .note-view-container {
-    padding: 1.5rem 1.5rem 4rem;
+    padding: 1.5rem 1.25rem 3.5rem;
   }
   .note-header-meta {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
-  .cheat-sheet-layout {
-    padding: 2rem 1.5rem 4rem;
+  #noteTitle {
+    font-size: 1.65rem;
   }
+  .content-section h2,
+  .concept-block h2 {
+    font-size: 1.25rem;
+  }
+  .concept-block p {
+    font-size: 0.92rem;
+  }
+
+  /* ── Code cards ── */
+  .code-card-body pre,
+  .terminal-content code {
+    font-size: 0.8rem;
+  }
+  .code-card-body {
+    padding: 0.85rem 0.9rem;
+  }
+
+  /* ── Cheat table — horizontal scroll ── */
+  .cheat-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cheat-table {
+    min-width: 520px;
+  }
+
+  /* ── Cheat Sheet layout ── */
+  .cheat-sheet-layout {
+    padding: 1.5rem 1.25rem 3.5rem;
+  }
+  .filter-bar.cheat-filter {
+    padding: 0.5rem 1.25rem 1rem;
+  }
+
+  /* ── Projects ── */
   .projects-layout {
-    padding: 2rem 1.5rem 4rem;
+    padding: 1.5rem 1.25rem 3.5rem;
   }
   .project-item {
-    padding: 1.5rem;
-  }
-  .project-details h2 {
-    font-size: 1.6rem;
-  }
-  
-  .note-pagination {
+    padding: 1.25rem;
     flex-direction: column;
     gap: 1rem;
   }
+  .project-details h2 {
+    font-size: 1.35rem;
+  }
+
+  /* ── Pagination ── */
+  .note-pagination {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 3rem;
+  }
+  .pag-btn {
+    padding: 1rem;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1.25rem;
+  }
+
+  /* Notes page: prevent horizontal overflow and wrap long code lines/images */
+  .note-view-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+  .note-content-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+  .note-sidebar {
+    display: none; /* ensure sidebar hidden on small screens */
+  }
+  /* Allow code blocks to wrap on small devices to avoid page stretching */
+  .code-card-body pre,
+  .terminal-content pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+  /* Constrain images inside notes */
+  .note-content-wrapper img,
+  .hero-illustration img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
 }
+
+/* ==========================================================================
+   Responsive — Small phones  ≤ 480px
+   ========================================================================== */
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: clamp(1.6rem, 8vw, 2rem);
+  }
+  .hero-stats {
+    gap: 1.25rem;
+  }
+  .hero-stats strong {
+    font-size: 1.5rem;
+  }
+
+  .note-card h3 {
+    font-size: 1.1rem;
+  }
+  .note-card {
+    padding: 1.25rem;
+  }
+
+  #noteTitle {
+    font-size: 1.4rem;
+  }
+  .concept-block h2 {
+    font-size: 1.1rem;
+  }
+
+  .code-card-body pre,
+  .terminal-content code {
+    font-size: 0.73rem;
+  }
+
+  .btn {
+    padding: 0.7rem 1.25rem;
+    font-size: 0.88rem;
+  }
+
+  .breadcrumbs {
+    font-size: 0.82rem;
+  }
+}
+
 
 /* ==========================================================================
    Terminal Playground Styles
