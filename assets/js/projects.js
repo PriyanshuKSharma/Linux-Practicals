@@ -351,8 +351,9 @@ sudo ufw status
             📁 Script File: <a href="https://github.com/PriyanshuKSharma/Linux-Practicals/blob/main/${proj.scriptPath}" target="_blank" style="color: var(--accent-purple); font-weight: bold;">${proj.scriptPath}</a>
           </p>
 
-          <div class="project-actions" style="margin-top: 1rem;">
+          <div class="project-actions" style="margin-top: 1rem; display: flex; gap: 1rem;">
             <button class="btn btn-copy-script" data-code="${escapeHtml(proj.code)}">Copy Full Script</button>
+            <a class="btn primary" href="terminal.html?run=${proj.scriptPath}" style="text-decoration: none; padding: 0.8rem 1.6rem;">Try in Sandbox</a>
           </div>
         </div>
 

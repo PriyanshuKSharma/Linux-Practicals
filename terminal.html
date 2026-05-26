@@ -54,6 +54,11 @@
               <span class="dot green"></span>
             </div>
             <div class="terminal-title">bash - devops@linux-sandbox: ~</div>
+            <button class="terminal-maximize-btn" id="terminalMaximize" aria-label="Toggle full-width terminal" title="Toggle full-width terminal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+              </svg>
+            </button>
             <div class="terminal-tab">bash</div>
           </div>
           <div class="terminal-output" id="terminalOutput"></div>
@@ -130,6 +135,23 @@
           tabChallengesBtn.classList.remove("active");
           panelVfs.classList.add("active");
           panelChallenges.classList.remove("active");
+        });
+      }
+
+      // Handles terminal window maximization
+      const terminalMaximize = document.getElementById("terminalMaximize");
+      const playgroundGrid = document.querySelector(".playground-grid");
+      if (terminalMaximize && playgroundGrid) {
+        terminalMaximize.addEventListener("click", () => {
+          playgroundGrid.classList.toggle("maximized");
+          const isMaximized = playgroundGrid.classList.contains("maximized");
+          terminalMaximize.classList.toggle("active", isMaximized);
+          
+          // Focus input and scroll terminal output to bottom
+          const input = document.getElementById("terminalInput");
+          const output = document.getElementById("terminalOutput");
+          if (input) input.focus();
+          if (output) output.scrollTop = output.scrollHeight;
         });
       }
     });

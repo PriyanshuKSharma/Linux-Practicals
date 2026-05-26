@@ -121,6 +121,48 @@ echo "[INFO] Allowing port 443/tcp (HTTPS)..."
 sleep 1
 echo "[SUCCESS] UFW firewall automation completed successfully!"
 `
+      },
+      "/home/devops/scripts/project1_automation.sh": { 
+        type: "file", 
+        permissions: this.defaultPerms(755), 
+        owner: "devops", 
+        group: "devops", 
+        content: `#!/bin/bash
+# DevOps Script: Archive & Compression Automation
+echo "[INFO] Creating backup directories..."
+sleep 0.5
+echo "[INFO] Spawning files and monitoring sizes..."
+for i in {1..5}; do
+    echo "Created file$i.txt inside 'Project2' workspace"
+    sleep 0.2
+done
+echo "[INFO] Compressing 'Project2' to tar archive..."
+sleep 0.6
+echo "[INFO] Compressing using GZIP..."
+sleep 0.8
+echo "[INFO] Compressing using BZIP2..."
+sleep 0.5
+echo "[SUCCESS] Automated archive benchmark completed!"
+`
+      },
+      "/home/devops/scripts/execute_shell_scripts.sh": {
+        type: "file",
+        permissions: this.defaultPerms(755),
+        owner: "devops",
+        group: "devops",
+        content: `#!/bin/bash
+# DevOps Script: Interactive script list validator
+echo "======================================"
+echo "    DevOps Script Automations List    "
+echo "======================================"
+echo "  1. create_user.sh"
+echo "  2. setup_web_server.sh"
+echo "  3. setup_firewall.sh"
+echo "  4. project1_automation.sh"
+sleep 1
+echo "[INFO] Verified 4 standard automations in scripts path."
+echo "[SUCCESS] Package validation complete!"
+`
       }
     };
 
@@ -131,6 +173,16 @@ echo "[SUCCESS] UFW firewall automation completed successfully!"
     this.updatePrompt();
     this.printWelcome();
     this.updateVfsVisualizer();
+
+    // Check for automatic script trigger via URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const runScript = urlParams.get("run");
+    if (runScript) {
+      setTimeout(() => {
+        this.input.value = `./scripts/${runScript}`;
+        this.handleCommand();
+      }, 1500); // 1.5s delay to let boot animations complete nicely!
+    }
   }
 
   // Parse octal permissions (e.g. 755) to readable object structures
