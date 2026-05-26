@@ -66,7 +66,7 @@ html, body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: clamp(14px, 1.6vw, 18px);
+  font-size: 14px;
 }
 
 /* Ensure media elements never overflow their containers */
@@ -588,12 +588,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .note-view-container {
   display: grid;
-  /* sidebar is flexible (min 220px, up to 28% of container) so layout shrinks smoothly */
   grid-template-columns: minmax(220px, 28%) 1fr;
   max-width: 100%;
+  width: 100%;
   margin: 0 auto;
   padding: 1.5rem clamp(1rem, 5%, 5%) 3rem;
   gap: 2rem;
+  box-sizing: border-box;
 }
 
 /* Sidebar-style nav panel used by OS page */
@@ -754,6 +755,10 @@ h1, h2, h3, h4, h5, h6 {
 .note-content-wrapper {
   max-width: 900px;
   width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .breadcrumbs {
   font-family: var(--font-mono);
@@ -776,7 +781,8 @@ h1, h2, h3, h4, h5, h6 {
 .note-header-meta {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   margin-bottom: 1rem;
 }
 .note-header h1 {
@@ -1027,11 +1033,6 @@ h1, h2, h3, h4, h5, h6 {
   .search-box input { padding: 0.6rem 1rem 0.6rem 3.5rem; }
   .note-header h1 { font-size: 1.8rem; }
   .site-footer { padding: 1.25rem 1rem; font-size: 0.95rem; display: flex; flex-direction: column; gap: 0.5rem; }
-  .note-header-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
 }
 
 .terminal-content .c-variable { color: #e0af68; }
@@ -1118,16 +1119,18 @@ h1, h2, h3, h4, h5, h6 {
 .note-pagination {
   display: flex;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1rem;
   margin-top: 5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--border-color);
+  flex-wrap: wrap;
 }
 .pag-btn {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   flex: 1;
+  min-width: min(200px, 100%);
   padding: 1.25rem;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -1429,10 +1432,6 @@ h1, h2, h3, h4, h5, h6 {
   .project-details h2 {
     font-size: 1.6rem;
   }
-  .note-pagination {
-    flex-direction: column;
-    gap: 1rem;
-  }
 }
 
 /* ==========================================================================
@@ -1571,11 +1570,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   /* ── Note Detail View ── */
-  .note-header-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
   #noteTitle {
     font-size: 1.65rem;
   }
@@ -1627,11 +1621,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   /* ── Pagination ── */
-  .note-pagination {
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-top: 3rem;
-  }
   .pag-btn {
     padding: 1rem;
   }
