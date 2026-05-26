@@ -1202,23 +1202,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .playground-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  display: flex;
+  flex-direction: column;
   gap: 2.5rem;
-  align-items: start;
-  transition: grid-template-columns 0.3s ease;
-}
-
-.playground-grid.maximized {
-  grid-template-columns: 1fr;
-}
-
-.playground-grid.maximized .control-column {
-  display: none;
-}
-
-.playground-grid.maximized .terminal-output {
-  height: 580px;
+  transition: var(--transition-smooth);
 }
 
 /* Left Column: Terminal */
@@ -1379,15 +1366,11 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 !important;
   margin: 0 !important;
   flex: 1;
+  caret-color: var(--accent-teal); /* Beautiful neon-cyan native blinking caret right next to characters! */
 }
 
 .terminal-caret {
-  width: 8px;
-  height: 15px;
-  background: var(--accent-teal);
-  display: inline-block;
-  animation: terminal-blink 1s step-end infinite;
-  margin-left: -2px;
+  display: none !important; /* Hide the far-right static block cursor */
 }
 
 @keyframes terminal-blink {
@@ -1733,15 +1716,14 @@ body.terminal-maximized-active .site-footer {
   transition: var(--transition-smooth);
 }
 
-/* Restrict maximum width and center content of maximized full-screen elements */
+/* Expand maximized content edge-to-edge for a true fullscreen shell experience */
 .terminal-window.maximized .terminal-header-container,
 .terminal-window.maximized .terminal-output,
 .terminal-window.maximized .terminal-input-container {
-  max-width: 1200px;
+  max-width: none !important; /* Remove centered box limitations completely! */
   width: 100%;
-  margin: 0 auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 .terminal-window.maximized .terminal-header {
@@ -1769,7 +1751,6 @@ body.terminal-maximized-active .site-footer {
 
 /* Elegant HUD stats panel in the terminal header */
 .header-stats-panel {
-  margin-left: 8.5rem;
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -1926,6 +1907,13 @@ body.terminal-maximized-active .drawer-header-close {
 /* Maximized Header Tab hiding logic */
 .terminal-window.maximized .terminal-tab {
   display: none;
+}
+
+/* Scale terminal text size in fullscreen maximized mode for supreme desktop legibility */
+.terminal-window.maximized .terminal-output,
+.terminal-window.maximized .terminal-input-row,
+.terminal-window.maximized .terminal-input {
+  font-size: 1.05rem !important;
 }
 
 /* Responsive adjustments */
