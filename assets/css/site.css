@@ -28,6 +28,7 @@
   --text-primary: #f0f6fc;
   --text-secondary: #c9d1d9;
   --text-muted: #8b949e;
+  --text-light: #ffffff;
   --text-inverse: #0d1117;
   
   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -860,14 +861,17 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     position: absolute;
     top: 100%;
+    left: 4%;
     right: 4%;
     flex-direction: column;
     background: rgba(8,11,16,0.95);
     border: 1px solid var(--border-color);
-    padding: 0.75rem 0.75rem;
+    padding: 0.5rem 0.5rem;
     border-radius: 8px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.6);
     z-index: 200;
+    max-width: calc(100% - 8%);
+    width: auto;
   }
 
   .site-nav a {
@@ -919,6 +923,15 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 1px solid var(--border-color);
     margin-bottom: 1rem;
   }
+
+  /* Improve preformatted block handling on small screens */
+  .concept-block pre,
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 @media (max-width: 600px) {
@@ -931,6 +944,12 @@ h1, h2, h3, h4, h5, h6 {
   .search-box input { padding: 0.6rem 1rem 0.6rem 3.5rem; }
   .note-header h1 { font-size: 1.8rem; }
   .site-footer { padding: 1.25rem 4%; font-size: 0.95rem; display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .note-header-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }
 
 .terminal-content .c-variable { color: #e0af68; }
