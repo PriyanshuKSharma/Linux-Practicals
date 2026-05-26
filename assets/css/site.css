@@ -800,6 +800,82 @@ h1, h2, h3, h4, h5, h6 {
 .terminal-content .c-string   { color: #9ece6a; }
 .terminal-content .c-prompt   { color: #00e5ff; font-weight: bold; user-select: none; }
 
+/* ── Inline Code-Block Terminal Cards (used inside note sections) ───────── */
+.code-card {
+  background: #05080c;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin: 1.25rem 0;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+  font-family: var(--font-mono);
+}
+.code-card-header {
+  background: #0c1017;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.code-card-dots {
+  display: flex;
+  gap: 0.32rem;
+  flex-shrink: 0;
+}
+.code-card-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.code-card-dot:nth-child(1) { background: #ff5f56; }
+.code-card-dot:nth-child(2) { background: #ffbd2e; }
+.code-card-dot:nth-child(3) { background: #27c93f; }
+.code-card-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  flex: 1;
+  letter-spacing: 0.03em;
+}
+.code-card-copy {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  flex-shrink: 0;
+}
+.code-card-copy:hover {
+  color: var(--accent-teal);
+  border-color: var(--accent-teal);
+}
+.code-card-body {
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+}
+.code-card-body pre {
+  margin: 0;
+  white-space: pre;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #a9b1d6;
+}
+/* Syntax token colours inside code-cards */
+.code-card-body .c-comment  { color: #565f89; font-style: italic; }
+.code-card-body .c-command  { color: #7cfc00; font-weight: bold; }
+.code-card-body .c-keyword  { color: #bb9af7; }
+.code-card-body .c-variable { color: #e0af68; }
+.code-card-body .c-string   { color: #9ece6a; }
+.code-card-body .c-shebang  { color: #00e5ff; font-weight: bold; }
+.code-card-body .c-readonly { color: #f7768e; font-weight: bold; }
+.code-card-body .c-number   { color: #ff9e64; }
+
+
 /* Note Pagination */
 .note-pagination {
   display: flex;

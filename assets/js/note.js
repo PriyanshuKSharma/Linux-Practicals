@@ -53,16 +53,31 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, '&#039;');
   }
 
-  // Custom Bash code highlighter
+  // Extended Bash syntax highlighter (used for both command refs and code-card blocks)
   function highlightBash(codeText) {
+    const bashCommands = [
+      'sudo','apt','systemctl','chmod','chown','mkdir','cd','rm','ls','cp','mv','echo',
+      'find','grep','uname','cat','df','useradd','groupadd','usermod','passwd','userdel',
+      'groupdel','ip','ping','curl','wget','ss','nc','ssh','kill','jobs','fg','bg',
+      'crontab','journalctl','umask','let','visudo','tail','head','less','chgrp',
+      'read','declare','unset','export','source','printf','test','true','false',
+      'for','do','done','while','until','if','then','elif','else','fi','case','esac','in'
+    ];
+    const readonlyKws = ['readonly','declare'];
+
     const lines = codeText.split('\n');
     const formattedLines = lines.map(line => {
-      // 1. Whole line comment
+      // Shebang line
+      if (line.trim().startsWith('#!/')) {
+        return `<span class="c-shebang">${escapeHtml(line)}</span>`;
+      }
+
+      // Whole-line comment (including heredoc labels like <<comment / comment)
       if (line.trim().startsWith('#')) {
         return `<span class="c-comment">${escapeHtml(line)}</span>`;
       }
 
-      // 2. Inline comment extraction
+      // Inline comment extraction
       let linePart = line;
       let commentPart = '';
       const commentIdx = line.indexOf(' #');
@@ -71,39 +86,86 @@ document.addEventListener('DOMContentLoaded', () => {
         commentPart = `<span class="c-comment">${escapeHtml(line.substring(commentIdx))}</span>`;
       }
 
-      // Command keywords
-      const bashCommands = [
-        'sudo', 'apt', 'systemctl', 'chmod', 'chown', 'mkdir', 'cd', 'rm', 'ls', 'cp', 'mv', 'echo', 
-        'find', 'grep', 'uname', 'cat', 'df', 'useradd', 'groupadd', 'usermod', 'passwd', 'userdel', 
-        'groupdel', 'ip', 'ping', 'curl', 'wget', 'ss', 'nc', 'ssh', 'kill', 'jobs', 'fg', 'bg', 
-        'crontab', 'journalctl', 'umask', 'let', 'visudo', 'tail', 'head', 'less', 'chgrp'
-      ];
+      // Token-level highlighting
+      const tokens = linePart.split(/(\s+)/);
+      const highlighted = tokens.map(tok => {
+        if (/^\s+$/.test(tok)) return tok; // preserve whitespace
 
-      const words = linePart.split(' ');
-      const highlightedWords = words.map(word => {
-        // Highlight variables $VAR
-        if (word.startsWith('$') && word.length > 1) {
-          return `<span class="c-variable">${escapeHtml(word)}</span>`;
+        const escaped = escapeHtml(tok);
+        const clean = tok.replace(/['"`\;(){}]/g, '');
+
+        // $VAR or ${VAR}
+        if (/^\$\{?[A-Za-z_][\w]*\}?/.test(tok)) {
+          return `<span class="c-variable">${escaped}</span>`;
         }
-
-        // Strip quotes/semicolons to check clean commands
-        const cleanWord = word.replace(/['"`;()]/g, '');
-        if (bashCommands.includes(cleanWord)) {
-          return `<span class="c-command">${escapeHtml(word)}</span>`;
+        // Quoted strings
+        if (/^['"]/.test(tok) && /['"]$/.test(tok)) {
+          return `<span class="c-string">${escaped}</span>`;
         }
-
-        // Highlight options/flags -la, --help
-        if (word.startsWith('-')) {
-          return `<span class="c-keyword">${escapeHtml(word)}</span>`;
+        // readonly / declare
+        if (readonlyKws.includes(clean)) {
+          return `<span class="c-readonly">${escaped}</span>`;
         }
-
-        return escapeHtml(word);
+        // Known commands
+        if (bashCommands.includes(clean)) {
+          return `<span class="c-command">${escaped}</span>`;
+        }
+        // Flags / options
+        if (/^-[-\w]/.test(tok)) {
+          return `<span class="c-keyword">${escaped}</span>`;
+        }
+        // Pure numbers
+        if (/^-?\d+(\.\d+)?$/.test(clean)) {
+          return `<span class="c-number">${escaped}</span>`;
+        }
+        return escaped;
       });
 
-      return highlightedWords.join(' ') + commentPart;
+      return highlighted.join('') + commentPart;
     });
 
     return formattedLines.join('\n');
+  }
+
+  // Upgrade every <pre class="code-block"> inside a rendered section into a
+  // full .code-card terminal card (dots + header + syntax highlighting + copy).
+  function upgradeCodeBlocks(container) {
+    container.querySelectorAll('pre.code-block').forEach(pre => {
+      const rawText = pre.textContent;
+      const highlighted = highlightBash(rawText);
+      const filename = rawText.trim().startsWith('#!/') ? 'bash' : 'bash';
+
+      const card = document.createElement('div');
+      card.className = 'code-card';
+      card.innerHTML = `
+        <div class="code-card-header">
+          <div class="code-card-dots">
+            <span class="code-card-dot"></span>
+            <span class="code-card-dot"></span>
+            <span class="code-card-dot"></span>
+          </div>
+          <span class="code-card-label">${filename}</span>
+          <button class="code-card-copy" data-raw="${escapeHtml(rawText)}">Copy</button>
+        </div>
+        <div class="code-card-body"><pre>${highlighted}</pre></div>
+      `;
+
+      // Hook up copy
+      card.querySelector('.code-card-copy').addEventListener('click', function() {
+        navigator.clipboard.writeText(rawText).then(() => {
+          this.textContent = 'Copied!';
+          this.style.color = 'var(--accent-green)';
+          this.style.borderColor = 'var(--accent-green)';
+          setTimeout(() => {
+            this.textContent = 'Copy';
+            this.style.color = '';
+            this.style.borderColor = '';
+          }, 2000);
+        }).catch(() => {});
+      });
+
+      pre.replaceWith(card);
+    });
   }
 
   // 1. Populate Meta & Title
@@ -187,6 +249,9 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         noteBody.appendChild(secDiv);
       });
+
+      // Upgrade all code-block <pre> elements into terminal cards
+      upgradeCodeBlocks(noteBody);
     }
 
     // Interactive Terminal Commands Section
