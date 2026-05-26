@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operating Systems | Linux DevOps Notes</title>
+  <meta name="description" content="Structured OS learning notes: beginner → advanced, architecture diagrams, examples and exercises.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Linux Notes home">
+      <span class="brand-mark">lx</span>
+      <span>Linux DevOps Notes</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="siteNav">
+      <svg viewBox="0 0 18 18" aria-hidden="true">
+        <line x1="1" y1="4" x2="17" y2="4"/>
+        <line x1="1" y1="9" x2="17" y2="9"/>
+        <line x1="1" y1="14" x2="17" y2="14"/>
+      </svg>
+    </button>
+    <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
+      <a href="index.html">Notes</a>
+      <a href="os.html" class="active">OS</a>
+      <a href="projects.html">Projects</a>
+      <a href="cheat-sheet.html">Cheat Sheet</a>
+      <a href="terminal.html">Terminal Sandbox</a>
+      <a href="https://www.youtube.com/watch?v=e01GGTKmtpc" target="_blank" rel="noreferrer">Video</a>
+      <a href="https://github.com/PriyanshuKSharma/Linux-Practicals" target="_blank" rel="noreferrer">Repo</a>
+    </nav>
+  </header>
+
+  <main class="cheat-sheet-layout">
+    <header class="cheat-sheet-header">
+      <h1>Operating Systems — From Basics to Advanced</h1>
+      <p>A structured OS learning path derived from recommended video resources, with diagrams, examples, and exercises.</p>
+    </header>
+
+    <aside class="nav-panel" aria-label="OS Core Learning">
+      <h3>OS Core Learning</h3>
+      <ul>
+        <li><a href="#intro">1. Introduction &amp; Architecture</a></li>
+        <li><a href="#process">2. Process Management &amp; Threads</a></li>
+        <li><a href="#scheduling">3. CPU Scheduling Algorithms</a></li>
+        <li><a href="#sync">4. Process Synchronization &amp; Classical Problems</a></li>
+        <li><a href="#deadlock">5. Deadlocks</a></li>
+        <li><a href="#memory">6. Memory Management &amp; Paging</a></li>
+        <li><a href="#virtual">7. Virtual Memory &amp; Storage</a></li>
+      </ul>
+    </aside>
+
+    <section id="intro" class="concept-block">
+      <h2>Quick Orientation</h2>
+      <p>An operating system (OS) is system software that manages hardware resources, provides services to user applications, and exposes interfaces (system calls) for programs to interact with devices and other processes.</p>
+      <p>This section is organized: Fundamentals → Core Components → Concurrency & Memory → Filesystems & I/O → Advanced Kernel Topics → Virtualization, Containers & Performance.</p>
+    </section>
+
+    <section id="architecture" class="concept-block">
+      <h2>OS Architecture (ASCII)</h2>
+      <pre>
+  +-------------------------------------------------------------+
+  |                     User Space / Applications               |
+  |  Shells, GUIs, Daemons, Containers, User Apps, Libraries    |
+  +-------------------------------------------------------------+
+  |                     System Call Interface                   |
+  +-------------------------------------------------------------+
+  |                            Kernel                           |
+  |  - Process scheduler  - Memory manager  - VFS/File system   |
+  |  - Device drivers     - IPC & networking   - Security       |
+  +-------------------------------------------------------------+
+  |                           Hardware                          |
+  |  CPU(s), Memory (RAM), Disks, NICs, Devices                 |
+  +-------------------------------------------------------------+
+      </pre>
+      <p>Below is a simple visual (SVG) diagram that highlights logical layers.</p>
+      <div style="text-align:center; margin: 1rem 0;">
+        <img src="assets/img/os-architecture.svg" alt="OS architecture diagram" style="max-width:640px; width:100%; height:auto; border-radius:8px;">
+      </div>
+    </section>
+
+    <section id="process" class="concept-block">
+      <h2>Processes &amp; Scheduling</h2>
+      <p>Process = executing program instance (PID, memory space, file descriptors). The kernel creates processes via fork/exec and schedules them on CPUs using a scheduler (CFS on Linux).</p>
+      <p>Key concepts: process states (running, ready, blocked), context switch, preemption, priorities, scheduling fairness, and real-time vs. timesharing policies.</p>
+      <h3 id="scheduling">CPU Scheduling Algorithms</h3>
+      <p>Common algorithms: First-Come-First-Serve (FCFS), Shortest-Job-First (SJF), Round-Robin (RR), Priority scheduling, Multilevel Feedback Queues. Understand metrics: throughput, turnaround, waiting, response time.</p>
+
+      <h3>Beginner</h3>
+      <p>Commands: <code>ps aux</code>, <code>top</code>, <code>htop</code>. Create a process with <code>sleep 60 &</code>. Kill with <code>kill PID</code>.</p>
+      <h3>Advanced</h3>
+      <p>Understand scheduler internals (load balancing, runqueues), cgroups influence on CPU shares, and tuning priorities with <code>nice</code>/<code>renice</code>. Learn how kernel chooses which task to run next and how affinity and NUMA affect performance.</p>
+    </section>
+
+    <section id="memory" class="concept-block">
+      <h2>Memory Management</h2>
+      <p>The kernel manages physical RAM and provides virtual memory to processes using page tables and MMU. Virtual memory isolates processes and allows paging and swapping.</p>
+      <h3>Beginner</h3>
+      <p>Concepts: virtual address space, stack vs heap, page size. Inspect with <code>free -h</code>, <code>vmstat</code>, <code>/proc/meminfo</code>.</p>
+      <h3>Intermediate</h3>
+      <p>Paging, demand paging, TLB caching, page faults. Understand how the kernel handles page faults and when swapping happens.</p>
+      <h3>Advanced</h3>
+      <p>Kernel memory allocators (slab, SLUB), hugepages, NUMA allocations, memory overcommit policies, and tuning swappiness. Use <code>numastat</code>, <code>perf</code>, and <code>pmap</code> for diagnosis.</p>
+    </section>
+
+    <section id="sync" class="concept-block">
+      <h2>Concurrency, IPC &amp; Synchronization</h2>
+      <p>Processes and threads need to coordinate and share data safely. The kernel provides mechanisms: signals, pipes, sockets, shared memory, message queues, semaphores, futexes.</p>
+      <h3>Beginner</h3>
+      <p>Signals (<code>kill -s SIGTERM</code>), pipes (<code>|</code>), named pipes (<code>mkfifo</code>), sockets with simple client/server programs.</p>
+      <h3>Advanced</h3>
+      <h4 id="deadlock">Deadlocks</h4>
+      <p>Deadlock conditions: mutual exclusion, hold and wait, no preemption, circular wait. Strategies: prevention, avoidance (Banker's algorithm), detection and recovery.</p>
+      <p>Race conditions, atomic operations, lock-free algorithms, deadlock detection/prevention, futexes used by pthreads, and kernel-level synchronization primitives. Learn to use tools like <code>strace</code>, <code>perf</code>, and race detectors.</p>
+    </section>
+
+    <section id="virtual" class="concept-block">
+      <h2>Virtual Memory &amp; Storage</h2>
+      <p>This covers virtual memory concepts (paging, swap) and storage interaction; filesystems &amp; block I/O behaviors are discussed below.</p>
+
+    </section>
+
+    <section class="concept-block">
+      <h2>Filesystems &amp; I/O</h2>
+      <p>File systems translate file operations to block device operations. Linux VFS provides a uniform API; actual drivers (ext4, xfs, btrfs) implement storage behavior.</p>
+      <h3>Beginner</h3>
+      <p>Common commands: <code>df -h</code>, <code>du -sh</code>, <code>mount</code>, <code>umount</code>, examine <code>/proc/partitions</code>.</p>
+      <h3>Advanced</h3>
+      <p>Journaling, copy-on-write FS (btrfs), GC and balancing, latency vs throughput tradeoffs, I/O schedulers (mq-deadline, bfq), direct I/O, and O_DIRECT. Use <code>iostat</code>, <code>fio</code>, and <code>blktrace</code> to profile I/O.</p>
+    </section>
+
+    <section class="concept-block">
+      <h2>System Calls, Kernel APIs & Drivers</h2>
+      <p>System calls are the gateway to kernel services. Drivers run in kernel space and interact with hardware via defined interfaces.</p>
+      <h3>Beginner</h3>
+      <p>Observe syscalls with <code>strace</code>. Familiarize with <code>open</code>, <code>read</code>, <code>write</code>, <code>ioctl</code>, <code>mmap</code>.</p>
+      <h3>Advanced</h3>
+      <p>Writing kernel modules, character vs block drivers, device trees, IRQ handling, and safe API use. Use <code>dmesg</code>, <code>/sys</code>, and kernel logs for debugging.</p>
+    </section>
+
+    <section class="concept-block">
+      <h2>Boot, Init & Services</h2>
+      <p>Boot process: firmware/UEFI → bootloader (GRUB) → kernel → init/systemd → user services. Understand runlevels, units, targets, and service dependency ordering.</p>
+      <h3>Hands-on</h3>
+      <p>Inspect units with <code>systemctl status</code>, analyze logs with <code>journalctl -b</code>, and create simple systemd service units.</p>
+    </section>
+
+    <section class="concept-block">
+      <h2>Security & Permissions</h2>
+      <p>POSIX permissions, ACLs, capabilities, SELinux/AppArmor, namespaces, and seccomp for sandboxing. Understand the principle of least privilege and how to apply it.</p>
+    </section>
+
+    <section class="concept-block">
+      <h2>Virtualization & Containers</h2>
+      <p>Hypervisors (KVM) virtualize hardware; containers share the host kernel using namespaces and cgroups. Differences: isolation level, performance, and resource management.</p>
+      <h3>Advanced</h3>
+      <p>Dive into kernel namespaces, cgroups v2, overlay filesystems, and container runtime internals (runc, containerd). Learn how containers are an OS-level virtualization technique.</p>
+    </section>
+
+    <section class="concept-block">
+      <h2>Performance, Debugging & Tracing</h2>
+      <p>Tools: <code>top</code>, <code>htop</code>, <code>perf</code>, <code>strace</code>, <code>ltrace</code>, <code>ftrace</code>, <code>bpftrace</code>, and eBPF for advanced tracing.
+      Use perf to find CPU hotspots, and eBPF for dynamic kernel tracing without recompiling the kernel.</p>
+    </section>
+
+    <section class="concept-block">
+      <h2>Exercises & Further Reading</h2>
+      <ul>
+        <li>Implement a simple producer/consumer using POSIX threads and test race conditions.</li>
+        <li>Trace startup with <code>systemd-analyze blame</code> and optimize a slow service.</li>
+        <li>Use <code>perf record</code> + <code>perf report</code> to analyze a CPU-bound program.</li>
+        <li>Explore container isolation by building a small rootfs and running it with <code>chroot</code> vs. a container.</li>
+      </ul>
+    </section>
+
+    <footer class="site-footer">
+      <span>OS Learning Section</span>
+      <span class="footer-credit">Created from video guidance and curated material.</span>
+      <span>Repo: <a href="https://github.com/PriyanshuKSharma/Linux-Practicals" target="_blank" rel="noreferrer">Linux-Practicals</a></span>
+    </footer>
+
+  <script src="assets/js/nav-toggle.js"></script>
+</body>
+</html>
