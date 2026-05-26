@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux For DevOps | One Shot Hindi Notes</title>
+  <meta name="description" content="Multipage Linux and shell scripting notes based on Linux For DevOps In One Shot with hands-on DevOps scripts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Linux Notes home">
+      <span class="brand-mark">lx</span>
+      <span>Linux DevOps Notes</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="siteNav">
+      <svg viewBox="0 0 18 18" aria-hidden="true">
+        <line x1="1" y1="4" x2="17" y2="4"/>
+        <line x1="1" y1="9" x2="17" y2="9"/>
+        <line x1="1" y1="14" x2="17" y2="14"/>
+      </svg>
+    </button>
+    <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
+      <a class="active" href="index.html">Notes</a>
+      <a href="projects.html">Projects</a>
+      <a href="cheat-sheet.html">Cheat Sheet</a>
+      <a href="https://www.youtube.com/watch?v=e01GGTKmtpc" target="_blank" rel="noreferrer">Video</a>
+      <a href="https://github.com/PriyanshuKSharma/Linux-Practicals" target="_blank" rel="noreferrer">Repo</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Linux For DevOps | Complete Practical Course Notes</p>
+      <h1>Learn Linux for DevOps from absolute basics to shell scripting.</h1>
+      <p class="hero-sub">
+        Video-linked notes for system architecture, FHS, permissions, users/groups, SSH networking, process control, systemd services, shell scripting, and crontab automation.
+      </p>
+      <div class="hero-actions">
+        <a class="btn primary" href="note.html?id=intro">Start Notes</a>
+        <a class="btn" href="projects.html">Open Projects</a>
+      </div>
+      <div class="hero-stats" aria-label="Site statistics">
+        <div><strong id="statNotes">19</strong><span>Notes</span></div>
+        <div><strong>6</strong><span>Tracks</span></div>
+        <div><strong>4</strong><span>DevOps Projects</span></div>
+      </div>
+    </div>
+    <div class="hero-illustration" aria-hidden="true">
+      <img src="assets/hero-illustration.png" alt="Linux system automation and DevOps processes system architecture diagram">
+    </div>
+  </section>
+
+  <section class="toolbar" aria-label="Notes search and filters">
+    <label class="search-box" for="searchInput">
+      <span>Search</span>
+      <input id="searchInput" type="search" placeholder="Search Linux DevOps notes..." autocomplete="off">
+    </label>
+    <div class="visible-count"><strong id="visibleCount">19</strong> visible notes</div>
+  </section>
+
+  <div class="filter-bar" id="filterBar" aria-label="Note category filters">
+    <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="foundation">Foundation</button>
+    <button class="filter-btn" data-cat="system-admin">System Admin</button>
+    <button class="filter-btn" data-cat="networking">Networking</button>
+    <button class="filter-btn" data-cat="process-management">Process &amp; Systemd</button>
+    <button class="filter-btn" data-cat="scripting-basics">Shell Scripting</button>
+    <button class="filter-btn" data-cat="advanced-scripting">Advanced Scripting</button>
+  </div>
+
+  <main class="catalog" id="notesCatalog" aria-live="polite"></main>
+
+  <div class="no-results" id="noResults">
+    <div class="empty-mark">0</div>
+    <p>No Linux notes match <strong id="noResultsQuery"></strong>.</p>
+  </div>
+
+  <footer class="site-footer">
+    <span>Linux DevOps One Shot Notes</span>
+    <span class="footer-credit">📺 Notes based on <a href="https://www.youtube.com/watch?v=e01GGTKmtpc" target="_blank" rel="noreferrer">Linux For DevOps In One Shot</a> by <strong>Train With Shubham</strong> on YouTube</span>
+    <span>Created by: <strong>Priyanshu K. Sharma</strong></span>
+    <span>Repo: <a href="https://github.com/PriyanshuKSharma/Linux-Practicals" target="_blank" rel="noreferrer">Linux-Practicals</a></span>
+  </footer>
+
+  <script src="assets/js/linux-notes.js"></script>
+  <script src="assets/js/home.js"></script>
+  <script src="assets/js/nav-toggle.js"></script>
+</body>
+</html>
