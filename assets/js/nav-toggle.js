@@ -9,4 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
       siteNav.classList.toggle('open');
     });
   }
+
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebarNoteList = document.getElementById('sidebarNoteList');
+
+  if (sidebarToggle && sidebarNoteList) {
+    sidebarToggle.addEventListener('click', () => {
+      const expanded = sidebarToggle.getAttribute('aria-expanded') === 'true';
+      sidebarToggle.setAttribute('aria-expanded', !expanded);
+      sidebarNoteList.classList.toggle('open', !expanded);
+    });
+  }
 });
