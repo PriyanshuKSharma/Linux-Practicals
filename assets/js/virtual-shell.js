@@ -21,6 +21,7 @@ class VirtualShell {
     }
     this.historyIndex = -1;
     this.executedScripts = [];
+    this.installedPackages = new Set(["git", "curl", "wget"]);
 
     // Curated initial Virtual File System (VFS)
     this.vfs = {
@@ -826,8 +827,43 @@ MiB Swap:   2048.0 total,   2048.0 free,      0.0 used
         return { stdout: lines.join("\n") + "\n" };
       }
 
-      default:
-        return { stderr: `bash: ${cmd}: command not found (type 'help' for terminal manual)\n` };
+      case "tree": {
+        if (!this.installedPackages.has("tree")) {
+          return { stderr: "bash: tree: command not found (try: apt install tree)\n" };
+        }
+        const target = args[0] ? this.resolvePath(this.currentDir, args[0]) : this.currentDir;
+        if (!this.vfs[target]) {
+          return { stderr: `tree: ${args[0]}: No such file or directory\n` };
+        }
+        if (this.vfs[target].type === "file") {
+          return { stdout: `${args[0]}\n\n0 directories, 1 file\n` };
+        }
+        const treeHtml = this.generateTreeHtml(target);
+        const treePlain = treeHtml.replace(/<[^>]*>/g, "");
+        return { stdout: treePlain, html: treeHtml + "\n" };
+      }
+
+      case "cowsay": {
+        if (!this.installedPackages.has("cowsay")) {
+          return { stderr: "bash: cowsay: command not found (try: apt install cowsay)\n" };
+        }
+        const text = args.join(" ") || "Moo!";
+        const border = "-".repeat(text.length + 2);
+        const speech = ` _${border}_\n< ${text} >\n -${border}-\n        \\   ^__^\n         \\  (oo)\\_______\n            (__)\\       )\\/\\\n                ||----w |\n                ||     ||\n`;
+        return { stdout: speech };
+      }
+
+      default: {
+        const suggestions = {
+          "tree": "try: apt install tree",
+          "cowsay": "try: apt install cowsay",
+          "docker": "try: apt install docker",
+          "nginx": "try: apt install nginx",
+          "ansible": "try: apt install ansible"
+        };
+        const hint = suggestions[cmdLower] ? ` (${suggestions[cmdLower]})` : "";
+        return { stderr: `bash: ${cmd}: command not found${hint} (type 'help' for terminal manual)\n` };
+      }
     }
   }
 
@@ -887,6 +923,7 @@ MiB Swap:   2048.0 total,   2048.0 free,      0.0 used
     
     const drawProgress = () => {
       if (progress > 100) {
+        this.installedPackages.add(pkg.toLowerCase().trim());
         this.writeLine(`Unpacking ${pkg} configurations... Done`);
         this.writeLine(`Setting up binaries and environment libraries... Done`);
         this.writeLine(`[SUCCESS] Package <strong class="highlight-green">${pkg}</strong> has been successfully installed in system path!`, "highlight-green");
@@ -1051,6 +1088,42 @@ MiB Swap:   2048.0 total,   2048.0 free,      0.0 used
     });
 
     this.updateStats();
+  }
+
+  generateTreeHtml(dirPath) {
+    const getChildren = (parentDir) => {
+      return Object.keys(this.vfs).filter(p => {
+        if (p === "/" || p === parentDir) return false;
+        const lastSlash = p.lastIndexOf("/");
+        const parent = p.substring(0, lastSlash) || "/";
+        return parent === parentDir;
+      }).map(p => p.substring(p.lastIndexOf("/") + 1)).sort();
+    };
+
+    const buildTree = (currentDir, prefix = "") => {
+      const children = getChildren(currentDir);
+      let result = "";
+      children.forEach((child, idx) => {
+        const isLast = idx === children.length - 1;
+        const childPath = currentDir === "/" ? `/${child}` : `${currentDir}/${child}`;
+        const isDir = this.vfs[childPath].type === "dir";
+        const colorClass = isDir ? "highlight-blue" : (this.vfs[childPath].permissions.owner.execute ? "highlight-green" : "");
+        
+        let formattedName = child;
+        if (colorClass) {
+          formattedName = `<span class="${colorClass}">${child}</span>`;
+        }
+
+        result += `${prefix}${isLast ? "└── " : "├── "}${formattedName}\n`;
+        if (isDir) {
+          result += buildTree(childPath, prefix + (isLast ? "    " : "│   "));
+        }
+      });
+      return result;
+    };
+
+    const cleanName = dirPath === "/" ? "/" : dirPath.substring(dirPath.lastIndexOf("/") + 1);
+    return `<span class="highlight-blue">${cleanName}</span>\n` + buildTree(dirPath);
   }
 
   escapeHtml(unsafe) {
