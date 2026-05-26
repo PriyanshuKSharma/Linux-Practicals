@@ -14,7 +14,11 @@ class VirtualShell {
     this.currentUser = "devops";
     this.hostname = "linux-sandbox";
     
-    this.history = [];
+    try {
+      this.history = JSON.parse(localStorage.getItem("bash_history")) || [];
+    } catch (e) {
+      this.history = [];
+    }
     this.historyIndex = -1;
     this.executedScripts = [];
 
@@ -360,6 +364,12 @@ echo "[SUCCESS] Package validation complete!"
     if (!rawCmd.trim()) return;
 
     this.history.push(rawCmd);
+    if (this.history.length > 500) {
+      this.history.shift();
+    }
+    try {
+      localStorage.setItem("bash_history", JSON.stringify(this.history));
+    } catch (e) {}
     this.writePromptLine(rawCmd);
 
     // Parse redirections: > (overwrite) and >> (append)
@@ -455,8 +465,9 @@ echo "[SUCCESS] Package validation complete!"
   }
 
   executeCommand(cmd, args) {
+    const cmdLower = cmd.toLowerCase().trim();
     // 1. Script mock executions check (e.g. ./setup_web_server.sh)
-    if (cmd.startsWith("./") || cmd.startsWith("/")) {
+    if (cmdLower.startsWith("./") || cmdLower.startsWith("/")) {
       const scriptAbs = this.resolvePath(this.currentDir, cmd);
       const script = this.vfs[scriptAbs];
       if (script && script.type === "file") {
@@ -471,7 +482,7 @@ echo "[SUCCESS] Package validation complete!"
     }
 
     // 2. Standard interactive utilities routing
-    switch (cmd) {
+    switch (cmdLower) {
       case "help":
         return {
           stdout: `Available utilities:
@@ -501,6 +512,12 @@ echo "[SUCCESS] Package validation complete!"
 
       case "clear":
         this.output.innerHTML = "";
+        if (typeof this.output.replaceChildren === "function") {
+          this.output.replaceChildren();
+        }
+        setTimeout(() => {
+          this.input.focus();
+        }, 50);
         return null;
 
       case "pwd":
@@ -518,8 +535,16 @@ echo "[SUCCESS] Package validation complete!"
       case "date":
         return { stdout: new Date().toString() + "\n" };
 
-      case "history":
+      case "history": {
+        if (args[0] === "-c") {
+          this.history = [];
+          try {
+            localStorage.removeItem("bash_history");
+          } catch (e) {}
+          return { stdout: "History cleared successfully.\n" };
+        }
         return { stdout: this.history.map((h, i) => `  ${i + 1}  ${h}`).join("\n") + "\n" };
+      }
 
       case "cd": {
         const dest = args[0] ? args[0] : `/home/${this.currentUser}`;
