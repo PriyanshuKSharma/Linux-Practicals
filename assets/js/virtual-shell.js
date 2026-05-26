@@ -59,6 +59,7 @@ edit shell configurations, and challenge your scripting skills.
 
 Type "help" to see a list of simulated console utilities.
 Type "challenges" to view your active DevOps objectives list.
+Use "cd /home/devops/scripts/learn" to explore 15 shell scripting lessons.
 `
       },
       "/home/devops/scripts": { type: "dir", permissions: this.defaultPerms(755), owner: "devops", group: "devops" },
@@ -506,6 +507,8 @@ echo "[SUCCESS] Package validation complete!"
   rmdir [path] Remove directories
   cat [path]   Display file contents
   echo [text]  Print text lines to screen
+  echo "line" > file     Write/overwrite a file
+  echo "line" >> file    Append a line to a file
   chmod [bits] Change file permission bits (e.g. +x, 755)
   chown [user] Change file ownership configurations
   grep [pat]   Search text matching regex patterns
@@ -859,6 +862,9 @@ MiB Swap:   2048.0 total,   2048.0 free,      0.0 used
 
       default: {
         const suggestions = {
+          "nano": "use echo redirection: echo \"#!/bin/bash\" > script.sh",
+          "vim": "use echo redirection: echo \"#!/bin/bash\" > script.sh",
+          "vi": "use echo redirection: echo \"#!/bin/bash\" > script.sh",
           "tree": "try: apt install tree",
           "cowsay": "try: apt install cowsay",
           "docker": "try: apt install docker",
@@ -1148,6 +1154,44 @@ MiB Swap:   2048.0 total,   2048.0 free,      0.0 used
     };
 
     const scripts = [
+      {
+        name: "README.md",
+        perms: 644,
+        content: `# Shell Scripting Learning Path
+
+Use these 15 scripts in order, from basic Bash syntax to loops and associative arrays.
+
+Recommended commands:
+  ls -l
+  cat 01_basic.sh
+  ./01_basic.sh
+
+If you want to create your own practice script in this browser sandbox, use echo redirection:
+  echo '#!/bin/bash' > my_script.sh
+  echo 'echo "Practice time"' >> my_script.sh
+  chmod +x my_script.sh
+  ./my_script.sh
+
+Lessons:
+  01_basic.sh              Basic shebang and echo
+  02_comments.sh           Single-line and multi-line comments
+  03_vardemo.sh            Variables and command substitution
+  04_constvar.sh           Readonly variables
+  05_arrays.sh             Indexed arrays and array slicing
+  06_strings.sh            String length, slicing, replace, case conversion
+  07_user_int.sh           User input with read
+  08_arith_ops.sh          Arithmetic operations
+  09_condnal_state.sh      If, elif, else, and nested conditions
+  10_case.sh               Case statements
+  11_logical_ops.sh        AND, OR, and NOT operators
+  12_forloop1.sh           For loops over values and ranges
+  13_forloop2.sh           For loops over arrays
+  14_for_with_array.sh     C-style loop with array indexes
+  15_keyValue.sh           Associative arrays and key-value traversal
+
+Add script 16 onward when you are ready for while loops, functions, arguments, exits, traps, and real automation projects.
+`
+      },
       {
         name: "01_basic.sh",
         perms: 755,

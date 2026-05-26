@@ -897,17 +897,21 @@ const LINUX_NOTES = [
         },
         {
           title: "Execution Workflow",
-          text: "To execute a script:<br>1. Create file: `touch script.sh`<br>2. Add Shebang and code inside using an editor (nano, vim).<br>3. Grant execute permission: `chmod +x script.sh`<br>4. Execute from the current directory: `./script.sh`"
+          text: "To execute a script:<br>1. Open the practice folder: `cd /home/devops/scripts/learn`<br>2. Read a lesson script: `cat 01_basic.sh`<br>3. Grant execute permission if needed: `chmod +x script.sh`<br>4. Execute from the current directory: `./script.sh`<br><br>In this browser sandbox, `nano` and `vim` are not installed. Create your own practice files with `echo` redirection: `echo '#!/bin/bash' > script.sh` and append more lines with `echo 'echo hello' >> script.sh`."
         }
       ],
       commands: [
         {
-          cmd: "echo '#!/bin/bash\\necho \"Hello DevOps!\"' > hello.sh",
-          desc: "Create a simple shell script with shebang and hello output."
+          cmd: "cd /home/devops/scripts/learn",
+          desc: "Open the shell scripting lesson directory. Run ls -l next to list the 15 scripts from basic to advanced."
         },
         {
-          cmd: "chmod +x hello.sh && ./hello.sh",
-          desc: "Add execute permissions and run the script from the current folder."
+          cmd: "echo '#!/bin/bash' > hello.sh",
+          desc: "Create a simple shell script file with the required shebang line."
+        },
+        {
+          cmd: "chmod +x hello.sh",
+          desc: "Add execute permissions. Run ./hello.sh next to execute it from the current folder."
         }
       ]
     }
@@ -924,7 +928,7 @@ const LINUX_NOTES = [
       sections: [
         {
           title: "Variables and Constants",
-          text: "• <strong>Declaration</strong>: Set variables using `key=value` (Do NOT place spaces around the `=` sign, e.g. `name=\"DevOps\"`).<br>• <strong>Access</strong>: Reference values using the dollar sign prefix (`$name` or `${name}`).<br>• <strong>Constant Readonly</strong>: Declare constants that cannot be changed using `readonly`:<br>&nbsp;&nbsp;&nbsp;&nbsp;`readonly VERSION=\"1.0.0\"`"
+          text: "• <strong>Declaration</strong>: Set variables using `key=value` (Do NOT place spaces around the `=` sign, e.g. `name=\"DevOps\"`).<br>• <strong>Access</strong>: Reference values using the dollar sign prefix (`$name` or `\${name}`).<br>• <strong>Constant Readonly</strong>: Declare constants that cannot be changed using `readonly`:<br>&nbsp;&nbsp;&nbsp;&nbsp;`readonly VERSION=\"1.0.0\"`"
         },
         {
           title: "Command Substitution & User Input",
@@ -955,20 +959,20 @@ const LINUX_NOTES = [
       sections: [
         {
           title: "Indexed Arrays",
-          text: "• <strong>Declaration</strong>: `servers=(srv01 srv02 srv03)`<br>• <strong>Access Index</strong>: `${servers[0]}` (indexes start at 0).<br>• <strong>Retrieve All Elements</strong>: `${servers[*]}` or `${servers[@]}`.<br>• <strong>Array Length</strong>: `${#servers[*]}`.<br>• <strong>Array Slicing</strong>: `${servers[*]:1:2}` (Retrieve 2 elements starting at index 1).<br>• <strong>Adding Elements</strong>: `servers+=(srv04 srv05)`."
+          text: "• <strong>Declaration</strong>: `servers=(srv01 srv02 srv03)`<br>• <strong>Access Index</strong>: `\${servers[0]}` (indexes start at 0).<br>• <strong>Retrieve All Elements</strong>: `\${servers[*]}` or `\${servers[@]}`.<br>• <strong>Array Length</strong>: `\${#servers[*]}`.<br>• <strong>Array Slicing</strong>: `\${servers[*]:1:2}` (Retrieve 2 elements starting at index 1).<br>• <strong>Adding Elements</strong>: `servers+=(srv04 srv05)`."
         },
         {
           title: "Associative Arrays (Key-Value)",
-          text: "Requires explicit declaration with `declare -A`:<br>• `declare -A web_config`<br>• `web_config=([port]=8080 [root]=\"/var/www\" [server]=\"nginx\")`<br>• Access values: `${web_config[port]}`."
+          text: "Requires explicit declaration with `declare -A`:<br>• `declare -A web_config`<br>• `web_config=([port]=8080 [root]=\"/var/www\" [server]=\"nginx\")`<br>• Access values: `\${web_config[port]}`."
         }
       ],
       commands: [
         {
-          cmd: "myArray=(A B C D E) && echo \"Length: ${#myArray[*]}\"",
+          cmd: "myArray=(A B C D E) && echo \"Length: \${#myArray[*]}\"",
           desc: "Create an indexed array and print the total number of items inside."
         },
         {
-          cmd: "echo \"Slice: ${myArray[*]:1:3}\"",
+          cmd: "echo \"Slice: \${myArray[*]:1:3}\"",
           desc: "Slice and print elements from index 1 to 3."
         }
       ]
@@ -1657,6 +1661,864 @@ Linux processes have an 'open file descriptors limit' (viewable via <code>ulimit
           cmd: "free -h && df -h",
           desc: "Quickly review active memory capacities and disk mount spaces together."
         }
+      ]
+    }
+  },
+
+  // ════════════════════════════════════════════════════════════
+  //  SHELL SCRIPTING — Scripts 01 → 15
+  // ════════════════════════════════════════════════════════════
+  {
+    id: "shell-01-basic",
+    title: "Shell Scripting #01 — Your First Bash Script",
+    track: "shell-scripting",
+    summary: "Write your very first shell script. Understand the shebang line, how to print output with echo, and how to make a script executable.",
+    readTime: "3 min",
+    videoTimestamp: "",
+    content: {
+      overview: "A shell script is a plain text file containing a sequence of commands the Bash interpreter executes top-to-bottom. Every Bash script starts with a special first line called the <strong>shebang</strong>, which tells the OS exactly which interpreter to use. This is the foundational starting point for all automation work.",
+      sections: [
+        {
+          title: "Script Breakdown — 01_basic.sh",
+          text: `<pre class="code-block">#!/bin/bash
+
+echo "hello World!!"</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:35%;'>Line</th><th>Explanation</th></tr></thead>
+    <tbody>
+      <tr><td><code>#!/bin/bash</code></td><td><strong>Shebang line</strong> — always the very first line. Tells the OS to run this file with the <code>/bin/bash</code> interpreter. Without it, the script may run under the wrong shell.</td></tr>
+      <tr><td><code>echo "hello World!!"</code></td><td>Prints the string to <strong>stdout</strong> (standard output) followed by a newline. The most basic output command in Bash.</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "Creating & Running a Script — Step by Step",
+          text: `To create and execute your own script follow these four steps:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:5%;'>Step</th><th style='width:40%;'>Command</th><th>What it Does</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>echo '#!/bin/bash' &gt; hello.sh</code></td><td>Create the script file with a Bash shebang.</td></tr>
+      <tr><td>2</td><td><code>echo 'echo "Hello World"' &gt;&gt; hello.sh</code></td><td>Append script commands one line at a time.</td></tr>
+      <tr><td>3</td><td><code>chmod +x hello.sh</code></td><td>Grant execute permission so the OS can run it.</td></tr>
+      <tr><td>4</td><td><code>./hello.sh</code></td><td>Run the script from the current directory.</td></tr>
+    </tbody>
+  </table>
+</div>
+<strong>Tip:</strong> This browser sandbox does not include nano or vim, so echo redirection is the built-in way to create practice scripts.`
+        }
+      ],
+      commands: [
+        { cmd: "#!/bin/bash", desc: "Shebang — place as the very first line of every Bash script." },
+        { cmd: "echo \"Hello World\"", desc: "Print text to standard output (stdout)." },
+        { cmd: "chmod +x script.sh", desc: "Make a script executable. Run ./script.sh next." }
+      ]
+    }
+  },
+  {
+    id: "shell-02-comments",
+    title: "Shell Scripting #02 — Comments",
+    track: "shell-scripting",
+    summary: "Document your scripts using single-line and multi-line (heredoc) comments. Learn why commenting is non-negotiable in production scripts.",
+    readTime: "3 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Comments are lines in your script that the Bash interpreter completely ignores. They are written purely for human readers — teammates, future you, or code reviewers. Well-commented scripts are the hallmark of a professional DevOps engineer.",
+      sections: [
+        {
+          title: "Types of Comments in Bash",
+          text: `<pre class="code-block">#!/bin/bash
+
+echo "Checking comments"
+
+# This is a single-line comment
+
+&lt;&lt;comment
+This is a multi-line
+comment block using heredoc syntax
+comment</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:35%;'>Syntax</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td><code># Your comment here</code></td><td><strong>Single-line comment.</strong> The <code>#</code> character makes Bash skip the entire line. The shebang <code>#!/bin/bash</code> is technically a special comment too.</td></tr>
+      <tr><td><code>&lt;&lt;LABEL ... LABEL</code></td><td><strong>Multi-line comment (heredoc trick).</strong> Everything between the two matching labels is treated as a here-document string fed to nothing — effectively ignored. The label name (e.g. <code>comment</code>) is your choice.</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "Commenting Best Practices",
+          text: `Good commenting habits separate maintainable automation from throwaway scripts:<br>
+<ul class='project-steps' style='margin: 1rem 0;'>
+  <li><strong>Comment the "why", not the "what"</strong>: <code># Retry 3 times because API rate-limits at 60 req/min</code> is useful. <code># add 1 to x</code> is noise.</li>
+  <li><strong>Add a header block</strong>: Include script name, author, date, and purpose at the top.</li>
+  <li><strong>Comment before complex logic</strong>: Any loops, conditionals, or pipelines more than 2 lines should have a comment above them.</li>
+  <li><strong>Keep comments updated</strong>: A wrong comment is worse than no comment.</li>
+</ul>`
+        }
+      ],
+      commands: [
+        { cmd: "# Single-line comment", desc: "Bash ignores everything after # on that line." },
+        { cmd: "<<BLOCK\n  multi-line comment\nBLOCK", desc: "Heredoc trick for block comments — nothing is executed between the labels." }
+      ]
+    }
+  },
+  {
+    id: "shell-03-variables",
+    title: "Shell Scripting #03 — Variables",
+    track: "shell-scripting",
+    summary: "Declare and use variables in Bash. Store strings, numbers, and command output. Learn variable expansion and dynamic reassignment.",
+    readTime: "4 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Variables are named containers that store data a script can reference and reuse. Unlike Python or JavaScript, Bash variables are untyped — everything is stored as a string by default. Understanding variable syntax is the most critical foundation for scripting.",
+      sections: [
+        {
+          title: "Variable Syntax Rules",
+          text: `<pre class="code-block">#!/bin/bash
+
+name="Priyanshu Kumar Sharma"
+age="19"
+
+echo "My name is $name and my age is $age"
+
+# Store command output in a variable
+hostname=$(hostname)
+echo "Machine name: $hostname"
+
+# Reassign a variable
+name="Tony Stark"
+echo "Name is now: $name"</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:35%;'>Rule</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>No spaces around <code>=</code></strong></td><td><code>name="Priyanshu"</code> ✅ &nbsp; <code>name = "Priyanshu"</code> ❌ (Bash treats <code>name</code> as a command to run)</td></tr>
+      <tr><td><strong>Access with <code>$</code></strong></td><td>Use <code>$varname</code> or <code>\${varname}</code> to expand a variable's value. The curly-brace form is safer inside complex strings.</td></tr>
+      <tr><td><strong>Command substitution</strong></td><td><code>var=$(command)</code> runs the command and stores its output in <code>var</code>. The modern preferred form — older scripts use backticks <code>\`command\`</code>.</td></tr>
+      <tr><td><strong>Reassignment</strong></td><td>Simply write <code>varname="new_value"</code> again — the old value is overwritten (unless <code>readonly</code>, see Script #04).</td></tr>
+      <tr><td><strong>Quoting</strong></td><td>Use <strong>double quotes</strong> <code>"..."</code> for strings that contain spaces. Single quotes <code>'...'</code> suppress all variable expansion.</td></tr>
+    </tbody>
+  </table>
+</div>`
+        }
+      ],
+      commands: [
+        { cmd: "name=\"Priyanshu\"", desc: "Declare a variable — no spaces around the equals sign." },
+        { cmd: "echo \"Hello $name\"", desc: "Expand variable inside a double-quoted string." },
+        { cmd: "hostname=$(hostname)", desc: "Command substitution — store command output in a variable." },
+        { cmd: "echo \${name}", desc: "Curly-brace expansion — safer form for complex string contexts." }
+      ]
+    }
+  },
+  {
+    id: "shell-04-constvar",
+    title: "Shell Scripting #04 — Constant (Readonly) Variables",
+    track: "shell-scripting",
+    summary: "Use the readonly keyword to declare immutable variables. Understand why constants matter for safe, predictable scripting.",
+    readTime: "3 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Sometimes a variable should never change after being set — database credentials, file paths, API endpoints. The <code>readonly</code> keyword locks a variable so that any attempt to modify it causes the script to throw an error, protecting you from accidental overwrites in large scripts.",
+      sections: [
+        {
+          title: "Declaring Constants with readonly",
+          text: `<pre class="code-block">#!/bin/bash
+
+readonly name="Priyanshu K Sharma"
+echo $name
+
+# Attempting to change a readonly variable:
+name="Sharma"
+# bash: name: readonly variable  ← Error! Script may exit.</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:35%;'>Concept</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><code>readonly varname="value"</code></td><td>Declares the variable and immediately marks it as immutable. Assignment and readonly can be combined in one step.</td></tr>
+      <tr><td>Reassignment attempt</td><td>Bash prints <code>bash: varname: readonly variable</code> and the script exits with a non-zero error code if <code>set -e</code> is active.</td></tr>
+      <tr><td><code>declare -r varname</code></td><td>Alternative syntax — <code>declare -r</code> is equivalent to <code>readonly</code> and is preferred in modern scripts.</td></tr>
+      <tr><td>Naming convention</td><td>By convention, constants are written in <strong>UPPER_SNAKE_CASE</strong>: e.g. <code>readonly MAX_RETRIES=3</code></td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "Real-World DevOps Usage",
+          text: `Constants protect configuration values from accidental mutation inside complex pipelines:<br>
+<pre class="code-block">#!/bin/bash
+readonly DB_HOST="prod-db.internal"
+readonly MAX_CONNECTIONS=50
+readonly LOG_DIR="/var/log/myapp"
+
+# These cannot be changed later — safe to reference everywhere
+echo "Connecting to $DB_HOST with max $MAX_CONNECTIONS connections"</pre>`
+        }
+      ],
+      commands: [
+        { cmd: "readonly API_KEY=\"abc123\"", desc: "Lock a variable as immutable — any reassignment triggers an error." },
+        { cmd: "declare -r MAX_RETRIES=3", desc: "Modern alternative to readonly for declaring constants." },
+        { cmd: "readonly -p", desc: "List all currently declared readonly variables in the shell." }
+      ]
+    }
+  },
+  {
+    id: "shell-05-arrays",
+    title: "Shell Scripting #05 — Arrays",
+    track: "shell-scripting",
+    summary: "Store ordered collections of values in indexed arrays. Access, slice, update, and iterate over array elements.",
+    readTime: "5 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Arrays let you store multiple values under a single variable name, accessing each element by its numeric index (starting at 0). They are essential for processing lists of servers, files, users, or any collection of data inside automation scripts.",
+      sections: [
+        {
+          title: "Array Fundamentals",
+          text: `<pre class="code-block">#!/bin/bash
+
+myArray=(1 2 30.5 Hello "Hey man")
+
+echo "\${myArray[*]}"      # All elements
+echo "\${myArray[0]}"      # Index 0 → 1
+echo "\${myArray[4]}"      # Index 4 → Hey man
+echo "\${#myArray[*]}"     # Length → 5
+echo "\${myArray[*]:2:2}"  # Slice from index 2, take 2
+
+myArray+=(New 30 40)       # Append elements
+echo "\${myArray[*]}"</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:40%;'>Syntax</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>arr=(a b c)</code></td><td>Declare an indexed array with space-separated values.</td></tr>
+      <tr><td><code>\${arr[0]}</code></td><td>Access element at index 0 (zero-based).</td></tr>
+      <tr><td><code>\${arr[*]}</code> or <code>\${arr[@]}</code></td><td>Expand <strong>all elements</strong>. Use <code>[@]</code> in for-loops to correctly handle elements with spaces.</td></tr>
+      <tr><td><code>\${#arr[*]}</code></td><td>Get the <strong>number of elements</strong> (length) of the array.</td></tr>
+      <tr><td><code>\${arr[*]:start:count}</code></td><td><strong>Slice</strong> — extract <code>count</code> elements beginning at <code>start</code>.</td></tr>
+      <tr><td><code>arr+=(x y z)</code></td><td><strong>Append</strong> new elements to the end of the array.</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "Associative Arrays (Key-Value)",
+          text: `Bash also supports associative (key → value) arrays using named keys:<br>
+<pre class="code-block">myArray1=([1]=A [2]=B [3]=C [name]=paul)
+echo "\${myArray1[name]}"   # → paul
+echo "\${myArray1[1]}"      # → A</pre>
+<br><strong>Note:</strong> For fully-typed associative arrays, use <code>declare -A</code> (covered in Script #15).`
+        }
+      ],
+      commands: [
+        { cmd: "arr=(apple banana cherry)", desc: "Declare an indexed array." },
+        { cmd: "echo \${arr[1]}", desc: "Access the second element (index 1)." },
+        { cmd: "echo \${#arr[@]}", desc: "Print the total number of elements." },
+        { cmd: "arr+=(date elderberry)", desc: "Append two new elements to the array." },
+        { cmd: "echo \${arr[@]:1:2}", desc: "Slice: print 2 elements starting at index 1." }
+      ]
+    }
+  },
+  {
+    id: "shell-06-strings",
+    title: "Shell Scripting #06 — String Operations",
+    track: "shell-scripting",
+    summary: "Manipulate strings: measure length, slice substrings, replace text, and convert case — all without external tools.",
+    readTime: "4 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Bash provides rich built-in string manipulation without needing <code>awk</code>, <code>sed</code>, or Python. Understanding these parameter expansion techniques lets you transform filenames, parse outputs, and format data entirely within your scripts.",
+      sections: [
+        {
+          title: "String Manipulation Reference",
+          text: `<pre class="code-block">#!/bin/bash
+
+myVar="Hello World"
+
+echo "\${#myVar}"             # Length → 11
+echo "\${myVar:0:5}"          # Slice → Hello
+echo "\${myVar:6}"            # From index 6 → World
+echo "\${myVar/World/Linux}"  # Replace → Hello Linux
+echo "\${myVar^^}"            # Uppercase → HELLO WORLD
+echo "\${myVar,,}"            # Lowercase → hello world</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:40%;'>Syntax</th><th>Operation</th></tr></thead>
+    <tbody>
+      <tr><td><code>\${#varname}</code></td><td><strong>Length</strong> — returns the number of characters in the string.</td></tr>
+      <tr><td><code>\${var:offset:length}</code></td><td><strong>Substring</strong> — extract <em>length</em> chars starting at <em>offset</em> (0-based). Omit length to get everything from offset to end.</td></tr>
+      <tr><td><code>\${var/find/replace}</code></td><td><strong>Replace first match</strong> — replaces only the first occurrence.</td></tr>
+      <tr><td><code>\${var//find/replace}</code></td><td><strong>Replace all matches</strong> — double slash replaces every occurrence globally.</td></tr>
+      <tr><td><code>\${var^^}</code></td><td><strong>UPPERCASE</strong> all characters.</td></tr>
+      <tr><td><code>\${var,,}</code></td><td><strong>lowercase</strong> all characters.</td></tr>
+      <tr><td><code>\${var^}</code></td><td><strong>Capitalize</strong> only the first character.</td></tr>
+    </tbody>
+  </table>
+</div>`
+        }
+      ],
+      commands: [
+        { cmd: "echo \${#myVar}", desc: "Get the character length of a string variable." },
+        { cmd: "echo \${myVar:0:5}", desc: "Slice the first 5 characters of the string." },
+        { cmd: "echo \${myVar/World/Linux}", desc: "Replace the first occurrence of 'World' with 'Linux'." },
+        { cmd: "echo \${myVar^^}", desc: "Convert entire string to UPPERCASE." },
+        { cmd: "echo \${myVar,,}", desc: "Convert entire string to lowercase." }
+      ]
+    }
+  },
+  {
+    id: "shell-07-user-input",
+    title: "Shell Scripting #07 — User Input with read",
+    track: "shell-scripting",
+    summary: "Accept interactive input from users using the read command. Build interactive menu-driven scripts with prompts and silent password entry.",
+    readTime: "3 min",
+    videoTimestamp: "",
+    content: {
+      overview: "The <code>read</code> command pauses script execution and waits for the user to type a value, then stores it in a variable. This is how interactive shell scripts — like installers, deploy prompts, and configuration wizards — work.",
+      sections: [
+        {
+          title: "Using read for Interactive Input",
+          text: `<pre class="code-block">#!/bin/bash
+
+read -p "Enter your name: " name
+echo "Your name is $name"</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:35%;'>read Flag</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td><code>-p "prompt"</code></td><td>Display a <strong>prompt string</strong> before waiting for input. No newline is added before the cursor.</td></tr>
+      <tr><td><code>-s</code></td><td><strong>Silent mode</strong> — input characters are not echoed. Used for password entry.</td></tr>
+      <tr><td><code>-t N</code></td><td><strong>Timeout</strong> — automatically stop waiting after N seconds.</td></tr>
+      <tr><td><code>-n N</code></td><td><strong>Character limit</strong> — stop reading after exactly N characters (no Enter needed).</td></tr>
+      <tr><td><code>-r</code></td><td><strong>Raw mode</strong> — disable backslash escape interpretation (recommended for file paths).</td></tr>
+      <tr><td><code>-a arrayname</code></td><td>Read space-separated input directly into an <strong>array</strong>.</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "Real-World Example — Deployment Prompt",
+          text: `<pre class="code-block">#!/bin/bash
+read -p "Enter server IP: " SERVER
+read -s -p "Enter deploy password: " PASS
+echo ""   # newline after silent input
+echo "Connecting to $SERVER..."</pre>`
+        }
+      ],
+      commands: [
+        { cmd: "read -p \"Enter username: \" USER", desc: "Display a prompt and store input in $USER." },
+        { cmd: "read -s -p \"Password: \" PASS", desc: "Silent read — characters not shown on screen (for passwords)." },
+        { cmd: "read -t 10 -p \"Continue? [y/n]: \" ans", desc: "Auto-timeout after 10 seconds if no response." },
+        { cmd: "read -r -p \"Enter path: \" filepath", desc: "Raw mode — safely read file paths with backslashes." }
+      ]
+    }
+  },
+  {
+    id: "shell-08-arithmetic",
+    title: "Shell Scripting #08 — Arithmetic Operations",
+    track: "shell-scripting",
+    summary: "Perform integer arithmetic in Bash using let, $(( )) expansion, and expr. Understand why direct * syntax fails.",
+    readTime: "4 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Bash treats all variables as strings by default — you cannot simply write <code>result=$x*$y</code> and expect a numeric answer. You must use one of three arithmetic mechanisms: <code>let</code>, arithmetic expansion <code>$(( ))</code>, or the external <code>expr</code> command. The <code>$(( ))</code> form is the modern standard.",
+      sections: [
+        {
+          title: "Arithmetic Methods Compared",
+          text: `<pre class="code-block">#!/bin/bash
+x=10
+y=3
+
+# Method 1: let
+let mul=$x*$y
+echo "Product: $mul"         # → 30
+
+# Method 2: Arithmetic Expansion (preferred)
+sum=$((x+y))
+echo "Sum: $sum"             # → 13
+diff=$(($x-$y))
+echo "Difference: $diff"     # → 7
+div=$(($x/$y))
+echo "Division: $div"        # → 3  (integer, truncates decimal)</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:35%;'>Method</th><th style='width:30%;'>Syntax</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Arithmetic Expansion</strong></td><td><code>$(( expr ))</code></td><td>✅ <strong>Modern standard.</strong> No spaces required around operators. Supports all arithmetic operators.</td></tr>
+      <tr><td><strong>let</strong></td><td><code>let var=expr</code></td><td>Older style. Works but quoting rules can be tricky.</td></tr>
+      <tr><td><strong>expr</strong></td><td><code>result=$(expr $x + $y)</code></td><td>External command — slow. Requires spaces around operators. Use <code>*</code> as <code>\*</code> to avoid glob expansion.</td></tr>
+    </tbody>
+  </table>
+</div>
+<strong>⚠ Important:</strong> Bash only does <strong>integer arithmetic</strong>. For floating-point, pipe to <code>bc</code>: <code>echo "scale=2; 10/3" | bc</code>`
+        },
+        {
+          title: "All Arithmetic Operators",
+          text: `<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th>Operator</th><th>Operation</th><th>Example</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><code>+</code></td><td>Addition</td><td><code>$((10+3))</code></td><td>13</td></tr>
+      <tr><td><code>-</code></td><td>Subtraction</td><td><code>$((10-3))</code></td><td>7</td></tr>
+      <tr><td><code>*</code></td><td>Multiplication</td><td><code>$((10*3))</code></td><td>30</td></tr>
+      <tr><td><code>/</code></td><td>Integer Division</td><td><code>$((10/3))</code></td><td>3</td></tr>
+      <tr><td><code>%</code></td><td>Modulus (Remainder)</td><td><code>$((10%3))</code></td><td>1</td></tr>
+      <tr><td><code>**</code></td><td>Exponentiation</td><td><code>$((2**8))</code></td><td>256</td></tr>
+    </tbody>
+  </table>
+</div>`
+        }
+      ],
+      commands: [
+        { cmd: "result=$((10 + 5))", desc: "Integer addition using arithmetic expansion (preferred method)." },
+        { cmd: "echo $((100 % 7))", desc: "Modulus — prints the remainder of 100 ÷ 7." },
+        { cmd: "echo \"scale=2; 10/3\" | bc", desc: "Floating-point division using the bc calculator." },
+        { cmd: "((count++))", desc: "Increment a variable using arithmetic context — no $ needed inside (( ))." }
+      ]
+    }
+  },
+  {
+    id: "shell-09-conditionals",
+    title: "Shell Scripting #09 — Conditional Statements (if / elif / else)",
+    track: "shell-scripting",
+    summary: "Control script flow with if, elif, and else blocks. Master numeric and string comparison operators inside [ ] test expressions.",
+    readTime: "5 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Conditional statements allow a script to make decisions — running different code depending on whether a condition is true or false. The Bash <code>if</code> statement evaluates the exit code of a command or a <code>[ test ]</code> expression.",
+      sections: [
+        {
+          title: "if / elif / else Syntax",
+          text: `<pre class="code-block">#!/bin/bash
+
+marks=75
+
+if [ $marks -gt 80 ]; then
+    echo "A grade"
+elif [ $marks -gt 60 ]; then
+    echo "B grade"
+elif [ $marks -gt 40 ]; then
+    echo "C grade"
+else
+    echo "Failed"
+fi</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:35%;'>Numeric Operator</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>-eq</code></td><td>Equal to ( == )</td></tr>
+      <tr><td><code>-ne</code></td><td>Not equal to ( != )</td></tr>
+      <tr><td><code>-gt</code></td><td>Greater than ( &gt; )</td></tr>
+      <tr><td><code>-ge</code></td><td>Greater than or equal to ( &gt;= )</td></tr>
+      <tr><td><code>-lt</code></td><td>Less than ( &lt; )</td></tr>
+      <tr><td><code>-le</code></td><td>Less than or equal to ( &lt;= )</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "String & File Test Operators",
+          text: `<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:35%;'>Operator</th><th>Tests</th></tr></thead>
+    <tbody>
+      <tr><td><code>[ "$a" == "$b" ]</code></td><td>String equality</td></tr>
+      <tr><td><code>[ "$a" != "$b" ]</code></td><td>String inequality</td></tr>
+      <tr><td><code>[ -z "$var" ]</code></td><td>String is <strong>empty</strong> (zero length)</td></tr>
+      <tr><td><code>[ -n "$var" ]</code></td><td>String is <strong>not empty</strong></td></tr>
+      <tr><td><code>[ -f file ]</code></td><td>File exists and is a regular file</td></tr>
+      <tr><td><code>[ -d path ]</code></td><td>Path exists and is a directory</td></tr>
+      <tr><td><code>[ -r file ]</code></td><td>File is readable</td></tr>
+      <tr><td><code>[ -x file ]</code></td><td>File is executable</td></tr>
+    </tbody>
+  </table>
+</div>
+<strong>Tip:</strong> Always quote your variables inside <code>[ ]</code> — e.g. <code>[ "$name" == "admin" ]</code> — to avoid word-splitting errors when the variable is empty.`
+        }
+      ],
+      commands: [
+        { cmd: "if [ $x -eq 10 ]; then echo \"ten\"; fi", desc: "Single-line if statement checking numeric equality." },
+        { cmd: "if [ -f /etc/passwd ]; then echo \"exists\"; fi", desc: "Check if a file exists before reading it." },
+        { cmd: "if [ -z \"$USER\" ]; then echo \"Not set\"; fi", desc: "Check if a variable is empty before using it." }
+      ]
+    }
+  },
+  {
+    id: "shell-10-case",
+    title: "Shell Scripting #10 — Case Statements",
+    track: "shell-scripting",
+    summary: "Replace chains of if-elif with cleaner case statements. Build multi-option menus and handle wildcard fallbacks.",
+    readTime: "4 min",
+    videoTimestamp: "",
+    content: {
+      overview: "The <code>case</code> statement is the Bash equivalent of a switch statement in other languages. It is ideal when you need to match a variable against several possible values — much cleaner than long <code>if-elif</code> chains, especially for interactive menus.",
+      sections: [
+        {
+          title: "Case Statement Structure",
+          text: `<pre class="code-block">#!/bin/bash
+
+echo "Choose: a) Date  b) Time  c) Directory"
+read choice
+
+case $choice in
+    a)
+        echo "Date: $(date +%D)"
+        ;;
+    b)
+        echo "Time: $(date +%T)"
+        ;;
+    c)
+        echo "Dir: $(pwd)"
+        ;;
+    *)
+        echo "Invalid choice"
+        ;;
+esac</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:35%;'>Part</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td><code>case $var in</code></td><td>Begin the statement — <code>$var</code> is the value being matched.</td></tr>
+      <tr><td><code>pattern)</code></td><td>Each pattern ends with a <code>)</code>. The pattern can be a literal string, wildcard, or pipe-separated alternatives.</td></tr>
+      <tr><td><code>;;</code></td><td>Terminates a case block (like <code>break</code> in switch). Required after each block.</td></tr>
+      <tr><td><code>*)</code></td><td>Wildcard — the <strong>default fallback</strong> case, like <code>default:</code> in other languages.</td></tr>
+      <tr><td><code>esac</code></td><td>Closes the case statement (<code>case</code> spelled backwards).</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "Pattern Matching in case",
+          text: `Case patterns support wildcards and alternatives:<br><br>
+<pre class="code-block">case $answer in
+    [Yy]|yes|YES)   echo "Confirmed" ;;
+    [Nn]|no|NO)     echo "Cancelled" ;;
+    [0-9]*)         echo "Numeric input detected" ;;
+    *)              echo "Unrecognised" ;;
+esac</pre>
+<br>
+<code>[Yy]</code> matches either <code>Y</code> or <code>y</code>. The pipe <code>|</code> separates alternative patterns within one branch.`
+        }
+      ],
+      commands: [
+        { cmd: "case $var in\n  a) echo A ;;\n  b) echo B ;;\n  *) echo Other ;;\nesac", desc: "Basic case structure matching variable against patterns." }
+      ]
+    }
+  },
+  {
+    id: "shell-11-logical-ops",
+    title: "Shell Scripting #11 — Logical Operators (&& / || / !)",
+    track: "shell-scripting",
+    summary: "Combine and negate conditions using AND (&&), OR (||), and NOT (!) operators for complex conditional logic.",
+    readTime: "4 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Real-world scripts rarely test just one condition. Logical operators let you combine multiple conditions into a single <code>if</code> statement — checking eligibility, verifying multiple file paths, or guarding against multiple error conditions simultaneously.",
+      sections: [
+        {
+          title: "The Three Logical Operators",
+          text: `<pre class="code-block">#!/bin/bash
+
+age=20
+country="India"
+
+# && — AND: both conditions must be true
+if [ $age -ge 18 ] && [ $country == "India" ]; then
+    echo "Eligible to vote in India"
+fi
+
+# || — OR: at least one condition must be true
+if [ $age -ge 18 ] || [ $country == "India" ]; then
+    echo "Passes at least one check"
+fi
+
+# ! — NOT: negates the condition
+if [ ! $age -ge 18 ]; then
+    echo "Under 18"
+fi</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:20%;'>Operator</th><th style='width:40%;'>Behaviour</th><th>Equivalent</th></tr></thead>
+    <tbody>
+      <tr><td><code>&&</code></td><td>Logical AND — right side only runs if left side succeeds (exit 0).</td><td><code>-a</code> inside <code>[ ]</code></td></tr>
+      <tr><td><code>||</code></td><td>Logical OR — right side only runs if left side fails (non-zero exit).</td><td><code>-o</code> inside <code>[ ]</code></td></tr>
+      <tr><td><code>!</code></td><td>Logical NOT — inverts the exit code of the following expression.</td><td>N/A</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "Short-Circuit Evaluation — DevOps Power Trick",
+          text: `<code>&&</code> and <code>||</code> can be used <em>outside</em> of <code>if</code> statements as one-liners:<br><br>
+<pre class="code-block"># Run deploy ONLY if build succeeds
+./build.sh && ./deploy.sh
+
+# Show error ONLY if mkdir fails
+mkdir /opt/app || echo "ERROR: Could not create directory"
+
+# Safe chained operations — any failure stops the chain
+apt update && apt install -y nginx && systemctl start nginx</pre>
+<br>
+This pattern is widely used in CI/CD pipelines and Docker RUN layers.`
+        }
+      ],
+      commands: [
+        { cmd: "[ $a -gt 0 ] && [ $b -gt 0 ]", desc: "Both conditions must be true (AND)." },
+        { cmd: "[ -f file.sh ] || echo \"Missing!\"", desc: "Print error if file does not exist (OR short-circuit)." },
+        { cmd: "[ ! -d /tmp/build ] && mkdir /tmp/build", desc: "Create directory only if it does not already exist." }
+      ]
+    }
+  },
+  {
+    id: "shell-12-forloop-basic",
+    title: "Shell Scripting #12 — For Loops (Basics)",
+    track: "shell-scripting",
+    summary: "Repeat commands for every item in a list. Iterate over values, strings, and numeric ranges using the for loop.",
+    readTime: "4 min",
+    videoTimestamp: "",
+    content: {
+      overview: "The <code>for</code> loop is the most common looping construct in shell scripting. It cycles through a list of items and executes a block of commands for each one — essential for batch processing servers, files, or configuration values.",
+      sections: [
+        {
+          title: "Three Forms of the for Loop",
+          text: `<pre class="code-block">#!/bin/bash
+
+# Form 1: Explicit list of values
+for i in 1 2 3 4 5; do
+    echo "Number: $i"
+done
+
+# Form 2: List of strings
+for name in Raju Sham Baburao; do
+    echo "Name: $name"
+done
+
+# Form 3: Brace expansion range
+for i in {1..10}; do
+    echo "Range: $i"
+done</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:40%;'>Syntax</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>for var in list</code></td><td>Loop over space-separated values. Each iteration assigns the next value to <code>$var</code>.</td></tr>
+      <tr><td><code>for i in {1..N}</code></td><td>Brace expansion generates a range from 1 to N inclusive.</td></tr>
+      <tr><td><code>for i in {1..10..2}</code></td><td>Range with step — generates 1 3 5 7 9 (step of 2).</td></tr>
+      <tr><td><code>do ... done</code></td><td>Keywords wrapping the loop body — all commands between them execute each iteration.</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "Looping Over Files — Real DevOps Use",
+          text: `<pre class="code-block">#!/bin/bash
+# Deploy all configs in a directory
+for config in /etc/nginx/conf.d/*.conf; do
+    echo "Validating: $config"
+    nginx -t -c "$config"
+done
+
+# Ping a list of servers
+for server in web01 web02 web03; do
+    ping -c 1 "$server" &>/dev/null && echo "$server UP" || echo "$server DOWN"
+done</pre>`
+        }
+      ],
+      commands: [
+        { cmd: "for i in {1..5}; do echo $i; done", desc: "Print numbers 1 through 5 on separate lines." },
+        { cmd: "for f in *.log; do rm \"$f\"; done", desc: "Delete all .log files in the current directory." },
+        { cmd: "for s in server1 server2 server3; do ssh $s 'uptime'; done", desc: "Run uptime command on three remote servers." }
+      ]
+    }
+  },
+  {
+    id: "shell-13-forloop-array",
+    title: "Shell Scripting #13 — For Loops with Arrays",
+    track: "shell-scripting",
+    summary: "Iterate over all elements of an array using for-in loops. Handle elements with spaces correctly using [@] expansion.",
+    readTime: "3 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Combining for loops with arrays is one of the most practical scripting patterns. You populate an array with your data (servers, packages, filenames) and then loop through it — processing each item uniformly.",
+      sections: [
+        {
+          title: "Iterating Over an Array",
+          text: `<pre class="code-block">#!/bin/bash
+
+items=("apple" "banana" "cherry" "date" "elderberry")
+
+for item in "\${items[@]}"; do
+    echo "Fruit: $item"
+done</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:40%;'>Key Point</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Use <code>"\${arr[@]}"</code></strong></td><td>The double-quoted <code>[@]</code> form correctly handles elements that contain spaces — each element is treated as a single word.</td></tr>
+      <tr><td><strong>Avoid <code>\${arr[*]}</code> in loops</strong></td><td><code>[*]</code> joins all elements into a single string split by IFS (usually a space), breaking elements that contain spaces.</td></tr>
+      <tr><td><strong>Iterate with index</strong></td><td>Use <code>for i in "\${!arr[@]}"</code> to loop over indices — gives access to both <code>$i</code> (index) and <code>\${arr[$i]}</code> (value).</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "Looping with Index Access",
+          text: `<pre class="code-block">#!/bin/bash
+
+servers=("web01" "db01" "cache01")
+
+for i in "\${!servers[@]}"; do
+    echo "Server $i: \${servers[$i]}"
+done
+# Output:
+# Server 0: web01
+# Server 1: db01
+# Server 2: cache01</pre>`
+        }
+      ],
+      commands: [
+        { cmd: "for item in \"\${arr[@]}\"; do echo $item; done", desc: "Safe iteration over all array elements, preserving spaces." },
+        { cmd: "for i in \"\${!arr[@]}\"; do echo \"$i: \${arr[$i]}\"; done", desc: "Loop with both index and value access." }
+      ]
+    }
+  },
+  {
+    id: "shell-14-cstyle-for",
+    title: "Shell Scripting #14 — C-Style For Loop with Arrays",
+    track: "shell-scripting",
+    summary: "Use the C-style for((i=0;i<N;i++)) loop to iterate arrays by index. Full control over iteration direction and step size.",
+    readTime: "3 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Bash supports a C-language style <code>for</code> loop using double parentheses <code>(( ))</code>. This gives you explicit control over the counter variable — useful when you need the index value, want to skip elements, iterate backwards, or use a step size other than 1.",
+      sections: [
+        {
+          title: "C-Style For Loop Syntax",
+          text: `<pre class="code-block">#!/bin/bash
+
+myArray=(1 2 3 Hello Hi)
+length=\${#myArray[*]}
+
+for((i=0; i&lt;$length; i++)); do
+    echo "Item [$i]: \${myArray[$i]}"
+done
+
+# Output:
+# Item [0]: 1
+# Item [1]: 2
+# Item [2]: 3
+# Item [3]: Hello
+# Item [4]: Hi</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:35%;'>Part</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>i=0</code></td><td><strong>Initializer</strong> — runs once before the loop begins.</td></tr>
+      <tr><td><code>i&lt;$length</code></td><td><strong>Condition</strong> — checked before each iteration. Loop continues while true.</td></tr>
+      <tr><td><code>i++</code></td><td><strong>Post-step</strong> — runs after each iteration. Can also be <code>i--</code>, <code>i+=2</code>, etc.</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "Advanced Patterns",
+          text: `<pre class="code-block"># Reverse iteration
+for((i=$length-1; i>=0; i--)); do
+    echo "\${myArray[$i]}"
+done
+
+# Step of 2 (every other element)
+for((i=0; i&lt;$length; i+=2)); do
+    echo "\${myArray[$i]}"
+done</pre>`
+        }
+      ],
+      commands: [
+        { cmd: "for((i=0; i<\${#arr[@]}; i++)); do echo \${arr[$i]}; done", desc: "C-style loop iterating an array by index." },
+        { cmd: "for((i=\${#arr[@]}-1; i>=0; i--)); do echo \${arr[$i]}; done", desc: "Reverse iteration over an array." },
+        { cmd: "for((i=1; i<=100; i++)); do echo $i; done", desc: "Print numbers 1 to 100 — C-style counter loop." }
+      ]
+    }
+  },
+  {
+    id: "shell-15-keyvalue",
+    title: "Shell Scripting #15 — Associative Arrays (Key-Value Maps)",
+    track: "shell-scripting",
+    summary: "Use declare -A to create associative arrays that map named keys to values. Iterate over keys and build configuration maps.",
+    readTime: "4 min",
+    videoTimestamp: "",
+    content: {
+      overview: "Associative arrays (also called dictionaries or hash maps) store data as key→value pairs rather than numeric indices. They are ideal for storing structured configuration data — server names mapped to IPs, package names mapped to versions, or user names mapped to roles.",
+      sections: [
+        {
+          title: "Declaring and Using Associative Arrays",
+          text: `<pre class="code-block">#!/bin/bash
+
+declare -A myArray2
+myArray2=([name]=Priyanshu [age]=21 [city]=Paris)
+
+echo "Name: \${myArray2[name]}"    # → Priyanshu
+echo "Age:  \${myArray2[age]}"     # → 21
+echo "City: \${myArray2[city]}"    # → Paris
+
+# Iterate over all key-value pairs
+for key in "\${!myArray2[@]}"; do
+    echo "Key: $key  =>  Value: \${myArray2[$key]}"
+done</pre>
+<br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead><tr><th style='width:40%;'>Syntax</th><th>Operation</th></tr></thead>
+    <tbody>
+      <tr><td><code>declare -A mapname</code></td><td><strong>Required declaration</strong> — you MUST declare associative arrays with <code>declare -A</code> before using them. (Unlike indexed arrays.)</td></tr>
+      <tr><td><code>map=([key]=value)</code></td><td>Assign key-value pairs using the bracket syntax.</td></tr>
+      <tr><td><code>\${map[key]}</code></td><td>Access the value associated with a named key.</td></tr>
+      <tr><td><code>\${!map[@]}</code></td><td>Expand to <strong>all keys</strong> of the associative array.</td></tr>
+      <tr><td><code>\${map[@]}</code></td><td>Expand to <strong>all values</strong> of the associative array.</td></tr>
+      <tr><td><code>map[newkey]="val"</code></td><td>Add or update a single key-value pair dynamically.</td></tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "DevOps Use Case — Server Config Map",
+          text: `<pre class="code-block">#!/bin/bash
+
+declare -A servers
+servers=([web]="192.168.1.10" [db]="192.168.1.20" [cache]="192.168.1.30")
+
+for role in "\${!servers[@]}"; do
+    echo "Pinging $role server at \${servers[$role]}..."
+    ping -c 1 "\${servers[$role]}" &>/dev/null \
+        && echo "  ✓ \${servers[$role]} is UP" \
+        || echo "  ✗ \${servers[$role]} is DOWN"
+done</pre>
+<br>
+<strong>Tip:</strong> Key iteration order in associative arrays is <em>not guaranteed</em> — do not rely on a specific order. If order matters, use an indexed array for keys alongside the associative array.`
+        }
+      ],
+      commands: [
+        { cmd: "declare -A config", desc: "Declare an associative array — required before use." },
+        { cmd: "config[host]=\"localhost\"", desc: "Set a key-value pair in the associative array." },
+        { cmd: "echo \${config[host]}", desc: "Access a value by its named key." },
+        { cmd: "for k in \"\${!config[@]}\"; do echo \"$k=\${config[$k]}\"; done", desc: "Iterate over all key-value pairs." },
+        { cmd: "unset config[host]", desc: "Remove a specific key from the associative array." }
       ]
     }
   }
