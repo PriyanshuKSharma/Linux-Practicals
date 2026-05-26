@@ -232,6 +232,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     noteSidebar.appendChild(listWrapper);
+
+    toggleBtn.addEventListener('click', () => {
+      const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', String(!expanded));
+      listWrapper.classList.toggle('open', !expanded);
+    });
   }
 
   // 3. Render Body Content
