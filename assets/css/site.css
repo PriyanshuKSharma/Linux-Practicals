@@ -683,11 +683,51 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar-note-list {
   display: none;
   flex-direction: column;
-  padding: 1rem 0 0.5rem;
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  width: 100%;
+  max-width: 320px;
+  max-height: 420px;
+  overflow-y: auto;
+  background: rgba(11, 15, 25, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
   gap: 1.25rem;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.15);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+.sidebar-note-list::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-note-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-note-list::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+.sidebar-note-list::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-purple);
+}
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .sidebar-note-list.open {
   display: flex;
+  animation: slideDownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 .sidebar-track-group {
   display: flex;
