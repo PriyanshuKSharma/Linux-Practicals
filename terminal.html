@@ -34,89 +34,73 @@
     </nav>
   </header>
 
-  <main class="playground-layout">
-    <section class="playground-header">
-      <p class="eyebrow">Interactive Shell Playground</p>
-      <h1>Linux Terminal Sandbox &amp; Scripting Practice</h1>
-      <p class="playground-sub">
-        Interact with a fully-functional virtual shell simulator in real-time. Practice filesystem hierarchies, file edits, redirection pipes, and DevOps automations with live state validations.
-      </p>
-    </section>
-
-    <div class="playground-grid">
-      <!-- Left Column: CLI Console -->
-      <div class="terminal-column">
-        <div class="terminal-window">
-          <div class="terminal-header">
-            <div class="terminal-dots">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
-            </div>
-            <div class="terminal-title">bash - devops@linux-sandbox: ~</div>
-            <button class="terminal-maximize-btn" id="terminalMaximize" aria-label="Toggle full-width terminal" title="Toggle full-width terminal">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-              </svg>
-            </button>
-            <div class="terminal-tab">bash</div>
-          </div>
-          <div class="terminal-output" id="terminalOutput"></div>
-          <div class="terminal-input-row">
-            <label class="terminal-prompt" id="terminalPrompt" for="terminalInput"></label>
-            <input class="terminal-input" id="terminalInput" type="text" autocomplete="off" autofocus spellcheck="false" aria-label="Terminal input line">
-            <span class="terminal-caret"></span>
-          </div>
+  <main class="terminal-fullscreen-container">
+    <!-- The Fullscreen Shell Window -->
+    <div class="terminal-window fullscreen-shell">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
         </div>
-        <p class="terminal-hint-bar">
-          💡 Click inside terminal to focus. Press <kbd>Tab</kbd> to autocomplete, and <kbd>↑</kbd>/<kbd>↓</kbd> for command history.
-        </p>
-
-        <!-- Stats Bar -->
-        <div class="hero-stats terminal-stats-bar" id="terminalStats">
-          <div><strong>0 / 5</strong><span>Cleared</span></div>
-          <div><strong>0</strong><span>Ran</span></div>
-          <div><strong>12</strong><span>VFS Nodes</span></div>
+        <div class="terminal-title">bash - devops@linux-sandbox: ~</div>
+        
+        <!-- Compact Stats summary direkt in header -->
+        <div class="header-stats-panel" id="terminalStats">
+          <span>🏆 0 / 5 Cleared</span>
+          <span>⚡ 0 Ran</span>
+          <span>📁 14 Nodes</span>
         </div>
+        
+        <div class="terminal-tab">bash</div>
       </div>
-
-      <!-- Right Column: Interactive Sidebar tabs -->
-      <div class="control-column">
-        <div class="sidebar-tabs">
-          <button class="tab-btn active" id="tabChallengesBtn">🎯 Scripting Challenges</button>
-          <button class="tab-btn" id="tabVfsBtn">📁 File System Visualizer</button>
-        </div>
-
-        <div class="tab-panel active" id="panelChallenges">
-          <div class="challenges-list" id="challengesList"></div>
-        </div>
-
-        <div class="tab-panel" id="panelVfs">
-          <div class="vfs-card">
-            <div class="vfs-header">
-              <span>Virtual File Tree</span>
-              <span class="vfs-muted">Click node to quickly execute cat / cd</span>
-            </div>
-            <div class="vfs-list" id="vfsList"></div>
-          </div>
-        </div>
+      <div class="terminal-output" id="terminalOutput"></div>
+      <div class="terminal-input-row">
+        <label class="terminal-prompt" id="terminalPrompt" for="terminalInput"></label>
+        <input class="terminal-input" id="terminalInput" type="text" autocomplete="off" autofocus spellcheck="false" aria-label="Terminal input line">
+        <span class="terminal-caret"></span>
       </div>
     </div>
-  </main>
 
-  <footer class="site-footer">
-    <span>Linux DevOps One Shot Notes</span>
-    <span class="footer-credit">📺 Notes based on <a href="https://www.youtube.com/watch?v=e01GGTKmtpc" target="_blank" rel="noreferrer">Linux For DevOps In One Shot</a> by <strong>Train With Shubham</strong> on YouTube</span>
-    <span>Created by: <strong>Priyanshu K. Sharma</strong></span>
-    <span>Repo: <a href="https://github.com/PriyanshuKSharma/Linux-Practicals" target="_blank" rel="noreferrer">Linux-Practicals</a></span>
-  </footer>
+    <!-- Floating Target Action Button to open Drawer -->
+    <button class="drawer-toggle-fab" id="drawerToggle" title="Open Challenges &amp; File System Tree" aria-label="Open sidebar panel">
+      🎯
+    </button>
+
+    <!-- Translucent Slide-out Drawer Panel -->
+    <aside class="slide-drawer" id="slideDrawer" aria-label="Playground control panel">
+      <div class="drawer-header">
+        <h2 class="drawer-title">Practice Panel</h2>
+        <button class="drawer-close-btn" id="drawerClose" aria-label="Close panel">✖</button>
+      </div>
+
+      <div class="sidebar-tabs">
+        <button class="tab-btn active" id="tabChallengesBtn">🎯 Scripting Challenges</button>
+        <button class="tab-btn" id="tabVfsBtn">📁 File Tree</button>
+      </div>
+
+      <div class="tab-panel active" id="panelChallenges">
+        <div class="challenges-list" id="challengesList"></div>
+      </div>
+
+      <div class="tab-panel" id="panelVfs">
+        <div class="vfs-card">
+          <div class="vfs-header">
+            <span>Virtual File Tree</span>
+            <span class="vfs-muted">Click node to cd / cat</span>
+          </div>
+          <div class="vfs-list" id="vfsList"></div>
+        </div>
+      </div>
+    </aside>
+  </main>
 
   <script src="assets/js/terminal-challenges.js"></script>
   <script src="assets/js/virtual-shell.js"></script>
   <script src="assets/js/nav-toggle.js"></script>
   <script>
-    // Handles tab switching between Challenges and VFS Visualizer in the sidebar
     document.addEventListener("DOMContentLoaded", () => {
+      // Handles tab switching between Challenges and VFS Visualizer in the drawer
       const tabChallengesBtn = document.getElementById("tabChallengesBtn");
       const tabVfsBtn = document.getElementById("tabVfsBtn");
       const panelChallenges = document.getElementById("panelChallenges");
@@ -138,20 +122,56 @@
         });
       }
 
-      // Handles terminal window maximization
-      const terminalMaximize = document.getElementById("terminalMaximize");
-      const playgroundGrid = document.querySelector(".playground-grid");
-      if (terminalMaximize && playgroundGrid) {
-        terminalMaximize.addEventListener("click", () => {
-          playgroundGrid.classList.toggle("maximized");
-          const isMaximized = playgroundGrid.classList.contains("maximized");
-          terminalMaximize.classList.toggle("active", isMaximized);
-          
-          // Focus input and scroll terminal output to bottom
-          const input = document.getElementById("terminalInput");
-          const output = document.getElementById("terminalOutput");
-          if (input) input.focus();
-          if (output) output.scrollTop = output.scrollHeight;
+      // Handles drawer sliding open/close
+      const drawerToggle = document.getElementById("drawerToggle");
+      const drawerClose = document.getElementById("drawerClose");
+      const slideDrawer = document.getElementById("slideDrawer");
+      const terminalInput = document.getElementById("terminalInput");
+
+      const openDrawer = () => {
+        slideDrawer.classList.add("open");
+        drawerToggle.style.display = "none";
+      };
+
+      const closeDrawer = () => {
+        slideDrawer.classList.remove("open");
+        drawerToggle.style.display = "flex";
+        if (terminalInput) terminalInput.focus();
+      };
+
+      if (drawerToggle && drawerClose && slideDrawer) {
+        drawerToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openDrawer();
+        });
+
+        drawerClose.addEventListener("click", (e) => {
+          e.stopPropagation();
+          closeDrawer();
+        });
+
+        // Close drawer when clicking outside of it
+        document.addEventListener("click", (event) => {
+          if (slideDrawer.classList.contains("open") && 
+              !slideDrawer.contains(event.target) && 
+              event.target !== drawerToggle) {
+            closeDrawer();
+          }
+        });
+
+        // Keyboard shortcuts: Escape closes drawer, Ctrl + M (or Cmd + M) toggles it
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && slideDrawer.classList.contains("open")) {
+            closeDrawer();
+          }
+          if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "m") {
+            e.preventDefault();
+            if (slideDrawer.classList.contains("open")) {
+              closeDrawer();
+            } else {
+              openDrawer();
+            }
+          }
         });
       }
     });

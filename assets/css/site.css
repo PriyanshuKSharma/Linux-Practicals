@@ -1671,3 +1671,238 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ==========================================================================
+   Fullscreen Terminal Layout & Translucent Slide Drawer Styles
+   ========================================================================== */
+
+/* Remove body scrollbars and pin layout when immersive terminal is open */
+body:has(.terminal-fullscreen-container) {
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body:has(.terminal-fullscreen-container) .site-header {
+  flex-shrink: 0;
+}
+
+.terminal-fullscreen-container {
+  flex: 1;
+  width: 100%;
+  height: calc(100vh - 65px); /* Header is approx 65px high */
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  background: var(--bg-primary);
+}
+
+/* Glassmorphic Cyberpunk Fullscreen Shell */
+.fullscreen-shell {
+  flex: 1;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  background: rgba(8, 12, 16, 0.95);
+  box-shadow: none;
+}
+
+.fullscreen-shell .terminal-header {
+  flex-shrink: 0;
+  background: rgba(13, 18, 26, 0.98);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.85rem 1.5rem;
+}
+
+.fullscreen-shell .terminal-output {
+  flex: 1;
+  height: 100% !important;
+  max-height: none !important;
+  padding: 2rem;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.fullscreen-shell .terminal-input-row {
+  flex-shrink: 0;
+  padding: 0.5rem 2rem 2rem;
+  background: transparent;
+}
+
+/* Elegant HUD stats panel in the terminal header */
+.header-stats-panel {
+  margin-left: 8.5rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.header-stats-panel div {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: var(--transition-smooth);
+}
+
+.header-stats-panel div:hover {
+  border-color: var(--accent-teal-glow);
+  background: rgba(0, 229, 255, 0.02);
+  color: var(--text-primary);
+}
+
+.header-stats-panel strong {
+  color: var(--accent-teal);
+  font-weight: 700;
+  text-shadow: 0 0 8px var(--accent-teal-glow);
+}
+
+.header-stats-panel span {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* Floating Action Button (FAB) drawer trigger */
+.drawer-toggle-fab {
+  position: absolute;
+  right: 2rem;
+  bottom: 2.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  z-index: 101;
+  background: linear-gradient(135deg, var(--accent-teal), var(--accent-teal-dark));
+  border: 1px solid var(--accent-teal);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.35);
+  color: var(--text-inverse);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  outline: none;
+}
+
+.drawer-toggle-fab:hover {
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.55);
+}
+
+.drawer-toggle-fab:active {
+  transform: scale(0.95);
+}
+
+/* Translucent Slide-out Drawer Panel */
+.slide-drawer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 420px;
+  max-width: 90vw;
+  background: rgba(10, 14, 20, 0.92);
+  border-left: 1px solid var(--border-color);
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 102;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.slide-drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(13, 18, 26, 0.7);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.drawer-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.drawer-close-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.drawer-close-btn:hover {
+  color: var(--accent-pink);
+  border-color: rgba(255, 0, 127, 0.3);
+  background: rgba(255, 0, 127, 0.05);
+}
+
+/* Slide drawer tabs & panel structures */
+.slide-drawer .sidebar-tabs {
+  flex-shrink: 0;
+  background: rgba(8, 12, 16, 0.5);
+}
+
+.slide-drawer .tab-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  scrollbar-width: thin;
+}
+
+.slide-drawer .challenges-list {
+  max-height: none; /* Let the container scroll natively */
+  padding-right: 0.5rem;
+}
+
+.slide-drawer .vfs-list {
+  max-height: none; /* Let the container scroll natively */
+}
+
+/* Keep header-stats-panel alignment responsive and hide overflowing items if screen gets extremely small */
+@media (max-width: 768px) {
+  .header-stats-panel {
+    display: none;
+  }
+  .slide-drawer {
+    width: 100%;
+  }
+  .fullscreen-shell .terminal-output {
+    padding: 1.25rem;
+  }
+  .fullscreen-shell .terminal-input-row {
+    padding: 0.5rem 1.25rem 1.5rem;
+  }
+  .drawer-toggle-fab {
+    right: 1.25rem;
+    bottom: 1.75rem;
+  }
+}
+
