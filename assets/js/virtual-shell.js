@@ -395,6 +395,7 @@ echo "[SUCCESS] Package validation complete!"
     const baseCmd = args[0];
     let outputBuffer = "";
     let errorBuffer = "";
+    let htmlBuffer = "";
 
     // Command Dispatcher
     try {
@@ -402,6 +403,7 @@ echo "[SUCCESS] Package validation complete!"
       if (result) {
         outputBuffer = result.stdout || "";
         errorBuffer = result.stderr || "";
+        htmlBuffer = result.html || "";
       }
     } catch (e) {
       errorBuffer = `shell error: internal crash executing '${baseCmd}'\n`;
@@ -444,7 +446,11 @@ echo "[SUCCESS] Package validation complete!"
       if (errorBuffer) {
         this.writeLine(errorBuffer, "terminal-msg-error");
       }
-      if (outputBuffer) {
+      if (htmlBuffer) {
+        // If pre-formatted htmlBuffer is returned, render it directly
+        const formatted = htmlBuffer.replace(/\n/g, "<br>");
+        this.writeLine(formatted);
+      } else if (outputBuffer) {
         // Convert newlines to HTML line breaks
         const formatted = this.escapeHtml(outputBuffer).replace(/\n/g, "<br>");
         this.writeLine(formatted);
@@ -585,7 +591,8 @@ echo "[SUCCESS] Package validation complete!"
           return parent === targetPath;
         });
 
-        let outputLines = [];
+        let plainLines = [];
+        let htmlLines = [];
         if (showHidden) {
           children.unshift(targetPath + "/..");
           children.unshift(targetPath + "/.");
@@ -602,14 +609,25 @@ echo "[SUCCESS] Package validation complete!"
             const permStr = this.permsToString(item.type, item.permissions);
             const colorClass = item.type === "dir" ? "highlight-blue" : (item.permissions.owner.execute ? "highlight-green" : "");
             const coloredName = colorClass ? `<span class="${colorClass}">${name}</span>` : name;
-            outputLines.push(`${permStr} 1 ${item.owner} ${item.group} ${size} May 26 06:30 ${coloredName}`);
+            
+            plainLines.push(`${permStr} 1 ${item.owner} ${item.group} ${size} May 26 06:30 ${name}`);
+            htmlLines.push(`${permStr} 1 ${item.owner} ${item.group} ${size} May 26 06:30 ${coloredName}`);
           } else {
             const colorClass = item.type === "dir" ? "highlight-blue" : (item.permissions.owner.execute ? "highlight-green" : "");
-            outputLines.push(colorClass ? `<span class="${colorClass}">${name}</span>` : name);
+            const coloredName = colorClass ? `<span class="${colorClass}">${name}</span>` : name;
+            
+            plainLines.push(name);
+            htmlLines.push(coloredName);
           }
         }
 
-        return { stdout: outputLines.join(isLong ? "\n" : "   ") + (isLong ? "\n" : "\n\n") };
+        const separator = isLong ? "\n" : "   ";
+        const suffix = isLong ? "\n" : "\n\n";
+
+        return { 
+          stdout: plainLines.join(separator) + suffix,
+          html: htmlLines.join(separator) + suffix
+        };
       }
 
       case "cat": {
