@@ -1447,5 +1447,217 @@ Linux processes have an 'open file descriptors limit' (viewable via <code>ulimit
         }
       ]
     }
+  },
+  {
+    id: "os-history",
+    title: "Linux Evolution, FHS Comparisons & Shell Auditing",
+    track: "foundation",
+    summary: "Learn the history of UNIX and Linux, comparisons with Windows, distributions list, and essential user auditing utilities.",
+    readTime: "6 min",
+    videoTimestamp: "e01GGTKmtpc&t=17000s",
+    content: {
+      overview: "Linux was written from scratch in 1991 by Linus Torvalds to provide a free Unix-like system. Today, it operates as a combined effort with Richard Stallman's GNU free utilities, creating the GNU/Linux distribution families. Understanding its history and comparison to commercial OS architectures clarifies why Linux powers active DevOps servers globally.",
+      sections: [
+        {
+          title: "The Unix & Linux History Roadmap",
+          text: `The family tree of modern computing arose from research constraints:<br>
+<ul class='project-steps' style='margin: 1rem 0;'>
+  <li><strong>UNIX (1969)</strong>: Dennis Ritchie and Ken Thompson created UNICS / UNIX at AT&T Bell Labs after the Multics project fail. They released it as open-source, which quickly gained popularity.</li>
+  <li><strong>Commercialization</strong>: In the late 70s, commercialized 'flavors' of UNIX emerged (IBM AIX, HP-UX, Sun Solaris, MacOS), locking the source code and costing thousands of dollars.</li>
+  <li><strong>GNU Project (1983)</strong>: Richard Stallman launched the Free Software Movement to compile a completely free Unix-compatible software suite.</li>
+  <li><strong>Linux Kernel (1991)</strong>: Linus Torvalds (a student in Helsinki doing MINIX research) built a free kernel from scratch. Collaborating with GNU's software suite spawned the full <strong>GNU/Linux Operating System</strong>.</li>
+</ul>`
+        },
+        {
+          title: "Comparative Matrix: Linux vs Windows",
+          text: `Linux and Windows operate under divergent design philosophies, file systems, and command standards:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Property</th>
+        <th style='width: 38%;'>Linux System Architecture</th>
+        <th style='width: 37%;'>Windows OS Architecture</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Open Source</strong></td>
+        <td>100% Free Open-Source. Code is viewable and modifiable globally.</td>
+        <td>Proprietary closed-source. Requires costly licensing fees per host.</td>
+      </tr>
+      <tr>
+        <td><strong>Path Separator</strong></td>
+        <td>Uses the Forward Slash (<code>/</code>) (e.g. <code>/var/log</code>).</td>
+        <td>Uses the Backslash (<code>\\</code>) (e.g. <code>C:\\Windows</code>).</td>
+      </tr>
+      <tr>
+        <td><strong>Case-Sensitivity</strong></td>
+        <td>Fully Case-Sensitive. <code>index.html</code> and <code>INDEX.HTML</code> are unique files.</td>
+        <td>Case-Insensitive. Cannot have files with conflicting casing in one folder.</td>
+      </tr>
+      <tr>
+        <td><strong>Accounts Model</strong></td>
+        <td>Three types: 1. Regular, 2. Root (Superuser), 3. Service accounts.</td>
+        <td>Four types: 1. Administrator, 2. Standard, 3. Child, 4. Guest.</td>
+      </tr>
+      <tr>
+        <td><strong>Core Performance</strong></td>
+        <td>Extremely lightweight, stable, runs headless (CLI) with minimal RAM.</td>
+        <td>Heavy graphic-interface GUI reliance, higher RAM consumption.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "System & Active User Auditing Utilities",
+          text: `DevOps system logging requires immediate tracking of active logins, uptime health, and loads. These commands are essential:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 20%;'>Command</th>
+        <th style='width: 40%;'>Action Details</th>
+        <th style='width: 40%;'>DevOps Scenario / Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>whoami</code></td>
+        <td>Display the username of the current active terminal owner.</td>
+        <td>Verify shell privilege levels inside scripts before actions.</td>
+      </tr>
+      <tr>
+        <td><code>who</code></td>
+        <td>Identify which users are currently logged into separate TTY terminals.</td>
+        <td>Audits external team login states on shared deploy hosts.</td>
+      </tr>
+      <tr>
+        <td><code>w</code></td>
+        <td>Displays active logins (like 'who') but appends CPU uptime and load ratios.</td>
+        <td>Combines login auditing with quick system capacity analysis.</td>
+      </tr>
+      <tr>
+        <td><code>uptime</code></td>
+        <td>Query length of time system has been active without rebooting.</td>
+        <td>Monitors server stability. Displays 1, 5, and 15-minute CPU loads.</td>
+      </tr>
+      <tr>
+        <td><code>alias</code></td>
+        <td>Configure nickname shortcuts for lengthy shell commands.</td>
+        <td>Define build shortcuts (e.g. <code>alias deploy='./gradlew bootRun'</code>).</td>
+      </tr>
+      <tr>
+        <td><code>man</code></td>
+        <td>Display the interactive system reference manual for a command.</td>
+        <td>Syntax verification (e.g. <code>man systemctl</code>).</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
+        }
+      ],
+      commands: [
+        {
+          cmd: "w",
+          desc: "Audit currently logged-in users, active shell terminals, and load averages."
+        },
+        {
+          cmd: "uptime",
+          desc: "Display system runtime statistics, active user counts, and 1/5/15-minute load averages."
+        },
+        {
+          cmd: "alias ll='ls -la'",
+          desc: "Register a shortcut nickname for a verbose directory listing command."
+        }
+      ]
+    }
+  },
+  {
+    id: "devops-troubleshooting",
+    title: "DevOps Troubleshooting & SSH Security Guide",
+    track: "process-management",
+    summary: "Step-by-step diagnostic workflows for server slowness, full storage drives, non-starting daemons, and host security policies.",
+    readTime: "6 min",
+    videoTimestamp: "e01GGTKmtpc&t=18000s",
+    content: {
+      overview: "Troubleshooting unresponsive services and securing SSH interfaces are core responsibilities for DevOps engineers. This guide compiles industry-standard resolution protocols based on typical high-stakes system failures.",
+      sections: [
+        {
+          title: "1. Diagnostic Workflow: Server Running Slow",
+          text: `When application latency spikes or server nodes become sluggish, follow this step-by-step resolution path:<br>
+<ul class='project-steps' style='margin: 1rem 0;'>
+  <li><strong>Check CPU Load</strong>: Execute <code>uptime</code> to inspect load averages. If ratios exceed total cores (e.g. load of 8 on a 4-core CPU), the processor is bottlenecked.</li>
+  <li><strong>Identify Spikers</strong>: Run <code>top</code> or <code>htop</code>. Press 'P' to sort by CPU usage to locate rogue processes.</li>
+  <li><strong>Audit Memory & Swapping</strong>: Run <code>free -h</code>. If 'available' memory is near zero and swap usage is high, the system is 'thrashing' (constantly reading/writing swap files to disk), causing slowness.</li>
+  <li><strong>Check Disk I/O Wait</strong>: Run <code>vmstat 1 5</code>. Inspect the <code>wa</code> (I/O wait) column under CPU. If it is consistently high (e.g., >20%), the server is throttled by slow disk read/writes.</li>
+</ul>`
+        },
+        {
+          title: "2. Diagnostic Workflow: Disk Space Is 100% Full",
+          text: `A full disk partition blocks new log writing and database inserts, instantly crashing services. Recover using this checklist:<br>
+<ul class='project-steps' style='margin: 1rem 0;'>
+  <li><strong>Find Mount Point</strong>: Run <code>df -h</code> to identify which mount point (e.g. <code>/</code>, <code>/var</code>) is at 100%.</li>
+  <li><strong>Isolate Heavy Directories</strong>: Run <code>sudo du -sh /* 2>/dev/null | sort -h</code> to find which top-level folders consume the most space. Repeat in deep subfolders.</li>
+  <li><strong>Locate Large Files</strong>: Search specifically for files exceeding 100MB: <code>find / -type f -size +100M -exec ls -lh {} \\; 2>/dev/null</code>.</li>
+  <li><strong>Safe Space Recovery</strong>: Do NOT delete active application logs using <code>rm</code> (processes keep the file descriptor open, retaining the disk blocks in memory). Instead, truncate the file safely: <code>&gt; /var/log/heavy_app.log</code>.</li>
+</ul>`
+        },
+        {
+          title: "3. Hardening SSH Connections Security",
+          text: `SSH is the primary target for server brute-force scans. Implement these configurations inside <code>/etc/ssh/sshd_config</code> to secure remote server networks:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 30%;'>SSH Hardening Policy</th>
+        <th style='width: 35%;'>Configuration Directive</th>
+        <th style='width: 35%;'>Security Impact Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Disable Password Logins</strong></td>
+        <td><code>PasswordAuthentication no</code></td>
+        <td>Enforces key-based private logins, rendering brute-force attacks completely ineffective.</td>
+      </tr>
+      <tr>
+        <td><strong>Disable Root Logins</strong></td>
+        <td><code>PermitRootLogin no</code></td>
+        <td>Blocks direct root login. Admins must log in as regular users and use <code>sudo</code>, generating trail audit logs.</td>
+      </tr>
+      <tr>
+        <td><strong>Move Default Port</strong></td>
+        <td><code>Port 2222</code> (e.g.)</td>
+        <td>Changes port from default 22 to block 99% of automated mass-internet script scans.</td>
+      </tr>
+      <tr>
+        <td><strong>Limit Allowed Users</strong></td>
+        <td><code>AllowUsers priyanshu jenkins</code></td>
+        <td>Explicitly lists only authorized users permitted to log in, dropping connection attempts for others.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<strong>Important</strong>: Always run <code>sudo sshd -t</code> to verify sshd config syntax before restarting services. A syntax error will lock you out of the server on your next connection!`
+        }
+      ],
+      commands: [
+        {
+          cmd: "find /var/log -type f -size +100M",
+          desc: "Search specifically for files exceeding 100MB inside the logs directory tree."
+        },
+        {
+          cmd: "sudo sshd -t",
+          desc: "Validate the syntax of the SSH configuration file to prevent remote administration lockouts."
+        },
+        {
+          cmd: "free -h && df -h",
+          desc: "Quickly review active memory capacities and disk mount spaces together."
+        }
+      ]
+    }
   }
 ];
