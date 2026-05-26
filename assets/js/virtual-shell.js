@@ -1082,6 +1082,17 @@ MiB Swap:   2048.0 total,   2048.0 free,      0.0 used
           this.input.value = `cat ${p}`;
         }
         this.input.focus();
+
+        // Auto-close slide drawer on click ONLY on smaller screens (width <= 768px) where the drawer covers the full screen.
+        // On wider viewports, keep the drawer open so users can easily browse multiple files/folders continuously!
+        if (document.body.classList.contains("terminal-maximized-active") && window.innerWidth <= 768) {
+          const controlColumn = document.getElementById("controlColumn");
+          const drawerToggle = document.getElementById("drawerToggle");
+          if (controlColumn && drawerToggle) {
+            controlColumn.classList.remove("drawer-open");
+            drawerToggle.style.display = "flex";
+          }
+        }
       });
 
       listNode.appendChild(li);

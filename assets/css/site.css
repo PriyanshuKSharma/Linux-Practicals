@@ -1716,10 +1716,38 @@ body.terminal-maximized-active .site-footer {
   background: rgba(8, 12, 16, 0.98);
 }
 
+/* Centering containers inside standard elements */
+.terminal-header-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition-smooth);
+}
+
+.terminal-input-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition-smooth);
+}
+
+/* Restrict maximum width and center content of maximized full-screen elements */
+.terminal-window.maximized .terminal-header-container,
+.terminal-window.maximized .terminal-output,
+.terminal-window.maximized .terminal-input-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
 .terminal-window.maximized .terminal-header {
   flex-shrink: 0;
   border-radius: 0;
-  padding: 0.85rem 1.5rem;
+  padding: 0.85rem 0; /* vertical padding only, horizontal alignment is handled by contained container */
   background: rgba(13, 18, 26, 0.99);
 }
 
@@ -1727,14 +1755,15 @@ body.terminal-maximized-active .site-footer {
   flex: 1;
   height: 100% !important;
   max-height: none !important;
-  padding: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   overflow-y: auto;
   scrollbar-gutter: stable;
 }
 
 .terminal-window.maximized .terminal-input-row {
   flex-shrink: 0;
-  padding: 0.5rem 2rem 2rem;
+  padding: 0.5rem 0 2rem;
   background: transparent;
 }
 
@@ -1806,9 +1835,15 @@ body.terminal-maximized-active .control-column.drawer-open {
 }
 
 body.terminal-maximized-active .control-column .tab-panel {
-  flex: 1;
+  display: none; /* keep hidden by default in drawer mode */
   overflow-y: auto;
   padding: 1.5rem;
+}
+
+body.terminal-maximized-active .control-column .tab-panel.active {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 body.terminal-maximized-active .control-column .challenges-list,
