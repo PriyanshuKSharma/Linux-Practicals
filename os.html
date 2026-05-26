@@ -69,7 +69,17 @@
 
     <section id="architecture" class="concept-block">
       <h2>OS Architecture (ASCII)</h2>
-        <pre class="ascii-diagram">
+      <div class="code-card">
+        <div class="code-card-header">
+          <div class="code-card-dots">
+            <span class="code-card-dot"></span>
+            <span class="code-card-dot"></span>
+            <span class="code-card-dot"></span>
+          </div>
+          <span class="code-card-label">ASCII Diagram</span>
+        </div>
+        <div class="code-card-body">
+          <pre class="ascii-diagram" style="background: transparent; border: none; margin: 0; padding: 0;">
   +-------------------------------------------------------------+
   |                     User Space / Applications               |
   |  Shells, GUIs, Daemons, Containers, User Apps, Libraries    |
@@ -83,7 +93,9 @@
   |                           Hardware                          |
   |  CPU(s), Memory (RAM), Disks, NICs, Devices                 |
   +-------------------------------------------------------------+
-      </pre>
+          </pre>
+        </div>
+      </div>
       <p>Below is a simple visual (SVG) diagram that highlights logical layers.</p>
       <div style="text-align:center; margin: 1rem 0;">
         <img src="assets/img/os-architecture.svg" alt="OS architecture diagram" style="max-width:640px; width:100%; height:auto; border-radius:8px;">
