@@ -41,18 +41,25 @@
       <p>A structured OS learning path derived from recommended video resources, with diagrams, examples, and exercises.</p>
     </header>
 
-    <aside class="nav-panel" aria-label="OS Core Learning">
-      <h3>OS Core Learning</h3>
-      <ul>
-        <li><a href="#intro">1. Introduction &amp; Architecture</a></li>
-        <li><a href="#process">2. Process Management &amp; Threads</a></li>
-        <li><a href="#scheduling">3. CPU Scheduling Algorithms</a></li>
-        <li><a href="#sync">4. Process Synchronization &amp; Classical Problems</a></li>
-        <li><a href="#deadlock">5. Deadlocks</a></li>
-        <li><a href="#memory">6. Memory Management &amp; Paging</a></li>
-        <li><a href="#virtual">7. Virtual Memory &amp; Storage</a></li>
-      </ul>
-    </aside>
+    <div class="note-sidebar" id="noteSidebar">
+      <button class="note-sidebar-toggle" id="sidebarToggle" aria-expanded="false" aria-controls="sidebarNoteList">
+        OS Core Learning 
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="2 5 7 10 12 5"></polyline></svg>
+      </button>
+      <div id="sidebarNoteList" class="sidebar-note-list">
+        <div class="sidebar-track-group">
+          <ul class="sidebar-list">
+            <li><a href="#intro">1. Introduction &amp; Architecture</a></li>
+            <li><a href="#process">2. Process Management &amp; Threads</a></li>
+            <li><a href="#scheduling">3. CPU Scheduling Algorithms</a></li>
+            <li><a href="#sync">4. Process Synchronization &amp; Classical Problems</a></li>
+            <li><a href="#deadlock">5. Deadlocks</a></li>
+            <li><a href="#memory">6. Memory Management &amp; Paging</a></li>
+            <li><a href="#virtual">7. Virtual Memory &amp; Storage</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
     <section id="intro" class="concept-block">
       <h2>Quick Orientation</h2>
