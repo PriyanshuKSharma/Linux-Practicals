@@ -963,6 +963,7 @@ h1, h2, h3, h4, h5, h6 {
   }
   .hero-illustration {
     margin-top: 1.25rem;
+    align-self: center;
     justify-content: center; /* Center on small screens */
     max-width: 320px;
   }
