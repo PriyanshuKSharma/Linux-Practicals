@@ -188,17 +188,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. Render Sidebar Index
   if (noteSidebar) {
-    // Group notes by track
     const tracksGrouped = {};
     LINUX_NOTES.forEach(n => {
-      if (!tracksGrouped[n.track]) {
-        tracksGrouped[n.track] = [];
-      }
+      if (!tracksGrouped[n.track]) tracksGrouped[n.track] = [];
       tracksGrouped[n.track].push(n);
     });
 
-    // Generate Sidebar HTML
-    noteSidebar.innerHTML = '';
+    // Toggle button (visible only on mobile)
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'note-sidebar-toggle';
+    toggleBtn.id = 'sidebarToggle';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.setAttribute('aria-controls', 'sidebarNoteList');
+    toggleBtn.innerHTML = `All Notes <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="2 5 7 10 12 5"></polyline></svg>`;
+    noteSidebar.appendChild(toggleBtn);
+
+    // Collapsible list wrapper
+    const listWrapper = document.createElement('div');
+    listWrapper.id = 'sidebarNoteList';
+    listWrapper.className = 'sidebar-note-list';
+
     Object.keys(tracksGrouped).forEach(trackKey => {
       const groupDiv = document.createElement('div');
       groupDiv.className = 'sidebar-track-group';
@@ -213,15 +222,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
       tracksGrouped[trackKey].forEach(n => {
         const li = document.createElement('li');
-        if (n.id === note.id) {
-          li.className = 'active';
-        }
+        if (n.id === note.id) li.className = 'active';
         li.innerHTML = `<a href="note.html?id=${n.id}">${n.title}</a>`;
         uList.appendChild(li);
       });
 
       groupDiv.appendChild(uList);
-      noteSidebar.appendChild(groupDiv);
+      listWrapper.appendChild(groupDiv);
+    });
+
+    noteSidebar.appendChild(listWrapper);
+
+    toggleBtn.addEventListener('click', () => {
+      const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', String(!expanded));
+      listWrapper.classList.toggle('open', !expanded);
     });
   }
 
