@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Notes | Linux For DevOps</title>
+  <meta name="description" content="Detailed visual notes for Linux systems administration, DevOps practicals, and Shell scripting.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Linux Notes home">
+      <span class="brand-mark">lx</span>
+      <span>Linux DevOps Notes</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="siteNav">
+      <svg viewBox="0 0 18 18" aria-hidden="true">
+        <line x1="1" y1="4" x2="17" y2="4"/>
+        <line x1="1" y1="9" x2="17" y2="9"/>
+        <line x1="1" y1="14" x2="17" y2="14"/>
+      </svg>
+    </button>
+    <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
+      <a href="index.html">Notes</a>
+      <a href="projects.html">Projects</a>
+      <a href="cheat-sheet.html">Cheat Sheet</a>
+      <a id="navVideoLink" href="https://www.youtube.com/watch?v=e01GGTKmtpc" target="_blank" rel="noreferrer">Video</a>
+      <a href="https://github.com/PriyanshuKSharma/Linux-Practicals" target="_blank" rel="noreferrer">Repo</a>
+    </nav>
+  </header>
+
+  <main class="note-view-container">
+    <aside class="note-sidebar" id="noteSidebar" aria-label="Course chapters index"></aside>
+
+    <article class="note-content-wrapper">
+      <nav class="breadcrumbs" aria-label="Breadcrumb navigation">
+        <a href="index.html">Notes</a> &gt;
+        <span id="breadcrumbTrack">Track</span> &gt;
+        <span id="breadcrumbTitle">Chapter</span>
+      </nav>
+
+      <header class="note-header">
+        <div class="note-header-meta">
+          <span class="card-track" id="noteHeaderTrack">Track</span>
+          <span class="card-read-time" id="noteHeaderReadTime">Reading Time</span>
+          <a class="video-timestamp-btn" id="videoLinkBtn" href="#" target="_blank" rel="noreferrer" aria-label="Watch video timestamp explanation on YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11C4.482 20.455 12 20.455 12 20.455s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            <span>Watch Timestamp</span>
+          </a>
+        </div>
+        <h1 id="noteTitle">Chapter Title</h1>
+      </header>
+
+      <div class="content-section" id="noteBody">
+        <!-- Dynamically rendered content goes here -->
+      </div>
+
+      <nav class="note-pagination" aria-label="Pagination navigation">
+        <a class="pag-btn prev" id="pagPrev" href="#">
+          <span class="pag-label">Previous Note</span>
+          <span class="pag-title" id="pagPrevTitle">Intro</span>
+        </a>
+        <a class="pag-btn next" id="pagNext" href="#">
+          <span class="pag-label">Next Note</span>
+          <span class="pag-title" id="pagNextTitle">FHS Structure</span>
+        </a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <span>Linux DevOps One Shot Notes</span>
+    <span class="footer-credit">📺 Notes based on <a href="https://www.youtube.com/watch?v=e01GGTKmtpc" target="_blank" rel="noreferrer">Linux For DevOps In One Shot</a> by <strong>Train With Shubham</strong> on YouTube</span>
+    <span>Created by: <strong>Priyanshu K. Sharma</strong></span>
+    <span>Repo: <a href="https://github.com/PriyanshuKSharma/Linux-Practicals" target="_blank" rel="noreferrer">Linux-Practicals</a></span>
+  </footer>
+
+  <script src="assets/js/linux-notes.js"></script>
+  <script src="assets/js/note.js"></script>
+  <script src="assets/js/nav-toggle.js"></script>
+</body>
+</html>
