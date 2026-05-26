@@ -1278,5 +1278,174 @@ const LINUX_NOTES = [
         }
       ]
     }
+  },
+  {
+    id: "os-core",
+    title: "Linux OS Core: Kernel, Inodes & Syscalls",
+    track: "foundation",
+    summary: "Explore Operating System internals: Kernel vs User Space, System Calls, File Descriptors, Inodes, and Links.",
+    readTime: "6 min",
+    videoTimestamp: "e01GGTKmtpc&t=15000s",
+    content: {
+      overview: "The operating system coordinates resource allocation between applications and physical hardware. Understanding how Linux abstracts resources via Inodes, File Descriptors, and System Calls is vital for cloud engineering and troubleshooting pipelines.",
+      sections: [
+        {
+          title: "Kernel Space vs User Space",
+          text: `To protect the system stability and prevent hardware corruption, memory is partitioned into two distinct security privilege levels:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Privilege Level</th>
+        <th style='width: 35%;'>Security Ring Access</th>
+        <th style='width: 40%;'>DevOps Components & Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Kernel Space</strong></td>
+        <td>Ring 0 (Most privileged). Direct access to RAM, CPU registers, disks, and physical hardware.</td>
+        <td>Linux Kernel processes, system device drivers, file system modules.</td>
+      </tr>
+      <tr>
+        <td><strong>User Space</strong></td>
+        <td>Ring 3 (Least privileged). Isolated execution environment with restricted resource access.</td>
+        <td>Application microservices, Nginx web servers, Docker container processes, Bash shell.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<strong>System Calls (Syscalls)</strong> serve as the bridge: when a user-space application needs to write a file, spin up a socket connection, or launch a container, it must invoke a privileged <em>System Call</em> (e.g. <code>sys_write</code>, <code>sys_fork</code>) to request the Kernel to execute the task on its behalf.`
+        },
+        {
+          title: "Inodes & Links Abstraction Matrix",
+          text: `Linux abstracts storage blocks using Inodes (Index Nodes). An Inode contains file metadata (owner, permissions, blocks pointers, size) but does not store the file name. Directory records map user file names to Inode index numbers.<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Link Type</th>
+        <th style='width: 35%;'>Definition</th>
+        <th style='width: 40%;'>DevOps Practical Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Hard Link</strong></td>
+        <td>A new filename pointing directly to an existing Inode number.</td>
+        <td>Deleting the original file keeps the Hard Link active. Cannot span across different mount partitions.</td>
+      </tr>
+      <tr>
+        <td><strong>Soft Link (Symlink)</strong></td>
+        <td>A pointer file pointing to the path name of another file.</td>
+        <td>Deleting the original file breaks (orphans) the Symlink. Can span across separate mount partitions.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "File Descriptors (FDs)",
+          text: `A File Descriptor is a non-negative integer representing an open file stream in an active process. Every process starts with 3 default FDs:
+<ul class='project-steps' style='margin: 1rem 0;'>
+  <li><strong>0 (Stdin)</strong>: Standard input stream, usually keyboard input.</li>
+  <li><strong>1 (Stdout)</strong>: Standard output stream, usually terminal display.</li>
+  <li><strong>2 (Stderr)</strong>: Standard error logging stream, usually terminal output.</li>
+</ul>
+Linux processes have an 'open file descriptors limit' (viewable via <code>ulimit -n</code>). If a database or web application leaks open sockets, it throws a fatal <em>'Too many open files'</em> error, crashing the process.`
+        }
+      ],
+      commands: [
+        {
+          cmd: "ls -i index.html",
+          desc: "Display the unique Inode record number of a file."
+        },
+        {
+          cmd: "strace -c ls",
+          desc: "Trace and count system calls executed by a command utility."
+        },
+        {
+          cmd: "ulimit -n",
+          desc: "Show the maximum allowed open file descriptors limit in the current shell session."
+        }
+      ]
+    }
+  },
+  {
+    id: "os-memory",
+    title: "OS Memory: Virtual RAM, Cache & OOM Killer",
+    track: "process-management",
+    summary: "Understand Virtual Memory, RAM allocation, Swapping, Buffers, Page Cache, and the Out-of-Memory (OOM) Killer.",
+    readTime: "6 min",
+    videoTimestamp: "e01GGTKmtpc&t=16200s",
+    content: {
+      overview: "Memory management determines how the OS maps volatile RAM to running container applications. Understanding how swap memory operates and why the OOM Killer terminates processes is a vital DevOps survival skill.",
+      sections: [
+        {
+          title: "Operating System Memory Layout",
+          text: `Volatile physical memory is divided into fixed-size blocks called <strong>Pages</strong> (typically 4KB). The OS manages physical memory using several abstraction layers:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Memory Type</th>
+        <th style='width: 35%;'>Mechanism</th>
+        <th style='width: 40%;'>DevOps Troubleshooting Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Virtual Memory</strong></td>
+        <td>Maps process memory addresses to physical RAM blocks, isolating process spaces.</td>
+        <td>Enables apps to utilize memory address spaces larger than physical RAM via Swapping.</td>
+      </tr>
+      <tr>
+        <td><strong>Swap Space</strong></td>
+        <td>Disk space used as overflow storage when physical RAM is exhausted.</td>
+        <td>Slows system execution significantly (Disk I/O is much slower than RAM). Prevents outright crashes.</td>
+      </tr>
+      <tr>
+        <td><strong>Page Cache</strong></td>
+        <td>RAM used to cache files read from disk storage.</td>
+        <td>Speeds up subsequent reads of configuration/database files. Avoids disk disk latency.</td>
+      </tr>
+      <tr>
+        <td><strong>Buffer Cache</strong></td>
+        <td>RAM used to cache block device operations.</td>
+        <td>Optimizes write requests before sinking them to raw disks blocks.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
+        },
+        {
+          title: "The Out-of-Memory (OOM) Killer",
+          text: `When physical memory and Swap Space are completely exhausted, the Linux kernel triggers the <strong>OOM Killer</strong> daemon to prevent system freeze or kernel panic. 
+<br><br>
+<strong>The OOM Mechanism</strong>:
+<ul class='project-steps' style='margin: 1rem 0;'>
+  <li>The kernel monitors RAM utilization. When free space reaches critical thresholds, it calculates an <strong>OOM Score</strong> for every active process (stored in <code>/proc/&lt;PID&gt;/oom_score</code>).</li>
+  <li>Processes that consume massive RAM but have low administrative priority are assigned higher scores (e.g. database engines, Nginx processes).</li>
+  <li>The OOM Killer selects the highest-scoring process and terminates it forcefully (sending <code>SIGKILL</code> / exit code 137).</li>
+</ul>
+<strong>DevOps Tip</strong>: To investigate OOM kills, check system logs with <code>dmesg -T | grep -i oom</code>. You can customize a process's vulnerability using <code>oom_score_adj</code>.`
+        }
+      ],
+      commands: [
+        {
+          cmd: "free -h",
+          desc: "Display total, used, free, and cached memory statistics in human-readable units."
+        },
+        {
+          cmd: "vmstat 1 5",
+          desc: "Monitor active process swaps, disk I/O, and CPU load trends every second for 5 counts."
+        },
+        {
+          cmd: "dmesg -T | grep -i oom",
+          desc: "Search kernel ring logs with timestamps to detect forceful OOM Killer terminations."
+        }
+      ]
+    }
   }
 ];
