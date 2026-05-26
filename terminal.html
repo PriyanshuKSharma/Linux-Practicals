@@ -48,29 +48,34 @@
       <div class="terminal-column">
         <div class="terminal-window">
           <div class="terminal-header">
-            <div class="terminal-dots">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
+            <!-- Left Group: window controls & shell identifier -->
+            <div class="terminal-header-left">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-title">bash - devops@linux-sandbox: ~</div>
             </div>
             
-            <div class="terminal-title">bash - devops@linux-sandbox: ~</div>
-            
-            <!-- Dynamic Stats Summary HUD -->
-            <div class="header-stats-panel" id="terminalStats">
-              <div><strong>0/5</strong><span>Cleared</span></div>
-              <div><strong>0</strong><span>Ran</span></div>
-              <div><strong>14</strong><span>VFS Nodes</span></div>
-            </div>
+            <!-- Right Group: HUD stats, maximize toggle, and active shell tab -->
+            <div class="terminal-header-right">
+              <!-- Dynamic Stats Summary HUD -->
+              <div class="header-stats-panel" id="terminalStats">
+                <div><strong>0/5</strong><span>Cleared</span></div>
+                <div><strong>0</strong><span>Ran</span></div>
+                <div><strong>14</strong><span>VFS Nodes</span></div>
+              </div>
 
-            <!-- Fullscreen Toggle button with User's Exact SVG -->
-            <button class="terminal-maximize-btn" id="terminalMaximizeBtn" title="Toggle Fullscreen Shell" aria-label="Toggle fullscreen mode">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
-              </svg>
-            </button>
-            
-            <div class="terminal-tab">bash</div>
+              <!-- Fullscreen Toggle button with User's Exact SVG -->
+              <button class="terminal-maximize-btn" id="terminalMaximizeBtn" title="Toggle Fullscreen Shell" aria-label="Toggle fullscreen mode">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+                </svg>
+              </button>
+              
+              <div class="terminal-tab">bash</div>
+            </div>
           </div>
           
           <div class="terminal-output" id="terminalOutput"></div>
