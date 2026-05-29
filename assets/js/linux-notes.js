@@ -2521,5 +2521,317 @@ done</pre>
         { cmd: "unset config[host]", desc: "Remove a specific key from the associative array." }
       ]
     }
+  },
+  {
+    id: "shell-16-test-operators",
+    title: "Shell Scripting #16 — File, String & Logical Operators (-f, -d, -z, -n, -a, -o)",
+    track: "shell-scripting",
+    summary: "Master test flags and logical operators in shell scripting. Check file existence, type, permissions, string length, and combine conditions.",
+    readTime: "5 min",
+    videoTimestamp: "",
+    content: {
+      overview: "In shell scripting, standard alphanumeric flags prefixed with a hyphen (such as <code>-f</code>, <code>-d</code>, <code>-z</code>) are called <strong>Test Operators</strong>. They are used inside square brackets <code>[ ... ]</code> or double square brackets <code>[[ ... ]]</code> (which evaluate test expressions) to determine file characteristics, check string states, perform numeric matches, and structure complex conditional logic.",
+      sections: [
+        {
+          title: "1. File existence & Type Tests",
+          text: `File test operators are the most widely used flags in automation scripts. They allow you to safely verify that a configuration file, logs folder, database socket, or symlink is present and of the correct type before performing read/write operations:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Operator</th>
+        <th style='width: 35%;'>Meaning</th>
+        <th style='width: 40%;'>Real-World DevOps Scenario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>-e path</code></td>
+        <td><strong>Exists:</strong> True if the target path exists, regardless of whether it's a file, directory, link, etc.</td>
+        <td>Check if any resource exists at a target location before running actions.</td>
+      </tr>
+      <tr>
+        <td><code>-f path</code></td>
+        <td><strong>Regular File:</strong> True if path exists and is a regular data file (not a folder, socket, or device block).</td>
+        <td>Verify a configuration file (like <code>config.json</code>) is a real file before reading it.</td>
+      </tr>
+      <tr>
+        <td><code>-d path</code></td>
+        <td><strong>Directory:</strong> True if path exists and is a folder/directory.</td>
+        <td>Ensure a backup folder (like <code>/var/backups</code>) exists before exporting archives to it.</td>
+      </tr>
+      <tr>
+        <td><code>-s path</code></td>
+        <td><strong>Non-Empty:</strong> True if file exists and has a size greater than 0 bytes.</td>
+        <td>Check if a logs file is not empty before parsing it, or check if a downloaded asset has data.</td>
+      </tr>
+      <tr>
+        <td><code>-L path</code> or <code>-h</code></td>
+        <td><strong>Symbolic Link:</strong> True if path exists and is a symlink.</td>
+        <td>Validate shared service configurations or mounted pointer directories.</td>
+      </tr>
+      <tr>
+        <td><code>-S path</code></td>
+        <td><strong>Socket:</strong> True if path exists and is a Unix domain socket.</td>
+        <td>Verify that service sockets (like Docker socket <code>/var/run/docker.sock</code>) are active.</td>
+      </tr>
+      <tr>
+        <td><code>-p path</code></td>
+        <td><strong>Named Pipe (FIFO):</strong> True if path is a named pipe.</td>
+        <td>Confirm inter-process communication channels.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<strong>Hands-on Example — Verifying Logs and Configs:</strong>
+<pre class="code-block">#!/bin/bash
+
+config_path="/etc/nginx/nginx.conf"
+log_path="/var/log/nginx/error.log"
+
+if [ -f "$config_path" ]; then
+    echo "✓ Configuration file found at $config_path."
+else
+    echo "✗ Error: Configuration file is missing!"
+    exit 1
+fi
+
+if [ -s "$log_path" ]; then
+    echo "ℹ Error logs found and they contain active records. Printing last 5 lines:"
+    tail -n 5 "$log_path"
+else
+    echo "✓ Error log is empty. No issues detected."
+fi</pre>`
+        },
+        {
+          title: "2. File Permission & Ownership Tests",
+          text: `These operators check if the current user running the script has adequate POSIX permissions or ownership rights on a file or folder. This is critical for diagnosing permission blocks in CI/CD runners (like Jenkins or GitHub Actions runners):<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Operator</th>
+        <th style='width: 35%;'>Meaning</th>
+        <th style='width: 40%;'>Practical Shell Application</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>-r path</code></td>
+        <td><strong>Readable:</strong> True if file exists and read permission is granted.</td>
+        <td>Ensure secret keys can be read by the deployment script.</td>
+      </tr>
+      <tr>
+        <td><code>-w path</code></td>
+        <td><strong>Writable:</strong> True if file exists and write permission is granted.</td>
+        <td>Verify that a lockfile or report folder can be written to.</td>
+      </tr>
+      <tr>
+        <td><code>-x path</code></td>
+        <td><strong>Executable:</strong> True if file exists and execute permission is granted.</td>
+        <td>Ensure a dependency binary or helper script can be executed directly.</td>
+      </tr>
+      <tr>
+        <td><code>-O path</code></td>
+        <td><strong>Owned by You:</strong> True if the file is owned by the current active user.</td>
+        <td>Confirm the runner owns the repository files before performing Git changes.</td>
+      </tr>
+      <tr>
+        <td><code>-G path</code></td>
+        <td><strong>Group Matches:</strong> True if the file is owned by your current user group.</td>
+        <td>Ensure group permissions align with shared service requirements.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<strong>Hands-on Example — Safe Script Execution Runner:</strong>
+<pre class="code-block">#!/bin/bash
+
+runner_script="./deploy-app.sh"
+
+if [ ! -e "$runner_script" ]; then
+    echo "✗ Script $runner_script does not exist."
+    exit 1
+fi
+
+if [ -x "$runner_script" ]; then
+    echo "🚀 Executing script..."
+    "$runner_script"
+else
+    echo "⚠ Script is not executable. Granting execution rights and running..."
+    chmod +x "$runner_script"
+    "$runner_script"
+fi</pre>`
+        },
+        {
+          title: "3. String Validation Operators",
+          text: `String test operators check the length of strings and compare text. The most powerful flags here are <code>-z</code> and <code>-n</code>, which are crucial for validating that environment variables are set and that user input is present:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Operator</th>
+        <th style='width: 35%;'>Meaning</th>
+        <th style='width: 40%;'>Practical DevOps Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>-z "$str"</code></td>
+        <td><strong>Zero Length:</strong> True if string is empty or variable is unset.</td>
+        <td>Verify if an environment variable (like <code>$DB_PASSWORD</code>) is missing.</td>
+      </tr>
+      <tr>
+        <td><code>-n "$str"</code></td>
+        <td><strong>Non-Zero Length:</strong> True if string contains characters (not empty).</td>
+        <td>Ensure that critical parameters (like <code>$TARGET_IP</code>) are fully defined.</td>
+      </tr>
+      <tr>
+        <td><code>"$a" == "$b"</code></td>
+        <td><strong>Equality:</strong> True if strings are identical. (Use <code>=</code> in POSIX sh).</td>
+        <td>Match build profiles: <code>[ "$ENV" == "production" ]</code></td>
+      </tr>
+      <tr>
+        <td><code>"$a" != "$b"</code></td>
+        <td><strong>Inequality:</strong> True if strings are different.</td>
+        <td>Verify user role is not blocked: <code>[ "$role" != "guest" ]</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<strong>Hands-on Example — Environment Variable Guard:</strong>
+<pre class="code-block">#!/bin/bash
+
+# Guard clause to ensure AWS_ACCESS_KEY_ID is configured
+if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+    echo "✗ Error: AWS_ACCESS_KEY_ID environment variable is not defined!"
+    echo "Please set it using: export AWS_ACCESS_KEY_ID='your_key'"
+    exit 1
+fi
+
+echo "✓ AWS Credentials detected. Proceeding to terraform deploy..."</pre>
+<br>
+<blockquote><strong>CRITICAL TIP:</strong> Always wrap variable expansions in double quotes inside test brackets, like <code>[ -z "$my_var" ]</code> instead of <code>[ -z $my_var ]</code>. If the variable is empty and unquoted, the shell expands it to <code>[ -z ]</code> which evaluates to true/error due to missing arguments!</blockquote>`
+        },
+        {
+          title: "4. Logical Operators (-a, -o vs &&, ||)",
+          text: `Logical operators allow you to join multiple test conditions inside a single <code>if</code> statement. Depending on whether you use single brackets <code>[ ]</code> or double brackets <code>[[ ]]</code>, the syntax changes:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 25%;'>Operator</th>
+        <th style='width: 30%;'>Brackets Context</th>
+        <th style='width: 15%;'>Logical Role</th>
+        <th style='width: 30%;'>DevOps Sample</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>-a</code></td>
+        <td>Single Brackets: <code>[ cond1 -a cond2 ]</code></td>
+        <td><strong>AND</strong></td>
+        <td><code>[ -f file -a -x file ]</code></td>
+      </tr>
+      <tr>
+        <td><code>-o</code></td>
+        <td>Single Brackets: <code>[ cond1 -o cond2 ]</code></td>
+        <td><strong>OR</strong></td>
+        <td><code>[ -z "$user" -o -z "$pass" ]</code></td>
+      </tr>
+      <tr>
+        <td><code>&&</code></td>
+        <td>Double Brackets: <code>[[ cond1 && cond2 ]]</code></td>
+        <td><strong>AND</strong></td>
+        <td><code>[[ -f file && -x file ]]</code></td>
+      </tr>
+      <tr>
+        <td><code>||</code></td>
+        <td>Double Brackets: <code>[[ cond1 || cond2 ]]</code></td>
+        <td><strong>OR</strong></td>
+        <td><code>[[ -z "$user" || -z "$pass" ]]</code></td>
+      </tr>
+      <tr>
+        <td><code>!</code></td>
+        <td>Both contexts: <code>[ ! cond ]</code></td>
+        <td><strong>NOT</strong></td>
+        <td><code>[ ! -d /var/www ]</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<strong>Hands-on Example — Multiple Checks:</strong>
+<pre class="code-block">#!/bin/bash
+
+# Enforce script is run by root AND on a system that has apt installed
+if [ "$(id -u)" -eq 0 -a -x "/usr/bin/apt" ]; then
+    echo "✓ Running as root. Installing updates..."
+    apt-get update && apt-get upgrade -y
+elif [[ "$(id -u)" -eq 0 && ! -x "/usr/bin/apt" ]]; then
+    echo "✓ Running as root, but apt package manager was not found."
+else
+    echo "✗ Error: You must run this script as root (sudo)!"
+    exit 1
+fi</pre>`
+        },
+        {
+          title: "5. Binary File Comparison Operators",
+          text: `In advanced build scripting, you sometimes need to compare two files directly (e.g. comparing source files to generated build targets to determine if a recompilation/rsync is necessary). Bash provides unique operators for this:<br><br>
+<div class='cheat-table-wrapper' style='margin: 1rem 0;'>
+  <table class='cheat-table'>
+    <thead>
+      <tr>
+        <th style='width: 30%;'>Operator</th>
+        <th style='width: 35%;'>Condition Evaluated</th>
+        <th style='width: 35%;'>DevOps Real-World Application</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>file1 -nt file2</code></td>
+        <td>True if <code>file1</code> is <strong>Newer Than</strong> (newer modification time) <code>file2</code> or if <code>file2</code> does not exist.</td>
+        <td>Trigger rebuilds: Run a compile script only if the source code file is newer than the executable.</td>
+      </tr>
+      <tr>
+        <td><code>file1 -ot file2</code></td>
+        <td>True if <code>file1</code> is <strong>Older Than</strong> <code>file2</code>.</td>
+        <td>Validate cache freshness: Check if a local cache file is older than the remote source index.</td>
+      </tr>
+      <tr>
+        <td><code>file1 -ef file2</code></td>
+        <td>True if both files have the <strong>Equal File</strong> descriptors (pointing to the same device and inode, like hard links).</td>
+        <td>Verify path duplicates and deep linked file configurations in workspace structures.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<strong>Hands-on Example — Smart Rebuild Compiler:</strong>
+<pre class="code-block">#!/bin/bash
+
+source_code="app.c"
+compiled_binary="app"
+
+if [ ! -f "$compiled_binary" -o "$source_code" -nt "$compiled_binary" ]; then
+    echo "🛠 Source file has changed or binary is missing. Compiling..."
+    gcc "$source_code" -o "$compiled_binary"
+    echo "✓ Compilation finished successfully."
+else
+    echo "✓ Compiled binary is up-to-date. Skipping compilation."
+fi</pre>`
+        }
+      ],
+      commands: [
+        { cmd: "[ -f config.env ] && source config.env", desc: "If config.env exists and is a regular file, read its environment variables." },
+        { cmd: "[ ! -d /var/www/html ] && mkdir -p /var/www/html", desc: "If the HTML deployment directory does not exist, create it recursively." },
+        { cmd: "[ -z \"$API_TOKEN\" ] && echo \"Warning: API Token is empty!\"", desc: "Verify if API_TOKEN environment variable is empty." },
+        { cmd: "[[ $OS == \"Linux\" && $USER == \"root\" ]]", desc: "Evaluate if running on Linux OS with root administrative permissions using double brackets." },
+        { cmd: "[ file.txt -nt backup.txt ] && cp file.txt backup.txt", desc: "Copy file.txt to backup.txt only if file.txt is newer than the backup file." }
+      ]
+    }
   }
 ];
